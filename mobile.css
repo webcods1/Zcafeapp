@@ -1,0 +1,359 @@
+/* ===== Import Font ===== */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sauce+One:wght@400;500;600;700&display=swap');
+
+/* =============================================================== */
+/* ====================== GLOBAL FIXES ============================ */
+/* =============================================================== */
+
+html, body {
+  overflow-x: hidden !important;
+  font-family: 'Open Sauce One', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* =============================================================== */
+/* ====================== MOBILE FIRST STYLES ===================== */
+/* =============================================================== */
+
+@media (max-width: 768px) {
+
+  body {
+    min-height: 100vh;
+    padding-top: 10px; /* Account for fixed navbar */
+  }
+
+  body.no-top-nav {
+    padding-top: 0; /* No top nav, so no padding */
+  }
+
+  /* Bottom Navbar for mobile */
+  .bottom-nav {
+    padding: 12px 0;
+    font-size: 14px;
+  }
+
+  /* ===== Navbar ===== */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: transform 0.3s ease;
+  }
+  nav.hidden {
+    transform: translateY(-100%);
+  }
+
+  /* ===== Bottom Navbar ===== */
+    button[type="submit"] {
+      background-color: #aa0a0a;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+      transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #880808;
+    }
+
+
+
+    button[onclick="window.history.back()"] {
+      background: #aa0a0a;
+      border: none;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+      margin-bottom: 20px;
+    }
+
+    button[onclick="window.history.back()"]:hover {
+      background: #880808;
+    }
+
+  /* ===== Mobile Banner ===== */
+  .banner {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin-top: 90px;
+  }
+  .banner img,
+  .banner video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+/* Search Container */
+.search-container {
+  display: flex;
+  align-items: center;
+  background: transparent;     /* Removed black background */
+  border: 1.5px solid #ccc;    /* New border */
+  border-radius: 30px;
+  padding: 2px 10px;
+  height: 45px;
+  position: relative;
+  width: 100%;
+  max-width: 400px;            /* Corrected width; adjust if needed */
+  transition: border-color 0.2s ease;
+}
+  .search-container img {
+    height: 40px;
+    width: 50px;
+    margin-right: 6px;
+  }
+  .search-container input {
+    font-size: 0.9rem;
+    padding: 4px;
+  }
+  .search-icon {
+    width: 18px;
+    height: 18px;
+    right: 8px;
+  }
+
+  /* ===== Headings ===== */
+  .section-title,
+  h2, h3 {
+    font-size: 22px;
+    text-align: center;
+    margin: 15px 0;
+    color: #222;
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  /* ===== Header Image ===== */
+  .products-header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+/* ===== Product Grid (Improved) ===== */
+.products-wrapper {
+  background: white;
+  padding: 12px;
+  margin: 10px 5px;
+  border-radius: 10px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  justify-items: center;
+  width: 100%;
+}
+
+/* ===== Product Cards (Title Under Image) ===== */
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  width: 100%;
+  height: 155px; /* slightly reduced */
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Image on top */
+.product-card img {
+  width: auto;
+  max-width: 100%;
+  height: 75px;   /* slightly smaller */
+  object-fit: contain;
+  margin: 0 auto; /* center horizontally */
+  padding-top: 4px;
+}
+
+/* Info area directly below image */
+.product-info {
+  flex: 1;
+  padding: 4px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-top: -2px; /* pulls text closer to image */
+}
+
+/* Product title immediately under image */
+.product-info h3 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  max-height: 24px;
+  margin: 0;        /* remove extra spacing */
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Quantity area */
+.quantity-row {
+  margin-top: 2px;
+  display: flex;
+  gap: 5px;
+}
+
+/* Quantity input */
+.product-info input.quantity-input {
+  width: 34px;
+  height: 20px;
+  text-align: center;
+  font-size: 0.7rem;
+}
+
+/* Add to cart button */
+.product-info button.add-cart-btn {
+  background: #aa0a0a;
+  color: #fff;
+  border: none;
+  width: 100%;
+  max-width: 85px;
+  height: 25px;
+  font-size: 0.65rem;
+  border-radius: 4px;
+  margin-top: -5px;
+}
+  /* ===== Services Section ===== */
+  .services-section {
+    padding: 60px 20px 120px;
+    text-align: center;
+  }
+
+  .service-track {
+    width: 600px;
+    margin-inline-start:-30px;
+    height: 6px;
+    background: #000;
+    border-radius: 10px;
+    margin-top: 110px;
+    position: relative;
+  }
+
+  .service-button {
+    width: 60px;
+    height: 60px;
+    background: #aa0a0a;
+    border-radius: 50%;
+    color: #fff;
+    border: none;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+  }
+
+.service-vehicle {
+  width: 100px;
+  position: absolute;
+  bottom: 105px;
+  left: 0px;              /* Vehicle visible on the left */
+  animation: ride 2s linear forwards;
+  animation-play-state: paused;
+}
+
+@keyframes ride {
+  from { left: 0px; }     /* Start visible */
+  to { left: 100%; }      /* Move full screen */
+}
+
+  /* ===== Profile Page ===== */
+  body > div:first-child svg {
+    width: 70px;
+    height: 70px;
+  }
+
+  #profile-view {
+    background: rgba(255,255,255,0.95);
+    padding: 20px;
+    margin: 15px;
+    border-radius: 15px;
+  }
+
+  .profile-columns {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .profile-column {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 10px;
+    border-left: 4px solid #000;
+  }
+
+  .profile-column input {
+    width: 100%;
+    padding: 10px;
+  }
+
+  #save-profile-btn {
+    width: 100%;
+    padding: 12px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+  }
+
+  /* ===== Complaint Form ===== */
+  .main-content {
+    max-width: 95%;
+    margin: 60px auto 20px;
+    padding: 0 15px;
+  }
+
+  #complaint-form {
+    width: 100%;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+  }
+
+  #complaint-form select,
+  #complaint-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+
+  /* Back button */
+  button[onclick="window.history.back()"] {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #aa0a0a;
+    color: #fff;
+    padding: 10px 15px;
+  }
+}
+
+
