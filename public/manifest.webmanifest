@@ -1,0 +1,23 @@
+{
+  "name": "ZCafe",
+  "short_name": "ZCafe",
+  "description": "ZCafe - premium coffee and beverages",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/public/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/public/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
