@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/logo-CDgogiIE.png" />
+  <title> ZCafe</title>
+
+  <link rel="stylesheet" crossorigin href="/assets/index-bnnEdzyQ.css">
+</head>
+
+<body>
+  <!-- ===== Navbar ===== -->
+  <nav>
+    <div class="nav-top">
+      <div class="search-container">
+        <img src="/assets/logo-CDgogiIE.png" alt="ZCafe Logo">
+        <input type="text" placeholder="Search products...">
+      </div>
+
+      <div class="nav-right">
+        <div class="nav-icon" id="bell-icon" title="Notifications">
+          <svg viewBox="0 0 24 24"><path d="M12 24a2 2 0 0 0 2-2H10a2 2 0 0 0 2 2Zm6-6V11a6 6 0 0 0-12 0v7L4 20v1h16v-1Z"/></svg>
+        </div>
+        <div class="nav-icon" id="wishlist-icon" title="Wishlist">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.58-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.42-8 11-8 11Z"/></svg>
+        </div>
+        <div class="nav-icon" id="profile-icon" title="Profile">
+          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5v3h18v-3c0-2.5-4-5-9-5Z"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="deliver-to">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      <span>Deliver To:</span>
+      <input type="text" id="address-input" placeholder="Enter your address">
+    </div>
+  </nav>
+
+  <!-- ===== Banner ===== -->
+<div class="banner">
+  <div class="banner-slider">
+    <video class="banner-video" src="/assets/DietCoffeez-Bv7MyeQ8.mp4" muted></video>
+    <video class="banner-video" src="/assets/PremiumTeaZ-C4HgV7wn.mp4"  muted></video>
+    <video class="banner-video" src="/assets/cappuccinoZ-DeJGNO7E.mp4" muted></video>
+    <video class="banner-video" src="/assets/MilkBoostZ-BZZ7GfAF.mp4" muted></video>
+    <video class="banner-video" src="/assets/MilkHorlicksZ-mh_EHpf3.mp4" muted></video>
+
+  </div>
+
+  <!-- Dots -->
+  <div class="banner-dots"></div>
+</div>
+
+  <!-- ===== Search Results Section ===== -->
+  <section class="products-section" id="search-results" style="display: none;">
+    <h2>Search Results</h2>
+    <p>Discover our selection of beverages, crafted to perfection for your enjoyment</p>
+    <div class="products-wrapper">
+      <div class="products-grid" id="search-grid">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Products Section ===== -->
+  <section class="products-section" id="original-products">
+    <h2>Products</h2>
+    <video class="products-header-video" src="/assets/productsZ-DeT5bfte.mp4" muted autoplay loop></video>
+    <a href="purchase.html" class="shop-button">Shop Now</a>
+  </section>
+
+  <!-- ===== Services ===== -->
+  <section class="services-section">
+    <h2 class="visible">Services</h2>
+    <p class="visible">We are providing free service for our Machine</p>
+    <img src="/assets/service-CtbDvk9J.png" alt="Service man on scooter" class="service-vehicle">
+    <div class="service-track"></div>
+
+    <button class="service-button" id="service-btn">Click Here</button>
+  </section>
+
+  <!-- ===== About Us ===== -->
+  <section class="about-us-section">
+    <h2>About Zcafe</h2>
+    <p>Welcome to ZCafe, your premier destination for premium coffee and beverages. We are dedicated to providing high-quality products and exceptional service to coffee lovers everywhere. Our mission is to bring the finest coffee experiences to your doorstep with convenience and care.</p>
+  </section>
+
+  <!-- ===== Connect with Us ===== -->
+  <section class="connect-section">
+    <h2 class="visible">Connect with Zcafe</h2>
+    <p class="visible">Have questions or need assistance? Reach out to us!</p>
+    <p class="visible">Email: zcafemarketing@gmail.com</p>
+    <p class="visible">Phone: 8590230028</p>
+  <p class="visible">Follow us on social media for updates and promotions.</p>
+
+  <div class="social-media-links visible">
+    <a href="https://www.instagram.com/z_cafemarketing/reels/?__pwa=1" class="social-link">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      Instagram
+    </a>
+    <a href="#" class="social-link">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Facebook
+    </a>
+    
+  </div>
+</section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <p>&copy; 2025 ZCafe. All rights reserved by Webcods</p>
+  </footer>
+
+  <!-- ===== Bottom Navigation ===== -->
+  <div class="bottom-nav">
+    <a class="nav-item active" href="index.html" id="home-link">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2Z"/></svg>
+      Home
+    </a>
+    <a class="nav-item" href="purchase.html" id="purchase-link">
+      <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4v10l8 4 8-4z M12 3v10 M8 5v10 M16 5v10"/></svg>
+      Purchase
+    </a>
+    <a class="nav-item" href="service.html" id="service-link">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+      Service
+    </a>
+    <a class="nav-item" href="bag.html" id="bag-link">
+      <svg viewBox="0 0 24 24"><path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z"/></svg>
+      Cart
+    </a>
+  </div>
+
+<script>
+  // address logic
+  let userAddress = localStorage.getItem("userAddress") || "";
+  const addressInput = document.getElementById("address-input");
+  if (userAddress) {
+    addressInput.value = userAddress;
+  }
+  addressInput.addEventListener("input", () => {
+    userAddress = addressInput.value.trim();
+    localStorage.setItem("userAddress", userAddress);
+  });
+
+  // cart logic
+  let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const cartBadge = document.createElement("div");
+  cartBadge.className = "cart-badge";
+  cartBadge.style.display = "none";
+  document.getElementById("bag-link").appendChild(cartBadge);
+
+  // function to update badge
+  function updateBadge() {
+    let totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartBadge.textContent = totalQty;
+    cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+  }
+
+  updateBadge();
+
+  // navbar profile icon click event
+  document.getElementById("profile-icon").addEventListener("click", () => {
+    window.location.href = "profile.html";
+  });
+
+  // wishlist icon click event
+  document.getElementById("wishlist-icon").addEventListener("click", () => {
+    window.location.href = "wishlist.html";
+  });
+
+  // wishlist logic
+  const wishlistBadge = document.createElement("div");
+  wishlistBadge.style.position = "absolute";
+  wishlistBadge.style.top = "-5px";
+  wishlistBadge.style.right = "-5px";
+  wishlistBadge.style.background = "red";
+  wishlistBadge.style.color = "white";
+  wishlistBadge.style.borderRadius = "50%";
+  wishlistBadge.style.width = "18px";
+  wishlistBadge.style.height = "18px";
+  wishlistBadge.style.fontSize = "12px";
+  wishlistBadge.style.display = "flex";
+  wishlistBadge.style.alignItems = "center";
+  wishlistBadge.style.justifyContent = "center";
+wishlistBadge.style.fontWeight = "bold";
+wishlistBadge.style.zIndex = "10";
+document.getElementById("wishlist-icon").appendChild(wishlistBadge);
+
+  // notification popup
+  const wishlistNotification = document.createElement("div");
+  wishlistNotification.style.position = "absolute";
+  wishlistNotification.style.top = "-30px";
+  wishlistNotification.style.left = "50%";
+  wishlistNotification.style.transform = "translateX(-50%)";
+  wishlistNotification.style.background = "black";
+  wishlistNotification.style.color = "white";
+  wishlistNotification.style.padding = "5px 10px";
+  wishlistNotification.style.borderRadius = "5px";
+  wishlistNotification.style.fontSize = "12px";
+  wishlistNotification.style.display = "none";
+  wishlistNotification.style.whiteSpace = "nowrap";
+  wishlistNotification.style.zIndex = "1000";
+  document.getElementById("wishlist-icon").style.position = "relative";
+  document.getElementById("wishlist-icon").appendChild(wishlistNotification);
+
+  // search recommendations
+  const searchInput = document.querySelector('.search-container input');
+  const recommendations = ['Coffee Non sugar', 'Tea Premium', 'Milk Boost', 'Cappuccino', 'Milk Horlicks', 'Coffee Premium'];
+
+  // Create dropdown for suggestions
+  const dropdown = document.createElement('div');
+  dropdown.style.position = 'absolute';
+  dropdown.style.top = '100%';
+  dropdown.style.left = '50%';
+  dropdown.style.transform = 'translateX(-50%)';
+  dropdown.style.width = '250px';
+  dropdown.style.background = 'white';
+  dropdown.style.border = '1px solid #ccc';
+  dropdown.style.borderRadius = '10px';
+  dropdown.style.maxHeight = '500px';
+  dropdown.style.overflowY = 'auto';
+  dropdown.style.display = 'none';
+  dropdown.style.zIndex = '1000';
+  dropdown.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
+  document.querySelector('.search-container').appendChild(dropdown);
+
+  searchInput.addEventListener('input', () => {
+    showSuggestions();
+    // If search input is empty, show all products
+    if (!searchInput.value.trim()) {
+      document.querySelectorAll('.product-card').forEach(card => {
+        card.style.display = 'block';
+      });
+    }
+  });
+
+  // Show recommendations on input focus
+  searchInput.addEventListener('focus', () => {
+    if (!searchInput.value.trim()) {
+      searchInput.placeholder = `Try: ${recommendations.join(', ')}`;
+    }
+    showSuggestions();
+  });
+
+  searchInput.addEventListener('blur', () => {
+    if (!searchInput.value.trim()) {
+      searchInput.placeholder = 'Search products...';
+    }
+  });
+
+  // Hide dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!document.querySelector('.search-container').contains(e.target)) {
+      dropdown.style.display = 'none';
+    }
+  });
+
+  // Function to filter products based on query
+  function filterProducts(query) {
+    document.querySelectorAll('.product-card').forEach(card => {
+      const name = card.dataset.name.toLowerCase();
+      if (name.includes(query.toLowerCase())) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Handle URL parameters for search or product selection
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchQuery = urlParams.get('search');
+  const selectedProduct = urlParams.get('product');
+
+  if (selectedProduct) {
+    // Show only the exact selected product card
+    document.querySelectorAll('.product-card').forEach(card => {
+      if (card.dataset.name === selectedProduct) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    searchInput.value = selectedProduct;
+  } else if (searchQuery) {
+    // Show products that match the search query
+    filterProducts(searchQuery);
+    searchInput.value = searchQuery;
+  }
+
+  // Update click event for suggestions to filter immediately and keep input value
+  // (The dropdown creation is above, so we need to modify the addEventListener inside showSuggestions)
+  // Actually, since showSuggestions is called on input, and click is inside, but to modify, we can redefine or adjust.
+
+  // Modify the suggestion click to filter immediately
+  // Since the div is created dynamically, we need to change the addEventListener
+  // In showSuggestions, change:
+  // div.addEventListener('click', () => {
+  //   searchInput.value = item;
+  //   dropdown.style.display = 'none';
+  // });
+  // To:
+  // But since it's inside showSuggestions, we need to edit the function.
+
+  // Function to show suggestions
+  function showSuggestions() {
+    const query = searchInput.value.toLowerCase().trim();
+    dropdown.innerHTML = '';
+    if (query) {
+      const filtered = recommendations.filter(item => item.toLowerCase().includes(query));
+      filtered.forEach(item => {
+        const div = document.createElement('div');
+        div.textContent = item;
+        div.style.padding = '10px';
+        div.style.cursor = 'pointer';
+        div.style.borderRadius = '10px';
+        div.style.boxShadow = '0 2px 6px rgba(0, 0, 0, 0.08)';
+        div.style.background = 'white';
+        div.style.margin = '5px 0';
+        div.addEventListener('click', () => {
+          window.location.href = `purchase.html?product=${encodeURIComponent(item)}`;
+        });
+        dropdown.appendChild(div);
+      });
+      dropdown.style.display = filtered.length ? 'block' : 'none';
+    } else {
+      dropdown.style.display = 'none';
+    }
+  }
+
+  // function to update wishlist badge
+  function updateWishlistBadge() {
+    let wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+    let totalQty = wishlist.reduce((sum, item) => sum + item.quantity, 0);
+    wishlistBadge.textContent = totalQty;
+    wishlistBadge.style.display = totalQty > 0 ? "flex" : "none";
+  }
+
+  updateWishlistBadge();
+
+  // Service button click to start vehicle animation
+  const serviceBtn = document.getElementById('service-btn');
+  const vehicle = document.querySelector('.service-vehicle');
+
+  serviceBtn.addEventListener('click', () => {
+    // Start the vehicle animation
+    vehicle.style.animationPlayState = 'running';
+  });
+
+  // When animation ends, redirect to service.html
+  vehicle.addEventListener('animationend', () => {
+    window.location.href = 'service.html';
+  });
+
+  // Scroll-triggered animation for product images and sections
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  // Observe all product images
+  document.querySelectorAll('.products-grid img, .product-card img').forEach(img => {
+    observer.observe(img);
+  });
+
+  // Observe section headings, paragraphs, social links, and sections
+  document.querySelectorAll('h2, p, .social-media-links, section').forEach(element => {
+    observer.observe(element);
+  });
+
+  // Banner slider logic
+  let currentSlide = 0;
+  const videos = document.querySelectorAll('.banner-video');
+  const dotsContainer = document.querySelector('.banner-dots');
+
+  // Create dots
+  videos.forEach((_, index) => {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    if (index === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => showSlide(index));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.dot');
+
+  function showSlide(index) {
+    videos.forEach((video, i) => {
+      if (i === index) {
+        video.classList.add('active');
+        video.play();
+      } else {
+        video.classList.remove('active');
+        video.pause();
+      }
+    });
+    // Update dots
+    dots.forEach((dot, i) => {
+      if (i === index) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % videos.length;
+    showSlide(currentSlide);
+  }
+
+  // Auto-scroll every 5 seconds
+  setInterval(nextSlide, 5000);
+
+  // Initialize first slide
+  showSlide(currentSlide);
+
+  // Play product video on page load and ensure looping
+  window.addEventListener('load', () => {
+    const productVideo = document.querySelector('.products-header-video');
+    if (productVideo) {
+      productVideo.play().catch(e => {
+        console.log('Video play failed:', e);
+      });
+
+      // Ensure video loops properly
+      productVideo.addEventListener('ended', () => {
+        productVideo.currentTime = 0;
+        productVideo.play();
+      });
+    }
+  });
+
+  // Scroll hide/show bottom navbar only
+  let lastScrollTop = 0;
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const bottomNav = document.querySelector('.bottom-nav');
+    if (scrollTop > lastScrollTop) {
+      // scrolling down
+      if (bottomNav) bottomNav.classList.add('hidden');
+    } else {
+      // scrolling up
+      if (bottomNav) bottomNav.classList.remove('hidden');
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  });
+
+</script>
+</body>
+</html>
