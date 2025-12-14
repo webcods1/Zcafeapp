@@ -12,20 +12,9 @@ html, body {
   padding: 0;
   background: #ffffff;
   min-height: 100vh;
-  min-height: 100dvh; /* iOS 15+ dynamic viewport height */
   display: flex;
   flex-direction: column;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  height: 100dvh;
+
 }
 
 /* =============================================================== */
@@ -35,17 +24,12 @@ html, body {
 @media (max-width: 768px) {
 
   body {
-    min-height: 100dvh;
-    padding-top: 10px;
-    padding-left: max(0px, env(safe-area-inset-left));
-    padding-right: max(0px, env(safe-area-inset-right));
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    min-height: 100vh;
+    padding-top: 10px; /* Account for fixed navbar */
   }
 
   body.no-top-nav {
-    padding-top: 0;
+    padding-top: 0; /* No top nav, so no padding */
   }
 
   /* Bottom Navbar for mobile */
@@ -62,11 +46,6 @@ html, body {
     right: 0;
     z-index: 100;
     transition: transform 0.3s ease;
-    padding-top: max(0px, env(safe-area-inset-top));
-    padding-left: max(0px, env(safe-area-inset-left));
-    padding-right: max(0px, env(safe-area-inset-right));
-    background: #ffffff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
   nav.hidden {
     transform: translateY(-100%);
@@ -116,7 +95,6 @@ html, body {
     height: 200px;
     overflow: hidden;
     margin-top: 90px;
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
   }
 
   .banner-slider {
@@ -134,8 +112,6 @@ html, body {
     left: 0;
     opacity: 0;
     transition: opacity 0.5s ease;
-    -webkit-user-select: none;
-    user-select: none;
   }
 
   .banner-video.active {
@@ -156,8 +132,6 @@ html, body {
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    min-height: 44px;
-    min-width: 44px;
     font-size: 20px;
     color: #000;
     cursor: pointer;
@@ -165,10 +139,9 @@ html, body {
     align-items: center;
     justify-content: center;
     transition: background 0.3s;
-    -webkit-tap-highlight-color: transparent;
   }
 
-  .banner-controls button:active {
+  .banner-controls button:hover {
     background: rgba(255, 255, 255, 1);
   }
 
@@ -184,34 +157,24 @@ html, body {
 .search-container {
   display: flex;
   align-items: center;
-  background: transparent;
-  border: 1.5px solid #ccc;
+  background: transparent;     /* Removed black background */
+  border: 1.5px solid #ccc;    /* New border */
   border-radius: 30px;
   padding: 2px 10px;
   height: 45px;
-  min-height: 44px;
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 400px;            /* Corrected width; adjust if needed */
   transition: border-color 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
 }
   .search-container img {
     height: 40px;
     width: 50px;
     margin-right: 6px;
-    -webkit-user-select: none;
-    user-select: none;
-    pointer-events: none;
   }
   .search-container input {
     font-size: 0.9rem;
     padding: 4px;
-    border: none;
-    background: transparent;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
   }
   .search-icon {
     width: 18px;
@@ -299,8 +262,6 @@ html, body {
   padding: 12px;
   margin: 10px 5px;
   border-radius: 10px;
-  padding-left: max(12px, calc(12px + env(safe-area-inset-left)));
-  padding-right: max(12px, calc(12px + env(safe-area-inset-right)));
 }
 
 .products-grid {
@@ -316,31 +277,22 @@ html, body {
   background: #fff;
   border-radius: 10px;
   width: 100%;
-  height: 155px;
+  height: 155px; /* slightly reduced */
   text-align: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.07);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.product-card:active {
-  transform: scale(0.98);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* Image on top */
 .product-card img {
   width: auto;
   max-width: 100%;
-  height: 75px;
+  height: 75px;   /* slightly smaller */
   object-fit: contain;
-  margin: 0 auto;
+  margin: 0 auto; /* center horizontally */
   padding-top: 4px;
-  -webkit-user-select: none;
-  user-select: none;
 }
 
 /* Info area directly below image */
@@ -351,7 +303,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  margin-top: -2px;
+  margin-top: -2px; /* pulls text closer to image */
 }
 
 /* Product title immediately under image */
@@ -360,7 +312,7 @@ html, body {
   font-weight: 700;
   line-height: 1.2;
   max-height: 24px;
-  margin: 0;
+  margin: 0;        /* remove extra spacing */
   padding: 0;
   overflow: hidden;
 }
@@ -376,13 +328,8 @@ html, body {
 .product-info input.quantity-input {
   width: 34px;
   height: 20px;
-  min-height: 44px;
   text-align: center;
   font-size: 0.7rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  -webkit-appearance: none;
-  appearance: none;
 }
 
 /* Add to cart button */
@@ -393,24 +340,14 @@ html, body {
   width: 100%;
   max-width: 85px;
   height: 25px;
-  min-height: 44px;
   font-size: 0.65rem;
   border-radius: 4px;
   margin-top: -5px;
-  -webkit-tap-highlight-color: transparent;
-  transition: background 0.2s ease;
-}
-
-.product-info button.add-cart-btn:active {
-  background: #880808;
 }
   /* ===== Services Section ===== */
   .services-section {
     padding: 60px 20px 120px;
     text-align: center;
-    padding-left: max(20px, calc(20px + env(safe-area-inset-left)));
-    padding-right: max(20px, calc(20px + env(safe-area-inset-right)));
-    padding-bottom: max(120px, calc(120px + env(safe-area-inset-bottom)));
   }
 
   .service-track {
@@ -426,8 +363,6 @@ html, body {
   .service-button {
     width: 60px;
     height: 60px;
-    min-width: 44px;
-    min-height: 44px;
     background: #aa0a0a;
     border-radius: 50%;
     color: #fff;
@@ -436,12 +371,6 @@ html, body {
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    -webkit-tap-highlight-color: transparent;
-    transition: background 0.2s ease;
-  }
-
-  .service-button:active {
-    background: #880808;
   }
   /* Heading */
 .services-section h2 {
@@ -545,36 +474,6 @@ html, body {
     color: #fff;
     border: none;
     border-radius: 8px;
-  }
-
-  /* Bottom Navigation Safe Area for notch/home indicator */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 99;
-    padding-bottom: max(0px, env(safe-area-inset-bottom));
-    background: #ffffff;
-    border-top: 1px solid #eee;
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-  }
-
-  .bottom-nav .nav-item {
-    flex: 1;
-    min-height: 44px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    -webkit-tap-highlight-color: transparent;
-    transition: background 0.2s ease;
-  }
-
-  .bottom-nav .nav-item:active {
-    background: rgba(0, 0, 0, 0.05);
   }
 
   /* ===== Complaint Form ===== */
