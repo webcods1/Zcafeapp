@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="public/logo.png" />
   <title> ZCafe</title>
 
@@ -26,42 +26,6 @@
 
   <link rel="stylesheet" href="desktop.css">
   <link rel="stylesheet" href="mobile.css">
-  <script>
-    // Detect iOS (iPhone / iPad / iPod) and add class to <html>
-    (function(){
-      var ua = navigator.userAgent || navigator.vendor || window.opera;
-      var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      if (isIOS) document.documentElement.classList.add('is-ios');
-
-      // If iOS, replace videos with poster images where poster attribute exists
-      if (isIOS) {
-        window.addEventListener('DOMContentLoaded', function(){
-          document.querySelectorAll('video.banner-video, video.products-header-video').forEach(v => {
-            var poster = v.getAttribute('poster') || v.getAttribute('data-poster') || null;
-            if (poster) {
-              var img = document.createElement('img');
-              img.className = v.className + ' video-poster';
-              img.src = poster;
-              img.alt = v.getAttribute('aria-label') || 'banner image';
-              v.parentNode.insertBefore(img, v);
-            }
-            // keep video in DOM but CSS will hide it (.is-ios video...)
-          });
-          // Also insert a poster for single products-header-video if missing
-          var prod = document.querySelector('video.products-header-video');
-          if (prod && !document.querySelector('.products-header-poster')) {
-            var p = prod.getAttribute('poster');
-            if (p) {
-              var ip = document.createElement('img');
-              ip.className = 'products-header-poster video-poster';
-              ip.src = p;
-              prod.parentNode.insertBefore(ip, prod);
-            }
-          }
-        });
-      }
-    })();
-  </script>
 </head>
 
 <body>
@@ -495,25 +459,17 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
   window.addEventListener('load', () => {
     const productVideo = document.querySelector('.products-header-video');
     if (productVideo) {
-      try { productVideo.play().catch(e => { console.log('Video play failed:', e); }); } catch(e){}
+      productVideo.play().catch(e => {
+        console.log('Video play failed:', e);
+      });
 
       // Ensure video loops properly
       productVideo.addEventListener('ended', () => {
         productVideo.currentTime = 0;
-        try { productVideo.play().catch(()=>{}); } catch(e){}
+        productVideo.play();
       });
     }
   });
-
-  // Fallback: start all videos on first user gesture (fixes some iOS autoplay restrictions)
-  function startAllVideosOnGesture() {
-    const all = document.querySelectorAll('video');
-    all.forEach(v => { try { v.play().catch(()=>{}); } catch(e){} });
-    window.removeEventListener('touchstart', startAllVideosOnGesture);
-    window.removeEventListener('click', startAllVideosOnGesture);
-  }
-  window.addEventListener('touchstart', startAllVideosOnGesture, {passive:true});
-  window.addEventListener('click', startAllVideosOnGesture, {passive:true});
 
   // Scroll hide/show bottom navbar only
   let lastScrollTop = 0;
