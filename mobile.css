@@ -17,6 +17,46 @@ html, body {
 
 }
 
+/* iOS / iPhone specific improvements */
+:root {
+  --safe-top: env(safe-area-inset-top);
+  --safe-right: env(safe-area-inset-right);
+  --safe-bottom: env(safe-area-inset-bottom);
+  --safe-left: env(safe-area-inset-left);
+}
+
+html, body {
+  min-height: 100dvh;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent iOS zoom on inputs by ensuring base font size >= 16px */
+input, textarea, select, button {
+  font-size: 16px;
+}
+
+/* Make interactive elements comfortable for touch */
+button, .nav-item, .nav-icon, .add-cart-btn, .wishlist-btn {
+  min-height: 44px;
+  min-width: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Respect safe areas on top and bottom */
+nav {
+  padding-top: calc(var(--safe-top));
+}
+.bottom-nav {
+  padding-bottom: calc(var(--safe-bottom) + 8px);
+}
+
 /* ===== App loader (shown on refresh/navigation) ===== */
 .app-loader {
   position: fixed;
