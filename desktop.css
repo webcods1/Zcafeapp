@@ -153,6 +153,81 @@ nav {
   align-items: center;
 }
 
+.banner-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.banner-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(100%);
+  transition: transform 0.5s ease;
+}
+
+.banner-video.active {
+  transform: translateX(0);
+}
+
+.banner-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.banner-controls button {
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+.banner-controls button:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Banner Dots */
+.banner-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.dot.active {
+  background: rgba(255, 255, 255, 1);
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
 .banner img,
 .banner video {
   width: 100%;
@@ -199,25 +274,26 @@ section.visible {
 }
 
 /* ===== Products Section ===== */
-.products-section {
+.products-header-video {
   max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
 }
 
-.products-section h2 {
+.products-header-video h2 {
   text-align: center;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  font-size: 2rem;
 }
 
-.products-section h2.visible {
+.products-header-video h2.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.products-header-image {
+.products-header-video {
   display: block;
   width: 100%;
   max-width: 600px;
@@ -228,7 +304,7 @@ section.visible {
   animation: fadeIn 0.8s ease-out 0.1s both;
 }
 
-.products-section p {
+.products-header-video p {
   text-align: center;
   font-size: 1rem;
   color: #555;
@@ -242,7 +318,7 @@ section.visible {
   transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
 }
 
-.products-section p.visible {
+.products-header-video.visible {
   opacity: 1;
   transform: translateY(0);
 }

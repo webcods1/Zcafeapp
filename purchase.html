@@ -37,16 +37,26 @@
     </div>
   </nav>
 
-  <!-- ===== Banner ===== -->
-  <div class="banner">
-    <video src="public/bannerZcafe.mp4" autoplay muted loop></video>
-    <div class="banner-text">
-    </div>
+<!-- ===== Banner ===== -->
+<div class="banner">
+  <div class="banner-slider">
+    <video class="banner-video" src="public/DietCoffeez.mp4" muted></video>
+    <video class="banner-video" src="public/PremiumTeaZ.mp4"  muted></video>
+    <video class="banner-video" src="public/cappuccinoZ.mp4" muted></video>
+    <video class="banner-video" src="public/MilkBoostZ.mp4" muted></video>
+    <video class="banner-video" src="public/MilkHorlicksZ.mp4" muted></video>
   </div>
+
+  <!-- Controls -->
+  <div class="banner-controls">
+    <button id="prev">&#10094;</button>
+    <button id="next">&#10095;</button>
+  </div>
+</div>
 
   <!-- ===== Product Cards ===== -->
   <section class="products-section">
-    <h2>SHOP </h2>
+    <h2>Shop </h2>
     <p>Discover our selection of beverages, crafted to perfection for your enjoyment</p>
     <div class="products-wrapper">
       <div class="products-grid">
@@ -487,6 +497,44 @@
   document.querySelectorAll('h2, p, h3, section, .product-card').forEach(element => {
     observer.observe(element);
   });
+
+  // Banner slider logic
+  let currentSlide = 0;
+  const videos = document.querySelectorAll('.banner-video');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+
+  function showSlide(index) {
+    videos.forEach((video, i) => {
+      if (i === index) {
+        video.classList.add('active');
+        video.play();
+      } else {
+        video.classList.remove('active');
+        video.pause();
+      }
+    });
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % videos.length;
+    showSlide(currentSlide);
+  }
+
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + videos.length) % videos.length;
+    showSlide(currentSlide);
+  }
+
+  // Auto-scroll every 5 seconds
+  setInterval(nextSlide, 5000);
+
+  // Manual controls
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+  // Initialize first slide
+  showSlide(currentSlide);
 
   // Scroll hide/show bottom navbar only
   let lastScrollTop = 0;
