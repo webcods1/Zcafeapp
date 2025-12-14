@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart</title>
+  <link rel="stylesheet" crossorigin href="/assets/desktop-C5tY92BK.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-DiYU3KyP.css">
+</head>
+<body class="no-top-nav">
+
+  <!-- Bag Header -->
+  <header class="bag-header">
+    <svg viewBox="0 0 24 24" width="24" height="24">
+      <path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z"/>
+    </svg>
+  </header>
+
+
+  <div class="container">
+    <div class="bag-items" id="bag-items"></div>
+
+    <div class="actions">
+      <button class="book-btn" id="book-btn">Book Now</button>
+      <button class="clear-btn" id="clear-btn">Clear Bag</button>
+    </div>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <p>&copy; 2025 ZCafe. All rights reserved by Webcods</p>
+  </footer>
+
+  <!-- Bottom Navbar -->
+  <div class="bottom-nav">
+    <a class="nav-item" href="index.html" id="home-link">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2Z"/></svg>
+      Home
+    </a>
+    <a class="nav-item" href="purchase.html" id="purchase-link">
+      <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4v10l8 4 8-4z M12 3v10 M8 5v10 M16 5v10"/></svg>
+      Purchase
+    </a>
+    <a class="nav-item" href="service.html" id="service-link">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+      Service
+    </a>
+    <a class="nav-item active" href="bag.html" id="bag-link">
+      <svg viewBox="0 0 24 24"><path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z"/></svg>
+      Cart
+      <div class="cart-badge" id="cart-badge"></div>
+    </a>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const bagContainer = document.getElementById("bag-items");
+    const cartBadge = document.getElementById("cart-badge");
+
+    function saveCart() {
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      updateBadge();
+    }
+
+    function updateBadge() {
+      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartBadge.textContent = totalQty;
+      cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+    }
+
+    // Scroll-triggered animation for h3 elements
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    function renderBag() {
+      bagContainer.innerHTML = "";
+      if(cart.length === 0) {
+        bagContainer.innerHTML = "<p>Your Cart is empty.</p>";
+        updateBadge();
+        return;
+      }
+      cart.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "bag-item";
+        div.innerHTML = `
+          <h3>${item.name}</h3>
+          <input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)">
+          <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+        `;
+        bagContainer.appendChild(div);
+      });
+      updateBadge();
+
+      // Observe h3 elements after rendering
+      document.querySelectorAll('h3').forEach(element => {
+        observer.observe(element);
+      });
+    }
+
+    function updateQuantity(index, newQty) {
+      const qty = parseInt(newQty);
+      if(qty < 1) return;
+      cart[index].quantity = qty;
+      saveCart();
+      renderBag();
+    }
+
+    function removeItem(index) {
+      cart.splice(index,1);
+      saveCart();
+      renderBag();
+    }
+
+    document.getElementById("book-btn").addEventListener("click", () => {
+      if(cart.length === 0) {
+        alert("Your bag is empty!");
+        return;
+      }
+      alert("✅ Your products have been booked successfully!");
+      cart = [];
+      saveCart();
+      renderBag();
+    });
+
+    document.getElementById("clear-btn").addEventListener("click", () => {
+      if(cart.length === 0) return;
+      if(confirm("Are you sure you want to clear the bag?")) {
+        cart = [];
+        saveCart();
+        renderBag();
+      }
+    });
+
+    renderBag();
+
+
+  </script>
+
+</body>
+</html>

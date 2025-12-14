@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service - ZCafe</title>
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .main-content h1 {
+      text-align: center;
+      color: #000000;
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    select:focus, textarea:focus {
+      outline: none;
+      border-color: #aa0a0a;
+      box-shadow: 0 0 5px rgba(170, 10, 10, 0.3);
+    }
+
+    button[type="submit"] {
+      background-color: #aa0a0a;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+      transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #880808;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: #fff;
+      padding: 10px 0;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 0.8rem;
+      transition: color 0.3s;
+    }
+
+    .nav-item.active {
+      color: #aa0a0a;
+    }
+
+    .nav-item svg {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 4px;
+    }
+
+    .nav-item:hover {
+      color: #aa0a0a;
+    }
+
+    button[onclick="window.history.back()"] {
+      background: #aa0a0a;
+      border: none;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+      margin-bottom: 20px;
+    }
+
+    button[onclick="window.history.back()"]:hover {
+      background: #880808;
+    }
+  </style>
+  <link rel="stylesheet" crossorigin href="/assets/desktop-C5tY92BK.css">
+</head>
+
+<body>
+
+  <!-- ===== Main Content ===== -->
+  <div class="main-content">
+    <h1>Machine Service </h1>
+    <form id="complaint-form">
+      <label for="complaint-type">Complaint Type</label>
+      <select id="complaint-type" required>
+        <option value="machine-not-turn-on">Machine not turning on</option>
+        <option value="water-not-heating">Water not heating</option>
+        <option value="switch-complaints">Switch complaints</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="complaint-message">Message</label>
+      <textarea id="complaint-message" placeholder="Describe your complaint in detail..." required></textarea>
+
+      <button type="submit">Submit Complaint</button>
+    </form>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <p>&copy; 2025 ZCafe. All rights reserved by Webcods</p>
+  </footer>
+
+  <!-- ===== Bottom Navigation ===== -->
+  <div class="bottom-nav">
+    <a class="nav-item" href="index.html" id="home-link">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2Z"/></svg>
+      Home
+    </a>
+    <a class="nav-item" href="purchase.html" id="purchase-link">
+      <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4v10l8 4 8-4z M12 3v10 M8 5v10 M16 5v10"/></svg>
+      Purchase
+    </a>
+    <a class="nav-item active" href="service.html" id="service-link">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+      Service
+    </a>
+    <a class="nav-item" href="bag.html" id="bag-link">
+      <svg viewBox="0 0 24 24"><path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z"/></svg>
+      Cart
+    </a>
+  </div>
+
+  <script>
+    // complaint form submission
+    const complaintForm = document.getElementById('complaint-form');
+    complaintForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const type = document.getElementById('complaint-type').value;
+      const message = document.getElementById('complaint-message').value.trim();
+      if (!type || !message) {
+        alert('Please fill in all fields.');
+        return;
+      }
+      // Store complaint in localStorage (for demo purposes)
+      const complaints = JSON.parse(localStorage.getItem('complaints')) || [];
+      complaints.push({ type, message, date: new Date().toISOString() });
+      localStorage.setItem('complaints', JSON.stringify(complaints));
+      alert('Complaint submitted successfully!');
+      complaintForm.reset();
+    });
+
+    // Scroll hide/show navbars
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const bottomNav = document.querySelector('.bottom-nav');
+      if (scrollTop > lastScrollTop) {
+        // scrolling down
+        if (bottomNav) bottomNav.classList.add('hidden');
+      } else {
+        // scrolling up
+        if (bottomNav) bottomNav.classList.remove('hidden');
+      }
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+
+  </script>
+</body>
+</html>

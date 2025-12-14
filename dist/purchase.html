@@ -3,26 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="/assets/logo-CDgogiIE.png" />
-  <title> ZCafe</title>
-
-  <!-- PWA: web manifest -->
-  <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#ffffff">
-
-  <!-- Apple (iOS) support -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="ZCafe">
-  <link rel="apple-touch-icon" href="/icons/icon-192.png">
-
-  <!-- iOS splash screens (add matching files in /public/icons/) -->
-  <link rel="apple-touch-startup-image" href="/icons/apple-splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)">
-  <link rel="apple-touch-startup-image" href="/icons/apple-splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
-  <link rel="apple-touch-startup-image" href="/icons/apple-splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)">
-  <link rel="apple-touch-startup-image" href="/icons/apple-splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)">
-  <link rel="apple-touch-startup-image" href="/icons/apple-splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)">
-  <link rel="apple-touch-startup-image" href="/icons/apple-splash-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)">
+  <title>Purchase - ZCafe</title>
 
   <link rel="stylesheet" crossorigin href="/assets/desktop-C5tY92BK.css">
   <link rel="stylesheet" crossorigin href="/assets/mobile-DiYU3KyP.css">
@@ -71,59 +52,104 @@
   <div class="banner-dots"></div>
 </div>
 
-  <!-- ===== Search Results Section ===== -->
-  <section class="products-section" id="search-results" style="display: none;">
-    <h2>Search Results</h2>
+  <!-- ===== Product Cards ===== -->
+  <section class="products-section">
+    <h2>Shop </h2>
     <p>Discover our selection of beverages, crafted to perfection for your enjoyment</p>
     <div class="products-wrapper">
-      <div class="products-grid" id="search-grid">
+      <div class="products-grid">
+      <div class="product-card" data-name="Coffee Non sugar">
+        <img src="/assets/zcoffe-CyO7bAJS.png" alt="Coffee">
+        <div class="product-info">
+          <h3 class="visible">Coffee Non sugar</h3>
+          <div class="quantity-row">
+            <input type="number" min="1" value="1" class="quantity-input">
+            <button class="wishlist-btn" title="Add to Wishlist" style="background:none; border:none; cursor:pointer;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#ff5900">
+                <path d="M12 21s-8-4.58-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.42-8 11-8 11Z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card" data-name="Tea Premium">
+        <img src="/assets/ztea-B80gYzx8.png" alt="Tea">
+        <div class="product-info">
+          <h3>Tea Premium</h3>
+          <div class="quantity-row">
+            <input type="number" min="1" value="1" class="quantity-input">
+            <button class="wishlist-btn" title="Add to Wishlist" style="background:none; border:none; cursor:pointer;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#ff5900">
+                <path d="M12 21s-8-4.58-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.42-8 11-8 11Z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card" data-name="Milk Boost">
+        <img src="/assets/boost-Dt7fdnWX.png" alt="Milk Boost">
+        <div class="product-info">
+          <h3>Milk Boost</h3>
+          <div class="quantity-row">
+            <input type="number" min="1" value="1" class="quantity-input">
+            <button class="wishlist-btn" title="Add to Wishlist" style="background:none; border:none; cursor:pointer;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#ff5900">
+                <path d="M12 21s-8-4.58-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.42-8 11-8 11Z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card" data-name="Cappuccino">
+        <img src="/assets/cappuccino-Y1hSEmKr.png" alt="Capuccino">
+        <div class="product-info">
+          <h3>Cappuccino</h3>
+          <div class="quantity-row">
+            <input type="number" min="1" value="1" class="quantity-input">
+            <button class="wishlist-btn" title="Add to Wishlist" style="background:none; border:none; cursor:pointer;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#ff5900">
+                <path d="M12 21s-8-4.58-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.42-8 11-8 11Z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card" data-name="Milk Horlicks">
+        <img src="/assets/horlicks-C-maDT7o.png" alt="Horlicks">
+        <div class="product-info">
+          <h3>Milk Horlicks</h3>
+          <div class="quantity-row">
+            <input type="number" min="1" value="1" class="quantity-input">
+            <button class="wishlist-btn" title="Add to Wishlist" style="background:none; border:none; cursor:pointer;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#ff5900">
+                <path d="M12 21s-8-4.58-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.42-8 11-8 11Z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card" data-name="Coffee Premium">
+        <img src="/assets/zcoffepre-TPXaAqFC.png" alt="Coffee Premium">
+        <div class="product-info">
+          <h3>Coffee Premium</h3>
+          <div class="quantity-row">
+            <input type="number" min="1" value="1" class="quantity-input">
+            <button class="wishlist-btn" title="Add to Wishlist" style="background:none; border:none; cursor:pointer;">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="#ff5900">
+                <path d="M12 21s-8-4.58-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.42-8 11-8 11Z"/>
+              </svg>
+            </button>
+          </div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
       </div>
     </div>
   </section>
-
-  <!-- ===== Products Section ===== -->
-  <section class="products-section" id="original-products">
-    <h2>Products</h2>
-    <video class="products-header-video" src="/assets/productsZ-DeT5bfte.mp4" muted autoplay loop></video>
-    <a href="purchase.html" class="shop-button">Shop Now</a>
-  </section>
-
-  <!-- ===== Services ===== -->
-  <section class="services-section">
-    <h2 class="visible">Services</h2>
-    <p class="visible">We are providing free service for our Machine</p>
-    <img src="/assets/service-CtbDvk9J.png" alt="Service man on scooter" class="service-vehicle">
-    <div class="service-track"></div>
-
-    <button class="service-button" id="service-btn">Click Here</button>
-  </section>
-
-  <!-- ===== About Us ===== -->
-  <section class="about-us-section">
-    <h2>About Zcafe</h2>
-    <p>Welcome to ZCafe, your premier destination for premium coffee and beverages. We are dedicated to providing high-quality products and exceptional service to coffee lovers everywhere. Our mission is to bring the finest coffee experiences to your doorstep with convenience and care.</p>
-  </section>
-
-  <!-- ===== Connect with Us ===== -->
-  <section class="connect-section">
-    <h2 class="visible">Connect with Zcafe</h2>
-    <p class="visible">Have questions or need assistance? Reach out to us!</p>
-    <p class="visible">Email: zcafemarketing@gmail.com</p>
-    <p class="visible">Phone: 8590230028</p>
-  <p class="visible">Follow us on social media for updates and promotions.</p>
-
-  <div class="social-media-links visible">
-    <a href="https://www.instagram.com/z_cafemarketing/reels/?__pwa=1" class="social-link">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      Instagram
-    </a>
-    <a href="#" class="social-link">
-      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      Facebook
-    </a>
-    
-  </div>
-</section>
 
   <!-- ===== Footer ===== -->
   <footer class="footer">
@@ -132,11 +158,11 @@
 
   <!-- ===== Bottom Navigation ===== -->
   <div class="bottom-nav">
-    <a class="nav-item active" href="index.html" id="home-link">
+    <a class="nav-item" href="index.html" id="home-link">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2Z"/></svg>
       Home
     </a>
-    <a class="nav-item" href="purchase.html" id="purchase-link">
+    <a class="nav-item active" href="purchase.html" id="purchase-link">
       <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4v10l8 4 8-4z M12 3v10 M8 5v10 M16 5v10"/></svg>
       Purchase
     </a>
@@ -155,73 +181,11 @@
   let userAddress = localStorage.getItem("userAddress") || "";
   const addressInput = document.getElementById("address-input");
   if (userAddress) {
-    addressInput.value = userAddress;
-  }
+    addressInput.value = userAddress; }
   addressInput.addEventListener("input", () => {
     userAddress = addressInput.value.trim();
     localStorage.setItem("userAddress", userAddress);
   });
-
-  // cart logic
-  let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
-  const cartBadge = document.createElement("div");
-  cartBadge.className = "cart-badge";
-  cartBadge.style.display = "none";
-  document.getElementById("bag-link").appendChild(cartBadge);
-
-  // function to update badge
-  function updateBadge() {
-    let totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartBadge.textContent = totalQty;
-    cartBadge.style.display = totalQty > 0 ? "flex" : "none";
-  }
-
-  updateBadge();
-
-  // navbar profile icon click event
-  document.getElementById("profile-icon").addEventListener("click", () => {
-    window.location.href = "profile.html";
-  });
-
-  // wishlist icon click event
-  document.getElementById("wishlist-icon").addEventListener("click", () => {
-    window.location.href = "wishlist.html";
-  });
-
-  // wishlist logic
-  const wishlistBadge = document.createElement("div");
-  wishlistBadge.style.position = "absolute";
-  wishlistBadge.style.top = "-5px";
-  wishlistBadge.style.right = "-5px";
-  wishlistBadge.style.background = "red";
-  wishlistBadge.style.color = "white";
-  wishlistBadge.style.borderRadius = "50%";
-  wishlistBadge.style.width = "18px";
-  wishlistBadge.style.height = "18px";
-  wishlistBadge.style.fontSize = "12px";
-  wishlistBadge.style.display = "flex";
-  wishlistBadge.style.alignItems = "center";
-  wishlistBadge.style.justifyContent = "center";
-wishlistBadge.style.fontWeight = "bold";
-wishlistBadge.style.zIndex = "10";
-document.getElementById("wishlist-icon").appendChild(wishlistBadge);
-
-  // notification popup
-  const wishlistNotification = document.createElement("div");
-  wishlistNotification.style.position = "absolute";
-  wishlistNotification.style.top = "-30px";
-  wishlistNotification.style.left = "50%";
-  wishlistNotification.style.transform = "translateX(-50%)";
-  wishlistNotification.style.background = "black";
-  wishlistNotification.style.color = "white";
-  wishlistNotification.style.padding = "5px 10px";
-  wishlistNotification.style.borderRadius = "5px";
-  wishlistNotification.style.fontSize = "12px";
-  wishlistNotification.style.display = "none";
-  wishlistNotification.style.whiteSpace = "nowrap";
-  wishlistNotification.style.zIndex = "1000";
-  document.getElementById("wishlist-icon").style.position = "relative";
-  document.getElementById("wishlist-icon").appendChild(wishlistNotification);
 
   // search recommendations
   const searchInput = document.querySelector('.search-container input');
@@ -250,6 +214,7 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
     if (!searchInput.value.trim()) {
       document.querySelectorAll('.product-card').forEach(card => {
         card.style.display = 'block';
+        card.classList.remove('searched');
       });
     }
   });
@@ -281,8 +246,10 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
       const name = card.dataset.name.toLowerCase();
       if (name.includes(query.toLowerCase())) {
         card.style.display = 'block';
+        card.classList.add('searched');
       } else {
         card.style.display = 'none';
+        card.classList.remove('searched');
       }
     });
   }
@@ -297,8 +264,10 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
     document.querySelectorAll('.product-card').forEach(card => {
       if (card.dataset.name === selectedProduct) {
         card.style.display = 'block';
+        card.classList.add('searched');
       } else {
         card.style.display = 'none';
+        card.classList.remove('searched');
       }
     });
     searchInput.value = selectedProduct;
@@ -348,31 +317,162 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
     }
   }
 
+  // cart logic
+  let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const cartBadge = document.createElement("div");
+  cartBadge.className = "cart-badge";
+  cartBadge.style.display = "none";
+  document.getElementById("bag-link").appendChild(cartBadge);
+
+  // function to update badge
+  function updateBadge() {
+    let totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+    cartBadge.textContent = totalQty;
+    cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+  }
+
+  updateBadge();
+
+
+
+  document.querySelectorAll(".add-cart-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (!userAddress) {
+        alert('Please set your delivery address first.');
+        return;
+      }
+      const card = btn.closest(".product-card");
+      const name = card.dataset.name;
+      const quantity = parseInt(card.querySelector(".quantity-input").value);
+
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.quantity += quantity;
+      } else {
+        cart.push({ name, quantity });
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      updateBadge();
+
+      alert(`${quantity} x ${name} added to bag!`);
+    });
+  });
+
+
+
+  // navbar profile icon click event
+  document.getElementById("profile-icon").addEventListener("click", () => {
+    window.location.href = "profile.html";
+  });
+
+  // wishlist icon click event
+  document.getElementById("wishlist-icon").addEventListener("click", () => {
+    window.location.href = "wishlist.html";
+  });
+
+  // wishlist logic
+  const wishlistBadge = document.createElement("div");
+  wishlistBadge.style.position = "absolute";
+  wishlistBadge.style.top = "-5px";
+  wishlistBadge.style.right = "-5px";
+  wishlistBadge.style.background = "red";
+  wishlistBadge.style.color = "white";
+  wishlistBadge.style.borderRadius = "50%";
+  wishlistBadge.style.width = "18px";
+  wishlistBadge.style.height = "18px";
+  wishlistBadge.style.fontSize = "12px";
+  wishlistBadge.style.display = "flex";
+  wishlistBadge.style.alignItems = "center";
+  wishlistBadge.style.justifyContent = "center";
+  wishlistBadge.style.fontWeight = "bold";
+  document.getElementById("wishlist-icon").appendChild(wishlistBadge);
+
+  // notification popup
+  const wishlistNotification = document.createElement("div");
+  wishlistNotification.style.position = "absolute";
+  wishlistNotification.style.top = "-30px";
+  wishlistNotification.style.left = "50%";
+  wishlistNotification.style.transform = "translateX(-50%)";
+  wishlistNotification.style.background = "black";
+  wishlistNotification.style.color = "white";
+  wishlistNotification.style.padding = "5px 10px";
+  wishlistNotification.style.borderRadius = "5px";
+  wishlistNotification.style.fontSize = "12px";
+  wishlistNotification.style.display = "none";
+  wishlistNotification.style.whiteSpace = "nowrap";
+  wishlistNotification.style.zIndex = "1000";
+  document.getElementById("wishlist-icon").style.position = "relative";
+  document.getElementById("wishlist-icon").appendChild(wishlistNotification);
+
   // function to update wishlist badge
   function updateWishlistBadge() {
     let wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
     let totalQty = wishlist.reduce((sum, item) => sum + item.quantity, 0);
     wishlistBadge.textContent = totalQty;
     wishlistBadge.style.display = totalQty > 0 ? "flex" : "none";
+  
+    if (totalQty > 0) {
+      wishlistNotification.textContent = `${totalQty} item(s) added to wishlist`;
+      wishlistNotification.style.display = "block";
+      setTimeout(() => {
+        wishlistNotification.style.display = "none";
+      }, 2000);
+    }
   }
 
   updateWishlistBadge();
 
-  // Service button click to start vehicle animation
-  const serviceBtn = document.getElementById('service-btn');
-  const vehicle = document.querySelector('.service-vehicle');
+  let wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
 
-  serviceBtn.addEventListener('click', () => {
-    // Start the vehicle animation
-    vehicle.style.animationPlayState = 'running';
+  function updateHeart(btn, isInWishlist) {
+    const svg = btn.querySelector('svg');
+    svg.setAttribute('fill', isInWishlist ? 'red' : 'none');
+    svg.setAttribute('stroke', isInWishlist ? 'none' : 'black');
+    svg.setAttribute('stroke-width', isInWishlist ? '0' : '2');
+  }
+
+  // initialize hearts
+  document.querySelectorAll('.wishlist-btn').forEach(btn => {
+    const card = btn.closest('.product-card');
+    const name = card.dataset.name;
+    const isInWishlist = wishlist.some(item => item.name === name);
+    updateHeart(btn, isInWishlist);
   });
 
-  // When animation ends, redirect to service.html
-  vehicle.addEventListener('animationend', () => {
-    window.location.href = 'service.html';
+  // wishlist button click event
+  document.querySelectorAll(".wishlist-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".product-card");
+      const name = card.dataset.name;
+      const quantity = parseInt(card.querySelector(".quantity-input").value);
+
+      const existingIndex = wishlist.findIndex(item => item.name === name);
+      if (existingIndex !== -1) {
+        // remove from wishlist
+        wishlist.splice(existingIndex, 1);
+        updateHeart(btn, false);
+        alert(`${name} removed from wishlist!`);
+      } else {
+        // add to wishlist
+        wishlist.push({ name, quantity });
+        updateHeart(btn, true);
+        alert(`${quantity} x ${name} added to wishlist!`);
+      }
+      localStorage.setItem("wishlistItems", JSON.stringify(wishlist));
+      updateWishlistBadge();
+      let totalQty = wishlist.reduce((sum, item) => sum + item.quantity, 0);
+      if (totalQty > 0) {
+        wishlistNotification.textContent = `${totalQty} item(s) in wishlist`;
+        wishlistNotification.style.display = "block";
+        setTimeout(() => {
+          wishlistNotification.style.display = "none";
+        }, 2000);
+      }
+    });
   });
 
-  // Scroll-triggered animation for product images and sections
+  // Scroll-triggered animation for product images
   const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -391,26 +491,16 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
     observer.observe(img);
   });
 
-  // Observe section headings, paragraphs, social links, and sections
-  document.querySelectorAll('h2, p, .social-media-links, section').forEach(element => {
+  // Observe h2, p, h3, sections, and product cards for fade-in
+  document.querySelectorAll('h2, p, h3, section, .product-card').forEach(element => {
     observer.observe(element);
   });
 
   // Banner slider logic
   let currentSlide = 0;
   const videos = document.querySelectorAll('.banner-video');
-  const dotsContainer = document.querySelector('.banner-dots');
-
-  // Create dots
-  videos.forEach((_, index) => {
-    const dot = document.createElement('span');
-    dot.classList.add('dot');
-    if (index === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => showSlide(index));
-    dotsContainer.appendChild(dot);
-  });
-
-  const dots = document.querySelectorAll('.dot');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
 
   function showSlide(index) {
     videos.forEach((video, i) => {
@@ -422,14 +512,6 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
         video.pause();
       }
     });
-    // Update dots
-    dots.forEach((dot, i) => {
-      if (i === index) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
-    });
   }
 
   function nextSlide() {
@@ -437,27 +519,20 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
     showSlide(currentSlide);
   }
 
+  function prevSlide() {
+    currentSlide = (currentSlide - 1 + videos.length) % videos.length;
+    showSlide(currentSlide);
+  }
+
   // Auto-scroll every 5 seconds
   setInterval(nextSlide, 5000);
 
+  // Manual controls
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
   // Initialize first slide
   showSlide(currentSlide);
-
-  // Play product video on page load and ensure looping
-  window.addEventListener('load', () => {
-    const productVideo = document.querySelector('.products-header-video');
-    if (productVideo) {
-      productVideo.play().catch(e => {
-        console.log('Video play failed:', e);
-      });
-
-      // Ensure video loops properly
-      productVideo.addEventListener('ended', () => {
-        productVideo.currentTime = 0;
-        productVideo.play();
-      });
-    }
-  });
 
   // Scroll hide/show bottom navbar only
   let lastScrollTop = 0;
