@@ -17,6 +17,33 @@ html, body {
 
 }
 
+/* ===== App loader (shown on refresh/navigation) ===== */
+.app-loader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  z-index: 99999;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.app-loader.loaded {
+  opacity: 0;
+  visibility: hidden;
+}
+.app-loader .logo {
+  width: 120px;
+  height: 120px;
+  background: url('/public/logo.png') center/contain no-repeat;
+  -webkit-mask-size: contain;
+  animation: loader-spin 1.4s linear infinite;
+}
+@keyframes loader-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* =============================================================== */
 /* ====================== MOBILE FIRST STYLES ===================== */
 /* =============================================================== */

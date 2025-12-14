@@ -10,6 +10,17 @@
 </head>
 
 <body>
+  <script>
+    (function(){
+      var loader = document.createElement('div');
+      loader.className = 'app-loader';
+      loader.innerHTML = '<div class="logo" aria-hidden="true"></div>';
+      document.documentElement.appendChild(loader);
+      function removeLoader(){ loader.classList.add('loaded'); setTimeout(()=>{ if(loader && loader.parentNode) loader.parentNode.removeChild(loader); },350); }
+      if (document.readyState === 'complete') removeLoader(); else window.addEventListener('load', removeLoader);
+      window.addEventListener('beforeunload', function(){ if(!document.documentElement.contains(loader)) document.documentElement.appendChild(loader); });
+    })();
+  </script>
   <!-- ===== Navbar ===== -->
   <nav>
     <div class="nav-top">
