@@ -50,10 +50,9 @@ html, body {
 /* =============================================================== */
 
 @media (max-width: 768px) {
-
   body {
     min-height: 100vh;
-    padding-top: 10px; /* Account for fixed navbar */
+    padding-top: var(--nav-height, 72px); /* Account for fixed navbar; JS will set this dynamically */
   }
 
   body.no-top-nav {
@@ -116,89 +115,125 @@ html, body {
       background: #880808;
     }
 
-  /* ===== Mobile Banner Carousel ===== */
-  .banner-carousel {
-    position: relative;
-    /* full-bleed on mobile as well */
-    width: 100%;
-    background: transparent;
-  }
+/* =============================================================== */
+/* ====================== BANNER / CAROUSEL ====================== */
+/* =============================================================== */
 
+.banner-carousel {
+  position: relative;
+  width: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+/* SLIDES WRAPPER */
+.carousel-slides {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow: hidden;
+  height: 220px; /* MOBILE DEFAULT */
+  margin-bottom: -15px;
+}
+
+/* EACH SLIDE */
+.banner-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.banner-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* IMAGE BANNERS */
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* VIDEO BANNERS */
+.banner-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* important for mobile */
+  background: #000;
+  display: block;
+}
+
+/* DOT NAVIGATION */
+.carousel-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 5;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #fff;
+  width: 10px;
+  height: 10px;
+}
+
+/* =============================================================== */
+/* ====================== SMALL DEVICES (sm) ===================== */
+/* =============================================================== */
+@media (min-width: 576px) {
   .carousel-slides {
-    position: relative;
-    width: 100%;
     height: 260px;
-    overflow: hidden;
-    margin-top: 80px;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
+  }
+}
+
+/* =============================================================== */
+/* ====================== TABLET (md) ============================ */
+/* =============================================================== */
+@media (min-width: 768px) {
+  .carousel-slides {
+    height: 340px;
   }
 
-  .banner-slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out;
-    margin-top: 0;
-  }
-
-  .banner-slide.active {
-    opacity: 1;
-  }
-
-  .banner-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* Mobile: prefer contain for video banners to avoid cropping important PNG/video content */
   .banner-video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center center;
-    display: block;
-    background: #000;
+    object-fit: cover;
   }
+}
 
-  /* Carousel Dots Navigation */
-  .carousel-dots {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    padding: 10px ;
-    width: 100%;
-    background: transparent;
-    margin-top: -60px;
-
+/* =============================================================== */
+/* ====================== LAPTOP (lg) ============================ */
+/* =============================================================== */
+@media (min-width: 992px) {
+  .carousel-slides {
+    height: 400px;
   }
+}
 
-  .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
+/* =============================================================== */
+/* ====================== DESKTOP / XL =========================== */
+/* =============================================================== */
+@media (min-width: 1200px) {
+  .carousel-slides {
+    height: 460px;
   }
-
-  .dot:hover {
-    background: rgba(255, 255, 255, 0.8);
-  }
-
-  .dot.active {
-    background: #999999;
-    width: 12px;
-    height: 12px;
-    box-shadow: 0 0 8px rgba(231, 229, 229, 0.6);
-  }
+}
 
 /* Search Container */
 .search-container {
