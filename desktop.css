@@ -7,6 +7,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Open Sauce One', Arial, sans-serif;
   background: #ffffff;
@@ -143,104 +147,107 @@ nav {
   margin-bottom: 5px;
 }
 
-/* ===== Banner ===== */
-.banner {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #000;
-  color: #fff;
-  display: flex;
-  align-items: center;
-}
+/* ===== Banner Carousel ===== */
+  .banner-carousel {
+    position: relative;
+    /* make the banner full-bleed across the viewport */
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: transparent;
+  }
 
-.banner-slider {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
+  .carousel-slides {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    margin-top: 90px;
+  }
 
-.banner-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateX(100%);
-  transition: transform 0.5s ease;
-  pointer-events: none; /* Prevent clicks on banner videos */
-}
+  .banner-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+    margin-top: 0;
+  }
 
-.banner-video.active {
-  transform: translateX(0);
-}
+  .banner-slide.active {
+    opacity: 1;
+  }
 
-.banner-controls {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-}
+  .banner-img {
+    /* ensure image always fills the viewport width for a true edge-to-edge look */
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    max-width: none;
+  }
 
-.banner-controls button {
-  background: rgba(255, 255, 255, 0.8);
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
-  color: #000;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s;
-}
+  /* Shared video banner styling (desktop) */
+  .banner-video {
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    max-width: none;
+    background: #000;
+  }
 
-.banner-controls button:hover {
-  background: rgba(255, 255, 255, 1);
-}
+  /* Wrapper that centers inner content while images remain full-bleed */
+  .carousel-slides {
+    /* desktop banner: min 420px, preferred 45vh, max 900px */
+    height: clamp(600px, 45vh, 900px);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 90px auto 0 auto;
+    border-radius: 8px;
+  }
 
-/* Banner Dots */
-.banner-dots {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-}
+  /* Carousel Dots Navigation */
+  .carousel-dots {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px ;
+    width: 100%;
+    background: transparent;
+    margin-top: -30px;
 
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: background 0.3s;
-}
+  }
 
-.dot.active {
-  background: rgba(255, 255, 255, 1);
-}
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+  }
 
-.dot:hover {
-  background: rgba(255, 255, 255, 0.8);
-}
+  .dot:hover {
+    background: rgba(255, 255, 255, 0.8);
+  }
 
-.banner img,
-.banner video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
+  .dot.active {
+    background: #999999;
+    width: 12px;
+    height: 12px;
+    box-shadow: 0 0 8px rgba(231, 229, 229, 0.6);
+  }
 /* ===== Products Section (Desktop) ===== */
 .products-section {
   max-width: 1400px;

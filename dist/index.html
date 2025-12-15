@@ -24,8 +24,8 @@
   <link rel="apple-touch-startup-image" href="/icons/apple-splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)">
   <link rel="apple-touch-startup-image" href="/icons/apple-splash-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)">
 
-  <link rel="stylesheet" crossorigin href="/assets/desktop-0A7Erhbq.css">
-  <link rel="stylesheet" crossorigin href="/assets/mobile-B3O-kw6C.css">
+  <link rel="stylesheet" crossorigin href="/assets/desktop-CiABBmWi.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-CqmEG8co.css">
 </head>
 
 <body>
@@ -68,20 +68,54 @@
     </div>
   </nav>
 
-  <!-- ===== Banner ===== -->
-<div class="banner">
-  <div class="banner-slider">
-    <video class="banner-video" src="/assets/DietCoffeez-Bv7MyeQ8.mp4" muted></video>
-    <video class="banner-video" src="/assets/PremiumTeaZ-C4HgV7wn.mp4"  muted></video>
-    <video class="banner-video" src="/assets/cappuccinoZ-DeJGNO7E.mp4" muted></video>
-    <video class="banner-video" src="/assets/MilkBoostZ-BZZ7GfAF.mp4" muted></video>
-    <video class="banner-video" src="/assets/MilkHorlicksZ-mh_EHpf3.mp4" muted></video>
+  <!-- ===== Banner Carousel ===== -->
+  <div class="banner-carousel">
+    <div class="carousel-slides">
+        <!-- Main Banner (Diet Coffee) -->
+        <div class="banner banner-slide">
+          <video class="banner-video" playsinline muted loop preload="metadata">
+            <source src="/DietCoffeeZ.mp4" type="video/mp4">
+          </video>
+        </div>
 
+        <!-- Premium Tea Banner -->
+        <div class="banner banner-slide">
+          <video class="banner-video" playsinline muted loop preload="metadata">
+            <source src="/PremiumTea.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Milk Boost Banner -->
+        <div class="banner banner-slide">
+          <video class="banner-video" playsinline muted loop preload="metadata">
+            <source src="/Milk%20Boost%20Z.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Milk Horlicks Banner -->
+        <div class="banner banner-slide">
+          <video class="banner-video" playsinline muted loop preload="metadata">
+            <source src="/Milk%20horlicks%20Z.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Cappuccino Banner -->
+        <div class="banner banner-slide">
+          <video class="banner-video" playsinline muted loop preload="metadata">
+            <source src="/cappuccino%20Z.mp4" type="video/mp4">
+          </video>
+        </div>
+    </div>
+
+    <!-- Carousel Dots Navigation -->
+    <div class="carousel-dots">
+      <span class="dot active" data-slide="0"></span>
+      <span class="dot" data-slide="1"></span>
+      <span class="dot" data-slide="2"></span>
+      <span class="dot" data-slide="3"></span>
+      <span class="dot" data-slide="4"></span>
+    </div>
   </div>
-
-  <!-- Dots -->
-  <div class="banner-dots"></div>
-</div>
 
   <!-- ===== Search Results Section ===== -->
   <section class="products-section" id="search-results" style="display: none;">
@@ -138,7 +172,7 @@
       <div class="product-row animate-slide-left" style="animation-delay: 0.4s;">
         <img src="/assets/zcoffe-CyO7bAJS.png" alt="Coffee Non Sugar" class="product-thumb">
         <div class="product-details">
-          <h3 class="product-title">Coffee Non Sugar</h3>
+          <h3 class="product-title">Diet Coffee</h3>
           <div class="rating">★★★★☆</div>
           <a href="purchase.html?product=Coffee%20Non%20sugar" class="product-link">View Product</a>
         </div>
@@ -465,53 +499,6 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
     observer.observe(element);
   });
 
-  // Banner slider logic
-  let currentSlide = 0;
-  const videos = document.querySelectorAll('.banner-video');
-  const dotsContainer = document.querySelector('.banner-dots');
-
-  // Create dots
-  videos.forEach((_, index) => {
-    const dot = document.createElement('span');
-    dot.classList.add('dot');
-    if (index === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => showSlide(index));
-    dotsContainer.appendChild(dot);
-  });
-
-  const dots = document.querySelectorAll('.dot');
-
-  function showSlide(index) {
-    videos.forEach((video, i) => {
-      if (i === index) {
-        video.classList.add('active');
-        video.play();
-      } else {
-        video.classList.remove('active');
-        video.pause();
-      }
-    });
-    // Update dots
-    dots.forEach((dot, i) => {
-      if (i === index) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
-    });
-  }
-
-  function nextSlide() {
-    currentSlide = (currentSlide + 1) % videos.length;
-    showSlide(currentSlide);
-  }
-
-  // Auto-scroll every 5 seconds
-  setInterval(nextSlide, 5000);
-
-  // Initialize first slide
-  showSlide(currentSlide);
-
   // Play product video on page load and ensure looping
   window.addEventListener('load', () => {
     const productVideo = document.querySelector('.products-header-video');
@@ -543,26 +530,47 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   });
 
+  // Banner Carousel - Auto slide functionality
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.banner-slide');
+  const dots = document.querySelectorAll('.dot');
+  const totalSlides = slides.length;
+
+  function showSlide(n) {
+    slides.forEach((s, i) => {
+      const active = i === n;
+      s.classList.toggle('active', active);
+      const vid = s.querySelector('video');
+      if (vid) {
+        if (active) {
+          const p = vid.play(); if (p && p.catch) p.catch(()=>{});
+        } else {
+          try { vid.pause(); vid.currentTime = 0; } catch(e){}
+        }
+      }
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === n));
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+  }
+
+  // Show first slide
+  showSlide(currentSlide);
+
+  // Auto-advance carousel every 5 seconds
+  setInterval(nextSlide, 5000);
+
+  // Dot click navigation
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      currentSlide = index;
+      showSlide(currentSlide);
+    });
+  });
+
 </script>
 </body>
 </html>
-
-  // Scroll-triggered product animations using Intersection Observer
-  const productRows = document.querySelectorAll('.product-row');
-  const productObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // Trigger animation when product comes into view
-        entry.target.style.animationPlayState = 'running';
-        productObserver.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
-  
-  productRows.forEach(row => {
-    row.style.animationPlayState = 'paused';
-    productObserver.observe(row);
-  });
