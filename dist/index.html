@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/assets/logo-CDgogiIE.png" />
   <title> ZCafe</title>
 
@@ -24,8 +24,8 @@
   <link rel="apple-touch-startup-image" href="/icons/apple-splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)">
   <link rel="apple-touch-startup-image" href="/icons/apple-splash-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)">
 
-  <link rel="stylesheet" crossorigin href="/assets/desktop-C5tY92BK.css">
-  <link rel="stylesheet" crossorigin href="/assets/mobile-BB51Azip.css">
+  <link rel="stylesheet" crossorigin href="/assets/desktop-0A7Erhbq.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-B3O-kw6C.css">
 </head>
 
 <body>
@@ -95,9 +95,66 @@
 
   <!-- ===== Products Section ===== -->
   <section class="products-section" id="original-products">
-    <h2>Products</h2>
-    <video class="products-header-video" src="/assets/productsZ-DeT5bfte.mp4" muted autoplay loop></video>
-    <a href="purchase.html" class="shop-button">Shop Now</a>
+    <h2>Featured Products</h2>
+    <p>Discover our selection of premium beverages, crafted to perfection for your enjoyment</p>
+    
+    <div class="products-list">
+      <div class="product-row animate-slide-left" style="animation-delay: 0s;">
+        <img src="/assets/zcoffepre-TPXaAqFC.png" alt="Premium Coffee" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Premium Coffee</h3>
+          <div class="rating">★★★★★</div>
+          <a href="purchase.html?product=Coffee%20Premium" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.1s;">
+        <img src="/assets/ztea-B80gYzx8.png" alt="Premium Tea" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Premium Tea</h3>
+          <div class="rating">★★★★★</div>
+          <a href="purchase.html?product=Tea%20Premium" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.2s;">
+        <img src="/assets/cappuccino-Y1hSEmKr.png" alt="Cappuccino" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Cappuccino</h3>
+          <div class="rating">★★★★☆</div>
+          <a href="purchase.html?product=Cappuccino" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.3s;">
+        <img src="/assets/boost-Dt7fdnWX.png" alt="Milk Boost" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Milk Boost</h3>
+          <div class="rating">★★★★★</div>
+          <a href="purchase.html?product=Milk%20Boost" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.4s;">
+        <img src="/assets/zcoffe-CyO7bAJS.png" alt="Coffee Non Sugar" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Coffee Non Sugar</h3>
+          <div class="rating">★★★★☆</div>
+          <a href="purchase.html?product=Coffee%20Non%20sugar" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.5s;">
+        <img src="/assets/horlicks-C-maDT7o.png" alt="Milk Horlicks" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Milk Horlicks</h3>
+          <div class="rating">★★★★★</div>
+          <a href="purchase.html?product=Milk%20Horlicks" class="product-link">View Product</a>
+        </div>
+      </div>
+    </div>
+
+    <a href="purchase.html" class="shop-button">Shop All Products</a>
   </section>
 
   <!-- ===== Services ===== -->
@@ -489,3 +546,23 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
 </script>
 </body>
 </html>
+
+  // Scroll-triggered product animations using Intersection Observer
+  const productRows = document.querySelectorAll('.product-row');
+  const productObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Trigger animation when product comes into view
+        entry.target.style.animationPlayState = 'running';
+        productObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+  
+  productRows.forEach(row => {
+    row.style.animationPlayState = 'paused';
+    productObserver.observe(row);
+  });

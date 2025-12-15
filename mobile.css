@@ -1,5 +1,6 @@
-/* ===== Import Font ===== */
+/* ===== Import Fonts ===== */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sauce+One:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
 /* =============================================================== */
 /* ====================== GLOBAL FIXES ============================ */
@@ -210,78 +211,176 @@ html, body {
   }
 
 /* ===== Products Section ===== */
-.products-header-video {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
+.products-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 10px 12px;
+  margin: 10px 0 14px;
 }
 
-.products-header-video h2 {
+/* Product section heading and intro (mobile) */
+.products-section {
   text-align: center;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  font-size: 2rem;
 }
 
-.products-header-video h2.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.products-header-video {
-  display: block;
-  width: 100%;
-  max-width: 600px;
-  height: auto;
-  margin: 20px auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  animation: fadeIn 0.8s ease-out 0.1s both;
-  pointer-events: none; /* Prevent clicks on product video */
-}
-
-.products-header-video p {
+.products-section h2,
+.products-section .visible h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111;
   text-align: center;
-  font-size: 1rem;
+  margin: 6px 0 6px;
+}
+
+.products-section p {
+  font-size: 0.95rem;
   color: #555;
-  margin: 20px 0;
-  line-height: 1.6;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
-}
-
-.products-header-video.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.shop-button {
-  display: block;
-  width: 200px;
-  margin: 20px auto;
-  padding: 12px 24px;
-  background-color: #000;
-  color: #fff;
   text-align: center;
+  margin: 0 12px 12px;
+  line-height: 1.35;
+}
+
+.product-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.06);
+  /* Scroll reveal animation */
+  opacity: 0;
+  transform: translateY(30px);
+  animation: scrollReveal 0.6s ease-out forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+.product-thumb {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 6px 2px;
+  width: 100%;
+}
+
+/* ===== Overrides: Ensure product titles are visible and CTA styling ===== */
+.product-title {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222333;
+  margin: 6px 0 4px;
+  line-height: 1.2;
+  max-height: none;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: break-word;
+  padding: 0 6px;
+}
+
+
+/* Shop All Products CTA */
+.shop-button {
+  display: inline-block;
+  margin: 14px auto 0;
+  background: #000000;
+  color: #fff;
+  padding: 10px 18px;
   text-decoration: none;
-  border: 2px solid #000;
-  border-radius: 0;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  animation: fadeIn 0.8s ease-out 0.3s both;
-  margin-top: -90px;
+  font-weight: 700;
+  text-align: center;
+  min-width: 140px;
+  max-width: 92%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-.shop-button:hover {
-  background-color: #fff;
-  color: #000;
+.shop-button:active {
+  background: #880808;
+  transform: translateY(1px);
 }
 
+
+.product-img {
+  width: 100%;
+  height: 96px;
+  object-fit: contain;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #f0f0f0;
+  margin: 0;
+}
+
+.product-link {
+  display: inline-block;
+  background: #ae0707;
+  color: #fff;
+  padding: 6px 12px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 2px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-link:active {
+  background: #880808;
+}
+
+/* 
+/* ===== Slide-In Animations (Left & Right) ===== */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Odd-numbered rows slide in from left */
+.products-list .product-row:nth-child(odd).animate-slide-left {
+  animation: slide-in-left 1.5s ease-out forwards;
+}
+
+/* Even-numbered rows slide in from right */
+.products-list .product-row:nth-child(even).animate-slide-left {
+  animation: slide-in-right 1.5s ease-out forwards;
+}
 
 /* ===== Product Grid (Improved) ===== */
 .products-wrapper {
@@ -535,4 +634,18 @@ html, body {
   }
 }
 
+/* ===== Featured Products Grid (Card Layout) ===== */
+
+
+/* ===== Scroll reveal animation ===== */
+@keyframes scrollReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 

@@ -95,9 +95,66 @@
 
   <!-- ===== Products Section ===== -->
   <section class="products-section" id="original-products">
-    <h2>Products</h2>
-    <video class="products-header-video" src="public/productsZ.webm" muted autoplay loop></video>
-    <a href="purchase.html" class="shop-button">Shop Now</a>
+    <h2>Featured Products</h2>
+    <p>Discover our selection of premium beverages, crafted to perfection for your enjoyment</p>
+    
+    <div class="products-list">
+      <div class="product-row animate-slide-left" style="animation-delay: 0s;">
+        <img src="public/zcoffepre.png" alt="Premium Coffee" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Premium Coffee</h3>
+          <div class="rating">★★★★★</div>
+          <a href="purchase.html?product=Coffee%20Premium" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.1s;">
+        <img src="public/ztea.png" alt="Premium Tea" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Premium Tea</h3>
+          <div class="rating">★★★★★</div>
+          <a href="purchase.html?product=Tea%20Premium" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.2s;">
+        <img src="public/cappuccino.png" alt="Cappuccino" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Cappuccino</h3>
+          <div class="rating">★★★★☆</div>
+          <a href="purchase.html?product=Cappuccino" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.3s;">
+        <img src="public/boost.png" alt="Milk Boost" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Milk Boost</h3>
+          <div class="rating">★★★★★</div>
+          <a href="purchase.html?product=Milk%20Boost" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.4s;">
+        <img src="public/zcoffe.png" alt="Coffee Non Sugar" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Coffee Non Sugar</h3>
+          <div class="rating">★★★★☆</div>
+          <a href="purchase.html?product=Coffee%20Non%20sugar" class="product-link">View Product</a>
+        </div>
+      </div>
+
+      <div class="product-row animate-slide-left" style="animation-delay: 0.5s;">
+        <img src="public/horlicks.png" alt="Milk Horlicks" class="product-thumb">
+        <div class="product-details">
+          <h3 class="product-title">Milk Horlicks</h3>
+          <div class="rating">★★★★★</div>
+          <a href="purchase.html?product=Milk%20Horlicks" class="product-link">View Product</a>
+        </div>
+      </div>
+    </div>
+
+    <a href="purchase.html" class="shop-button">Shop All Products</a>
   </section>
 
   <!-- ===== Services ===== -->
@@ -489,3 +546,23 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
 </script>
 </body>
 </html>
+
+  // Scroll-triggered product animations using Intersection Observer
+  const productRows = document.querySelectorAll('.product-row');
+  const productObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Trigger animation when product comes into view
+        entry.target.style.animationPlayState = 'running';
+        productObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+  
+  productRows.forEach(row => {
+    row.style.animationPlayState = 'paused';
+    productObserver.observe(row);
+  });
