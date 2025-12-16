@@ -49,7 +49,7 @@ html, body {
 /* ====================== MOBILE FIRST STYLES ===================== */
 /* =============================================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 760px) {
   body {
     min-height: 100vh;
     padding-top: var(--nav-height, 72px); /* Account for fixed navbar; JS will set this dynamically */
@@ -134,7 +134,7 @@ html, body {
   margin: 0 auto;
   overflow: hidden;
   height: 220px; /* MOBILE DEFAULT */
-  margin-bottom: -15px;
+  margin-bottom: -16px;
 }
 
 /* EACH SLIDE */
