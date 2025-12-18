@@ -20,29 +20,24 @@
     })();
   </script>
 
-  <!-- Bag Header -->
   <header class="bag-header">
     <svg viewBox="0 0 24 24" width="24" height="24">
       <path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z"/>
     </svg>
   </header>
 
-
   <div class="container">
     <div class="bag-items" id="bag-items"></div>
-
     <div class="actions">
       <button class="book-btn" id="book-btn">Book Now</button>
       <button class="clear-btn" id="clear-btn">Clear Bag</button>
     </div>
   </div>
 
-  <!-- ===== Footer ===== -->
   <footer class="footer">
     <p>&copy; 2025 ZCafe. All rights reserved by Webcods</p>
   </footer>
 
-  <!-- Bottom Navbar -->
   <div class="bottom-nav">
     <a class="nav-item" href="index.html" id="home-link">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2Z"/></svg>
@@ -63,99 +58,123 @@
     </a>
   </div>
 
-  <script>
-    let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const bagContainer = document.getElementById("bag-items");
-    const cartBadge = document.getElementById("cart-badge");
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-    function saveCart() {
-      localStorage.setItem("cartItems", JSON.stringify(cart));
+  const firebaseConfig = {
+    apiKey: "AIzaSyBD_s0bu-ei-bsdPDIFaDF6gbuck-85hbM",
+    authDomain: "zcafe-65f97.firebaseapp.com",
+    databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com",
+    projectId: "zcafe-65f97",
+    storageBucket: "zcafe-65f97.firebasestorage.app",
+    messagingSenderId: "480288327990",
+    appId: "1:480288327990:web:9c79040289023919034b97"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  /* ================= CART ================= */
+  let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const bagContainer = document.getElementById("bag-items");
+  const cartBadge = document.getElementById("cart-badge");
+
+  function updateBadge() {
+    const total = cart.reduce((s, i) => s + i.quantity, 0);
+    cartBadge.textContent = total;
+    cartBadge.style.display = total > 0 ? "flex" : "none";
+  }
+
+  function renderBag() {
+    bagContainer.innerHTML = "";
+    if (!cart.length) {
+      bagContainer.innerHTML = "<p>Your Cart is empty.</p>";
       updateBadge();
+      return;
     }
 
-    function updateBadge() {
-      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-      cartBadge.textContent = totalQty;
-      cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+    cart.forEach((item, i) => {
+      bagContainer.innerHTML += `
+        <div class="bag-item">
+          <h3>${item.name}</h3>
+          <input type="number" min="1" value="${item.quantity}"
+            onchange="window.updateQty(${i}, this.value)">
+          <button onclick="window.removeItem(${i})">Remove</button>
+        </div>
+      `;
+    });
+
+    updateBadge();
+  }
+
+  window.updateQty = (i, qty) => {
+    cart[i].quantity = parseInt(qty);
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+    renderBag();
+  };
+
+  window.removeItem = (i) => {
+    cart.splice(i, 1);
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+    renderBag();
+  };
+
+  renderBag();
+
+  /* ================= BOOK ORDER ================= */
+  document.getElementById("book-btn").addEventListener("click", () => {
+    if (!cart.length) {
+      alert("Your bag is empty!");
+      return;
     }
 
-    // Scroll-triggered animation for h3 elements
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+    const phone = localStorage.getItem("phoneNumber");
+    const deliveryAddress = localStorage.getItem("deliveryAddress");
+    const deliverFrom = localStorage.getItem("deliverFrom"); // ✅ branch
+    const company = localStorage.getItem("companyName");
+
+    if (!phone || !deliveryAddress || !deliverFrom) {
+      alert("Please complete Profile (Phone, Address, Branch)");
+      window.location.href = "profile.html";
+      return;
+    }
+
+    const orderData = {
+      customerPhone: phone,
+      customerCompany: company || "Regular Customer",
+
+      // 🔥 VERY IMPORTANT
+      customerLocation: deliverFrom,      // used by admin filter
+      customerAddress: deliveryAddress,   // shown in admin
+
+      items: cart,
+      status: "Pending",
+      timestamp: new Date().toLocaleString()
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    function renderBag() {
-      bagContainer.innerHTML = "";
-      if(cart.length === 0) {
-        bagContainer.innerHTML = "<p>Your Cart is empty.</p>";
-        updateBadge();
-        return;
-      }
-      cart.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.className = "bag-item";
-        div.innerHTML = `
-          <h3>${item.name}</h3>
-          <input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)">
-          <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-        `;
-        bagContainer.appendChild(div);
-      });
-      updateBadge();
-
-      // Observe h3 elements after rendering
-      document.querySelectorAll('h3').forEach(element => {
-        observer.observe(element);
-      });
-    }
-
-    function updateQuantity(index, newQty) {
-      const qty = parseInt(newQty);
-      if(qty < 1) return;
-      cart[index].quantity = qty;
-      saveCart();
-      renderBag();
-    }
-
-    function removeItem(index) {
-      cart.splice(index,1);
-      saveCart();
-      renderBag();
-    }
-
-    document.getElementById("book-btn").addEventListener("click", () => {
-      if(cart.length === 0) {
-        alert("Your bag is empty!");
-        return;
-      }
-      alert("✅ Your products have been booked successfully!");
-      cart = [];
-      saveCart();
-      renderBag();
-    });
-
-    document.getElementById("clear-btn").addEventListener("click", () => {
-      if(cart.length === 0) return;
-      if(confirm("Are you sure you want to clear the bag?")) {
+    push(ref(db, "orders"), orderData)
+      .then(() => {
+        alert("✅ Order placed successfully!");
         cart = [];
-        saveCart();
+        localStorage.removeItem("cartItems");
         renderBag();
-      }
-    });
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Order failed");
+      });
+  });
 
-    renderBag();
-
-
-  </script>
+  document.getElementById("clear-btn").addEventListener("click", () => {
+    if (!cart.length) return;
+    if (confirm("Clear bag?")) {
+      cart = [];
+      localStorage.removeItem("cartItems");
+      renderBag();
+    }
+  });
+</script>
 
 </body>
 </html>

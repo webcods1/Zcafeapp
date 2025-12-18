@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZCafe Admin Panel</title>
+    <link rel="stylesheet" href="desktop.css">
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        .admin-header { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        select { padding: 10px; font-size: 16px; width: 100%; max-width: 300px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        
+        .orders-container { margin-top: 20px; }
+        .order-card { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 5px solid #28a745; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .order-card h3 { margin: 0 0 5px 0; color: #333; }
+        .order-card p { margin: 5px 0; color: #666; }
+        .loading { text-align: center; color: #888; margin-top: 20px; display: none;}
+    </style>
+</head>
+<body>
+
+<div class="admin-header">
+  <h2>ZCafe Branch Admin</h2>
+  <p id="branch-label"></p>
+  <button onclick="logoutAdmin()" style="margin-top:10px;padding:8px 14px;border:none;background:#dc3545;color:#fff;border-radius:5px;cursor:pointer;">
+    Logout
+  </button>
+</div>
+
+    <div id="loading-msg" class="loading">Loading data...</div>
+    <div id="orders-list" class="orders-container"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  query,
+  orderByChild,
+  equalTo,
+  onValue,
+  update,
+  remove
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+/* ================= AUTH CHECK ================= */
+const adminBranch = localStorage.getItem("adminBranch");
+if (!adminBranch) {
+  alert("Unauthorized access!");
+  window.location.href = "admin-login.html";
+}
+
+/* ================= UI ================= */
+document.getElementById("branch-label").textContent =
+  `Logged in Branch: ${adminBranch}`;
+
+/* ================= FIREBASE ================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyBD_s0bu-ei-bsdPDIFaDF6gbuck-85hbM",
+  authDomain: "zcafe-65f97.firebaseapp.com",
+  databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com",
+  projectId: "zcafe-65f97",
+  storageBucket: "zcafe-65f97.firebasestorage.app",
+  messagingSenderId: "480288327990",
+  appId: "1:480288327990:web:9c79040289023919034b97"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const ordersList = document.getElementById("orders-list");
+const loadingMsg = document.getElementById("loading-msg");
+
+/* ================= LOAD ORDERS ================= */
+function loadOrders() {
+  loadingMsg.style.display = "block";
+  ordersList.innerHTML = "";
+
+  const ordersRef = ref(db, "orders");
+  const branchQuery = query(
+    ordersRef,
+    orderByChild("customerLocation"),
+    equalTo(adminBranch)
+  );
+
+  onValue(branchQuery, (snapshot) => {
+    loadingMsg.style.display = "none";
+    ordersList.innerHTML = "";
+
+    if (!snapshot.exists()) {
+      ordersList.innerHTML =
+        `<p style="text-align:center;color:#888;">No orders for ${adminBranch}</p>`;
+      return;
+    }
+
+    const data = snapshot.val();
+    Object.keys(data).reverse().forEach(id => {
+      const order = data[id];
+      renderOrder(order, id);
+    });
+  });
+}
+
+/* ================= RENDER CARD ================= */
+function renderOrder(order, id) {
+  const div = document.createElement("div");
+  div.className = "order-card";
+  div.style.borderLeft =
+    order.status === "Completed" ? "5px solid #28a745" : "5px solid #ffa500";
+
+  const items = order.items.map(i =>
+    `<li>${i.name} — <b>Qty: ${i.quantity}</b></li>`
+  ).join("");
+
+  div.innerHTML = `
+    <h3>${order.customerCompany || "Regular Customer"}</h3>
+    <small>${order.timestamp}</small>
+
+    <p><b>📞 Phone:</b> ${order.customerPhone}</p>
+    <p><b>📍 Address:</b> ${order.customerAddress || "N/A"}</p>
+
+    <ul>${items}</ul>
+
+    <div style="margin-top:10px;display:flex;gap:10px;">
+      <button onclick="markComplete('${id}')" style="flex:1;background:#28a745;color:#fff;border:none;padding:8px;">Done</button>
+      <button onclick="deleteOrder('${id}')" style="flex:1;background:#dc3545;color:#fff;border:none;padding:8px;">Delete</button>
+    </div>
+  `;
+
+  ordersList.appendChild(div);
+}
+
+/* ================= ACTIONS ================= */
+window.markComplete = (id) => {
+  if (confirm("Mark order as completed?")) {
+    update(ref(db, `orders/${id}`), { status: "Completed" });
+  }
+};
+
+window.deleteOrder = (id) => {
+  if (confirm("Delete this order permanently?")) {
+    remove(ref(db, `orders/${id}`));
+  }
+};
+
+window.logoutAdmin = () => {
+  localStorage.removeItem("adminBranch");
+  window.location.href = "admin-login.html";
+};
+
+/* ================= INIT ================= */
+loadOrders();
+</script>
+
+</body>
+</html>
