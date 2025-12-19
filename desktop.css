@@ -578,7 +578,6 @@ nav {
   height: 150px;
   object-fit: contain;
   display: block;
-  margin-top: 10px;
 
   /* Smooth fade-in appearance */
   opacity: 1 !important;
@@ -605,6 +604,7 @@ nav {
     gap: 8px;
     background: #ffffff;
     color: #fff;
+    margin-top: 10px;
   }
 
 .product-info h3 {
@@ -639,6 +639,7 @@ nav {
   outline: none;
   transition: border-color 0.2s;
   flex-shrink: 0;
+  margin-top: 40px;
 }
 
 .product-info input.quantity-input:focus {
@@ -651,6 +652,7 @@ nav {
   cursor: pointer;
   padding: 5px;
   flex-shrink: 0;
+  margin-top: 40px;
 }
 
 .product-info button.wishlist-btn svg {
@@ -669,7 +671,6 @@ nav {
   transition: background 0.3s;
   width: 100%;
   max-width: 140px;
-  margin-bottom: 40px;
 }
 
 .product-info button.add-cart-btn:hover {

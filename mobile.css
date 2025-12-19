@@ -581,6 +581,19 @@ html, body {
   height: 20px;
   text-align: center;
   font-size: 0.7rem;
+  margin-top: -50px;
+}
+.product-info button.wishlist-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  flex-shrink: 0;
+  margin-top: -50px;
+}
+
+.product-info button.wishlist-btn svg {
+  fill: #ff0000;
 }
 
 /* Add to cart button */
@@ -593,7 +606,7 @@ html, body {
   height: 25px;
   font-size: 0.65rem;
   border-radius: 4px;
-  margin-top: -5px;
+  margin-top: -50px;
 }
   /* ===== Services Section ===== */
   .services-section {
