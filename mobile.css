@@ -135,8 +135,16 @@ html, body {
   overflow: hidden;
   height: 260px; /* MOBILE DEFAULT */
   margin-bottom: -50px;
+  margin-top: -10px;
 }
-
+/* Small phones */
+@media (max-width: 800px) {
+  .carousel-slides {
+    height: 300px;
+    margin-top: -40px;
+    margin-bottom: -60px;
+  }
+}
 /* EACH SLIDE */
 .banner-slide {
   position: absolute;
@@ -602,7 +610,7 @@ html, body {
   color: #fff;
   border: none;
   width: 100%;
-  max-width: 85px;
+  max-width: 110px;
   height: 25px;
   font-size: 0.65rem;
   border-radius: 4px;
