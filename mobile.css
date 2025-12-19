@@ -124,6 +124,9 @@ html, body {
   width: 100%;
   background: #ffffff;
   overflow: hidden;
+  margin-top:20px;
+  height: 180px;
+
 }
 
 /* SLIDES WRAPPER */
@@ -135,7 +138,7 @@ html, body {
   overflow: hidden;
   height: 260px; /* MOBILE DEFAULT */
   margin-bottom: -50px;
-  margin-top: -10px;
+  margin-top:-20px;
 }
 /* Small phones */
 @media (max-width: 800px) {
@@ -174,6 +177,7 @@ html, body {
   object-fit: contain; /* important for mobile */
   background: #000;
   display: block;
+  margin-top:-20px;
 }
 
 /* DOT NAVIGATION */
@@ -667,47 +671,129 @@ html, body {
   to { left: 100%; }      /* Move full screen */
 }
 /* ===== About Us & Connect Sections ===== */
-.about-us-section,
-.connect-section {
+/* ================= ABOUT US SECTION ================= */
+
+.about-us-section {
   max-width: 1200px;
   margin: 40px auto;
   padding: 0 15px;
   text-align: center;
+  clear: both; /* stays below floated elements */
 }
 
-.about-us-section {
-  clear: both; /* Ensure it appears below the floated service image */
-}
-
-.about-us-section h2,
-.connect-section h2 {
+.about-us-section h2 {
   margin-bottom: 20px;
   color: #333;
+  font-size: 1.2rem;
+
   opacity: 0;
   transform: translateY(20px);
-  font-size: 1.2rem;
 }
 
-.about-us-section h2.visible,
+.about-us-section h2.visible {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.about-us-section p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.about-us-section p.visible {
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+/* ================= CONNECT WITH US SECTION ================= */
+
+/* CONNECT SECTION */
+/* ================= CONNECT SECTION ================= */
+
+.connect-section {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 15px;
+  text-align: center;
+}
+
+/* Hidden by default */
+.connect-section h2,
+.connect-section p,
+.connect-section .connect-details {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Heading */
+.connect-section h2 {
+  margin-bottom: 6px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Paragraph spacing FIX */
+.connect-section p {
+  margin: 4px 0;          /* reduced gap */
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #555;
+}
+
+/* Contact details */
+.connect-details p {
+  margin: 3px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* Links */
+.connect-details a {
+  color: #aa0a0a;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.connect-details a:hover {
+  text-decoration: underline;
+}
+
+/* Visible animation */
 .connect-section h2.visible {
   animation: fadeIn 0.8s ease-out forwards;
 }
 
-.about-us-section p,
-.connect-section p {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #555;
-  opacity: 0;
-  transform: translateY(20px);
+.connect-section p.visible,
+.connect-section .connect-details.visible {
+  animation: fadeIn 0.8s ease-out 0.2s forwards;
 }
 
-.about-us-section p.visible,
-.connect-section p.visible {
-  animation: fadeIn 0.8s ease-out 0.2s both;
+/* Animation */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* ================= MOBILE TUNING ================= */
 
+@media (max-width: 480px) {
+  .connect-section {
+    margin: 25px auto;
+  }
+
+  .connect-section h2 {
+    font-size: 1.1rem;
+  }
+
+  .connect-section p,
+  .connect-details p {
+    font-size: 0.9rem;
+    margin: 2px 0;
+  }
+}
   /* ===== Profile Page ===== */
   body > div:first-child svg {
     width: 70px;
