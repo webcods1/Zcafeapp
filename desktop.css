@@ -258,8 +258,7 @@ nav {
 
 .products-section h2 {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 800;
+  font-size: 2rem;
   color: #111;
   text-align: center;
   margin: 12px 0 16px;
@@ -350,6 +349,78 @@ nav {
   background: #880808;
 }
 
+.premium {
+  color: #000000;
+  margin-top: 7px;
+
+}
+.premium-title {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222333;
+  margin: 6px 0 4px;
+  line-height: 1.2;
+  max-height: 100%;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: break-word;
+  padding: 0 6px;
+  margin-top: -5px;
+}
+.title-line {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222333;
+  margin: 6px 0 4px;
+  line-height: 1.2;
+  max-height: 100%;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: break-word;
+  padding: 0 6px;
+  margin-top: -5px;
+}
+
+.title-line.bold {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222333;
+  margin: 6px 0 4px;
+  line-height: 1.2;
+  max-height: 100%;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  word-break: break-word;
+  padding: 0 6px;
+  margin-top: -5px;
+}
+.premium-rating {
+  font-size: 0.85rem;
+  color: #000000;
+  margin-top: 4px;
+}
+.premium-product-link {
+  display: inline-block;
+  background: #ae0707;
+  color: #fff;
+  padding: 6px 12px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 2px;
+  margin-top: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* Shop All Products CTA */
 .shop-button {
