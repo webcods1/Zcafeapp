@@ -73,6 +73,7 @@ html, body {
     right: 0;
     z-index: 100;
     transition: transform 0.3s ease;
+    background-color: #000000;
   }
   nav.hidden {
     transform: translateY(-100%);
@@ -314,7 +315,7 @@ html, body {
   align-items: center;
   gap: 8px;
   padding: 10px;
-  background: #fff;
+  background: #000000;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(255, 255, 255, 0.06);
   /* Scroll reveal animation */
@@ -346,7 +347,7 @@ html, body {
   display: block;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #222333;
+  color: #ffffff;
   margin: 6px 0 4px;
   line-height: 1.2;
   max-height: none;
@@ -366,7 +367,7 @@ html, body {
   display: block;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #222333;
+  color: #ffffff;
   margin: 6px 0 4px;
   line-height: 1.2;
   max-height: 100%;
@@ -381,7 +382,7 @@ html, body {
   display: block;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #222333;
+  color: #ffffff;
   margin: 6px 0 4px;
   line-height: 1.2;
   max-height: 100%;
@@ -397,7 +398,7 @@ html, body {
   display: block;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #222333;
+  color: #ffffff;
   margin: 6px 0 4px;
   line-height: 1.2;
   max-height: 100%;
@@ -410,7 +411,7 @@ html, body {
 }
 .premium-rating {
   font-size: 0.85rem;
-  color: #000000;
+  color: #ffffff;
   margin-top: 4px;
 }
 .premium-product-link {
@@ -428,6 +429,11 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.rating {
+  font-size: 0.85rem;
+  color: #ffffff;
+  margin-top: 4px;
 }
 /* Shop All Products CTA */
 .shop-button {
@@ -547,6 +553,116 @@ html, body {
   flex-direction: column;
   overflow: hidden;
 }
+.product-card.searched {
+  max-width: 160px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  padding: 10px;
+  cursor: pointer;
+  animation: fadeIn 0.45s ease forwards;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover effect */
+.product-card.searched:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Product image */
+.product-card.searched img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  background: #f3f3f3;
+}
+
+/* Product title */
+.product-card.searched h2 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 50px;
+  color: #222;
+  line-height: 1.2;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.product-card.searched{
+
+.product-info {
+  flex: 1;
+  padding: 4px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-top: 75px; /* pulls text closer to image */
+}
+.product-info h3 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  max-height: 24px;
+  margin: 0;        /* remove extra spacing */
+  padding: 0;
+  overflow: hidden;
+  margin-top: -50px;
+}
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  width: 100%;
+  height: 200px; /* slightly reduced */
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .product-card img {
+  width: auto;
+  max-width: 100%;
+  height: 75px;   /* slightly smaller */
+  object-fit: contain;
+  margin: 0 auto; /* center horizontally */
+  padding-top: 6px;
+}
+
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+}
+/* Price text */
+
+/* Small action button */
+/* ===== Product Images ===== */
+.product-card {
+  background: #fff;
+  border-radius: 10px;
+  width: 100%;
+  height: 200px; /* slightly reduced */
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
 /* Image on top */
 .product-card img {
@@ -621,54 +737,73 @@ html, body {
   margin-top: -50px;
 }
   /* ===== Services Section ===== */
-  .services-section {
-    padding: 60px 20px 120px;
-    text-align: center;
-  }
+/* ===== Services Section ===== */
+.services-section {
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+  padding: 40px 20px 100px; /* added bottom padding for button */
+  text-align: center;
+  overflow: hidden;
+  min-height: 250px;
+}
 
+/* Heading */
+.services-section h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 400px;
+  color: #000000;
+  margin-top: -10px;
+}
+
+/* Road Track */
   .service-track {
-    width: 600px;
+    width: 2000px;
     margin-inline-start:-30px;
     height: 6px;
     background: #000;
-    border-radius: 10px;
-    margin-top: 110px;
-    position: relative;
+    margin-top: 115px;
+    position:absolute;
   }
 
-  .service-button {
-    width: 60px;
-    height: 60px;
-    background: #aa0a0a;
-    border-radius: 50%;
-    color: #fff;
-    border: none;
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-  }
-  /* Heading */
-.services-section h2 {
-  font-size: 1.2rem;
-  font-weight: 400px;
-  color: #000000;
-  margin-top: -40px;
+/* Service Button */
+.service-button {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  background: #aa0a0a;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.service-button:hover {
+  background: #4d3d3d;
+}
 
+/* Vehicle Image */
 .service-vehicle {
   width: 100px;
-  position: absolute;
-  bottom: 105px;
-  left: 0px;              /* Vehicle visible on the left */
-  animation: ride 2s linear forwards;
+  position:absolute;
+  bottom: -2px;
+  left: 10px;              /* Vehicle visible on the left */
+  animation: ride 4s linear forwards;
   animation-play-state: paused;
 }
 
 @keyframes ride {
   from { left: 0px; }     /* Start visible */
-  to { left: 100%; }      /* Move full screen */
+  to { left: 900px }      /* Move full screen */
 }
 /* ===== About Us & Connect Sections ===== */
 /* ================= ABOUT US SECTION ================= */
