@@ -115,7 +115,141 @@ html, body {
     button[onclick="window.history.back()"]:hover {
       background: #880808;
     }
+/* MOBILE STYLES */
+@media screen and (max-width: 768px) {
+  
+  .collage-container {
+    flex-direction: column; /* Stack vertically */
+    height: auto;
+    gap: 20px;
+  }
 
+  .main-feature-area {
+    width: 100%;
+    height: 420px; /* Fixed height for the square-ish look */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feature-slide img {
+    max-height: 200px;
+    margin: 60px auto; /* Center image between top head and bottom button */
+  }
+
+  /* Position details to cover the area for Top/Bottom alignment */
+  .feature-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Head at top, Button at bottom */
+    padding: 20px;
+    box-sizing: border-box;
+    pointer-events: none; /* Allows arrow clicks through the div */
+  }
+
+  /* Heading: Left Top */
+  .feature-details h3 {
+    font-size: 1.3rem;
+    margin: 0;
+    text-align: left;
+    pointer-events: auto;
+  }
+
+  /* Rating: Under Head */
+  .rating {
+    text-align: left;
+    margin-top: 5px;
+    color: #000;
+    pointer-events: auto;
+  }
+
+  /* Add to Cart: Bottom Center */
+  .cart-btn {
+    align-self: center; /* Horizontally centered */
+    margin-bottom: 10px;
+    pointer-events: auto;
+    background-color: #5d4037;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  /* Sidebar: Horizontal Row */
+  .thumbnail-sidebar {
+    display: flex;
+    flex-direction: row;
+    grid-template-columns: none;
+    overflow-x: auto; /* Swipe left/right */
+    padding: 10px 0;
+    gap: 12px;
+  }
+
+  .thumb-item {
+    flex: 0 0 80px; /* Force small size */
+    height: 80px;
+  }
+
+  .nav-arrow {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
+}
+.scroll-container {
+  width: 100%;
+  padding: 20px 0;
+  background-color: #fdfbf7; /* Earthy background */
+  overflow: hidden; /* Container hides overflow */
+  margin-top: 20px;
+}
+
+.image-scroll-row {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto; /* Enables horizontal scroll */
+  padding: 10px 20px;
+  scroll-behavior: smooth;
+  /* Hide scrollbar for Chrome/Safari/Opera */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Scroll Item Box */
+.scroll-item {
+  flex: 0 0 100px; /* Fixed small width */
+  height: 100px; /* Fixed small height */
+  background: #ffffff;
+  border: 1px solid #e0d9d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.scroll-item img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+.scroll-item:hover {
+  transform: translateY(-5px);
+  border-color: #5d4037;
+}
+
+/* Hide scrollbar for a modern look */
+.image-scroll-row::-webkit-scrollbar {
+  display: none;
+}
+.image-scroll-row {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 /* =============================================================== */
 /* ====================== BANNER / CAROUSEL ====================== */
 /* =============================================================== */
@@ -289,7 +423,8 @@ html, body {
 
   .main-feature-area {
     width: 100%;
-    height: 350px; /* Shorter height for mobile screens */
+    height: 350px;
+     /* Shorter height for mobile screens */
   }
 
   .feature-slide img {
@@ -305,7 +440,8 @@ html, body {
 
   .feature-details h3 {
     font-size: 1.2rem;
-    margin-left: -20px;
+    margin-left: -10px;
+    margin-top: 10px;
   }
 
   /* Transform Sidebar into a horizontal scrollable strip */
@@ -346,11 +482,12 @@ html, body {
   }
   .rating {
    color: #000000;
-    margin-bottom: 100px;
+    margin-bottom: -200px;
+    margin-left:125px;
 
   }
   .cart-btn {
-  background-color:rgb(176, 16, 16); /* Dark Earthy Brown */
+  background-color:rgb(162, 117, 38); /* Dark Earthy Brown */
   color: #ffffff;
   border: none;
   padding: 1px;
@@ -363,8 +500,8 @@ html, body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom:-15px;
-  margin-left: 95px;
+  margin-bottom:10px;
+  margin-left: 5px;
 }
 
 .cart-btn:hover {
@@ -377,94 +514,6 @@ html, body {
   transform: translateY(0);
 }
 
-}/* Shop All Products CTA */
-.shop-button {
-  display: inline-block;
-  margin: 14px auto 0;
-  background: #000000;
-  color: #fff;
-  padding: 10px 18px;
-  text-decoration: none;
-  font-weight: 700;
-  text-align: center;
-  min-width: 140px;
-  max-width: 92%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-.shop-button:active {
-  background: #880808;
-  transform: translateY(1px);
-}
-
-
-.product-img {
-  width: 100%;
-  height: 96px;
-  object-fit: contain;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-.divider {
-  border: none;
-  border-top: 1px solid #f0f0f0;
-  margin: 0;
-}
-
-.product-link {
-  display: inline-block;
-  background: #ae0707;
-  color: #fff;
-  padding: 6px 12px;
-  text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 600;
-  transition: background 0.18s ease;
-  -webkit-tap-highlight-color: transparent;
-  min-height: 2px;
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.product-link:active {
-  background: #880808;
-}
-
-/* 
-/* ===== Slide-In Animations (Left & Right) ===== */
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Odd-numbered rows slide in from left */
-.products-list .product-row:nth-child(odd).animate-slide-left {
-  animation: slide-in-left 1.5s ease-out forwards;
-}
-
-/* Even-numbered rows slide in from right */
-.products-list .product-row:nth-child(even).animate-slide-left {
-  animation: slide-in-right 1.5s ease-out forwards;
 }
 
 /* ===== Product Grid (Improved) ===== */

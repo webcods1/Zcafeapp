@@ -1100,8 +1100,8 @@ nav {
 
 .collage-header h2 {
   text-transform: uppercase;
-  letter-spacing: 2px;
   color: #4a3728;
+  font-family: 'Poppins', sans-serif;
 }
 
 .collage-container {
