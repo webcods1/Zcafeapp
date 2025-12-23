@@ -120,72 +120,54 @@
     </div>
   </section>
 
-  <!-- ===== Products Section ===== -->
-  <section class="products-section" id="original-products">
-    <h2>Featured Products</h2>
-    <p>Discover our selection of premium beverages, crafted to perfection for your enjoyment</p>
-    
-    <div class="products-list">
-      <div class="product-row animate-slide-left" style="animation-delay: 0s;">
-        <img src="public/zcoffepre.png" alt="Premium Coffee" class="product-thumb">
-        <div class="premium">
-<h3 class="premium-title">
-  <span class="title-line">Premium</span>
-  <span class="title-line bold">Coffee</span>
-</h3>
-          <div class="premium-rating">★★★★★</div>
-          <a href="purchase.html?product=Coffee%20Premium" class="premium-product-link">View Product</a>
-        </div>
-      </div>
+<section class="products-collage" id="tea-varieties">
+  <div class="collage-header">
+    <h2>Tea Premix & Varieties</h2>
+    <p>Premium blends crafted for your perfect cup</p>
+  </div>
 
-      <div class="product-row animate-slide-left" style="animation-delay: 0.1s;">
-        <img src="public/ztea.png" alt="Premium Tea" class="product-thumb">
-        <div class="product-details">
-          <h3 class="product-title">Premium Tea</h3>
-          <div class="rating">★★★★★</div>
-          <a href="purchase.html?product=Tea%20Premium" class="product-link">View Product</a>
+  <div class="collage-container">
+    <div class="main-feature-area">
+      <div class="carousel-track" id="main-carousel">
+        <div class="feature-slide active">
+          <img src="public/zcoffepre.png" alt="Featured Product" id="display-img">
+          <div class="feature-details">
+            <h3 id="display-title">Premium Coffee</h3>
+            <div class="rating" id="display-rating">★★★★★</div>
+            <button id="add-to-cart-btn" class="cart-btn" onclick="addToCart()">
+               <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+          </div>
         </div>
       </div>
-
-      <div class="product-row animate-slide-left" style="animation-delay: 0.2s;">
-        <img src="public/cappuccino.png" alt="Cappuccino" class="product-thumb">
-        <div class="product-details">
-          <h3 class="product-title">Cappuccino</h3>
-          <div class="rating">★★★★☆</div>
-          <a href="purchase.html?product=Cappuccino" class="product-link">View Product</a>
-        </div>
-      </div>
-
-      <div class="product-row animate-slide-left" style="animation-delay: 0.3s;">
-        <img src="public/boost.png" alt="Milk Boost" class="product-thumb">
-        <div class="product-details">
-          <h3 class="product-title">Milk Boost</h3>
-          <div class="rating">★★★★★</div>
-          <a href="purchase.html?product=Milk%20Boost" class="product-link">View Product</a>
-        </div>
-      </div>
-
-      <div class="product-row animate-slide-left" style="animation-delay: 0.4s;">
-        <img src="public/zcoffe.png" alt="Coffee Non Sugar" class="product-thumb">
-        <div class="product-details">
-          <h3 class="product-title">Diet Coffee</h3>
-          <div class="rating">★★★★☆</div>
-          <a href="purchase.html?product=Coffee%20Non%20sugar" class="product-link">View Product</a>
-        </div>
-      </div>
-
-      <div class="product-row animate-slide-left" style="animation-delay: 0.5s;">
-        <img src="public/horlicks.png" alt="Milk Horlicks" class="product-thumb">
-        <div class="product-details">
-          <h3 class="product-title">Milk Horlicks</h3>
-          <div class="rating">★★★★★</div>
-          <a href="purchase.html?product=Milk%20Horlicks" class="product-link">View Product</a>
-        </div>
-      </div>
+      
+      <button class="nav-arrow prev" onclick="moveSlide(-1)">&#10094;</button>
+      <button class="nav-arrow next" onclick="moveSlide(1)">&#10095;</button>
     </div>
 
-    <a href="purchase.html" class="shop-button">Shop All Products</a>
-  </section>
+    <div class="thumbnail-sidebar">
+      <div class="thumb-item active" onclick="updateMain(0, 'public/zcoffepre.png', 'Premium Coffee', '★★★★★')">
+        <img src="public/zcoffepre.png" alt="Coffee">
+      </div>
+      <div class="thumb-item" onclick="updateMain(1, 'public/ztea.png', 'Premium Tea', '★★★★★')">
+        <img src="public/ztea.png" alt="Tea">
+      </div>
+      <div class="thumb-item" onclick="updateMain(2, 'public/cappuccino.png', 'Cappuccino', '★★★★☆')">
+        <img src="public/cappuccino.png" alt="Cappuccino">
+      </div>
+      <div class="thumb-item" onclick="updateMain(3, 'public/boost.png', 'Milk Boost', '★★★★★')">
+        <img src="public/boost.png" alt="Boost">
+      </div>
+      <div class="thumb-item" onclick="updateMain(4, 'public/zcoffe.png', 'Diet Coffee', '★★★★☆')">
+        <img src="public/zcoffe.png" alt="Diet Coffee">
+      </div>
+      <div class="thumb-item" onclick="updateMain(5, 'public/horlicks.png', 'Milk Horlicks', '★★★★★')">
+        <img src="public/horlicks.png" alt="Horlicks">
+      </div>
+    </div>
+  </div>
+</section>
+
 
   <!-- ===== Services ===== -->
   <section class="services-section">
@@ -607,7 +589,94 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
   );
 
   connectObserver.observe(connectSection);
+const products = [
+  { img: 'public/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
+  { img: 'public/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
+  { img: 'public/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
+  { img: 'public/boost.png', title: 'Milk Boost', rate: '★★★★★' },
+  { img: 'public/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
+  { img: 'public/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' }
+];
 
+let currentIndex = 0;
+
+function updateMain(index, img, title, rate) {
+  currentIndex = index;
+  
+  // Animation: Slide effect
+  const mainImg = document.getElementById('display-img');
+  mainImg.style.opacity = '0';
+  mainImg.style.transform = 'translateX(20px)';
+  
+  setTimeout(() => {
+    mainImg.src = img;
+    document.getElementById('display-title').innerText = title;
+    document.getElementById('display-link').href = `purchase.html?product=${encodeURIComponent(title)}`;
+    
+    mainImg.style.opacity = '1';
+    mainImg.style.transform = 'translateX(0)';
+    
+    // Update active thumbnail
+    document.querySelectorAll('.thumb-item').forEach((item, i) => {
+      item.classList.toggle('active', i === index);
+    });
+  }, 300);
+}
+
+function moveSlide(direction) {
+  currentIndex += direction;
+  if (currentIndex >= products.length) currentIndex = 0;
+  if (currentIndex < 0) currentIndex = products.length - 1;
+  
+  const p = products[currentIndex];
+  updateMain(currentIndex, p.img, p.title, p.rate);
+}
+const product = [
+  { img: 'public/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
+  { img: 'public/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
+  { img: 'public/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
+  { img: 'public/boost.png', title: 'Milk Boost', rate: '★★★★★' },
+  { img: 'public/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
+  { img: 'public/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' }
+];
+
+let purchase = 0;
+
+function updateMain(index, img, title, rate) {
+  currentIndex = index;
+  const mainImg = document.getElementById('display-img');
+  
+  // Quick fade-out effect
+  mainImg.style.opacity = '0.5';
+  
+  setTimeout(() => {
+    mainImg.src = img;
+    document.getElementById('display-title').innerText = title;
+    document.getElementById('display-rating').innerText = rate;
+    mainImg.style.opacity = '1';
+    
+    // Highlight active thumbnail
+    document.querySelectorAll('.thumb-item').forEach((item, i) => {
+      item.classList.toggle('active', i === index);
+    });
+  }, 200);
+}
+
+function moveSlide(direction) {
+  currentIndex += direction;
+  if (currentIndex >= products.length) currentIndex = 0;
+  if (currentIndex < 0) currentIndex = products.length - 1;
+  
+  const p = products[currentIndex];
+  updateMain(currentIndex, p.img, p.title, p.rate);
+}
+
+// Logic for the Add to Cart action
+function addToCart() {
+  const currentProduct = products[currentIndex].title;
+  alert(currentProduct + " has been added to your cart!");
+  // Here you can add your actual cart logic (e.g., updating a cart counter)
+}
 </script>
 <!-- Bootstrap 5 JS Bundle (includes Popper) -->
 <script

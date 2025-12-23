@@ -1087,5 +1087,123 @@ nav {
   animation-range: entry 0% cover 30%;
   animation-play-state: paused;
 }
+.products-collage {
+  padding: 50px 5%;
+  background-color: #fdfbf7; /* Earthy off-white */
+  font-family: 'Arial', sans-serif;
+}
 
+.collage-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.collage-header h2 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #4a3728;
+}
+
+.collage-container {
+  display: flex;
+  gap: 20px;
+  height: 500px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Big Image Styles */
+.main-feature-area {
+  flex: 2;
+  position: relative;
+  border: 1px solid #e0d9d0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-slide img {
+  max-height: 350px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.feature-details {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  padding: 15px;
+}
+
+/* Sidebar Styles */
+.thumbnail-sidebar {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.thumb-item {
+  background: #f4f1ee;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.thumb-item:hover, .thumb-item.active {
+  border-color: #8b5e3c;
+  background: #fff;
+}
+
+.thumb-item img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Nav Arrows */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(74, 55, 40, 0.7);
+  color: white;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+}
+.next { right: 0; }
+.prev { left: 0; }
+/* Styling for the Add to Cart Button */
+.cart-btn {
+  background-color: #5d4037; /* Dark Earthy Brown */
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.cart-btn:hover {
+  background-color: #3e2723;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.cart-btn:active {
+  transform: translateY(0);
+}
 
