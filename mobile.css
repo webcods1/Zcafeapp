@@ -196,40 +196,35 @@ html, body {
   scrollbar-width: none;  /* Firefox */
 }
 
-/*=============================================================== */
-/* ====================== BANNER / CAROUSEL ====================== */
+/* =============================================================== */
+/* ====================== BANNER CAROUSEL ======================== */
 /* =============================================================== */
 
 .banner-carousel {
   position: relative;
   width: 100%;
   background: #ffffff;
+  margin-top: 20px;
+  height: 200px;
   overflow: hidden;
-  margin-top:20px;
-  height: 180px;
-
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
-/* SLIDES WRAPPER */
+/* ================= SLIDES WRAPPER ================= */
+
 .carousel-slides {
   position: relative;
   width: 100%;
   max-width: 1900px;
   margin: 0 auto;
+  height: 260px; /* Mobile default */
   overflow: hidden;
-  height: 260px; /* MOBILE DEFAULT */
-  margin-bottom: -50px;
-  margin-top:-30px;
+  border-radius: 16px;
 }
-/* Small phones */
-@media (max-width: 800px) {
-  .carousel-slides {
-    height: 300px;
-    margin-top: -40px;
-    margin-bottom: -20px;
-  }
-}
-/* EACH SLIDE */
+
+/* ================= EACH SLIDE ================= */
+
 .banner-slide {
   position: absolute;
   inset: 0;
@@ -242,34 +237,39 @@ html, body {
   z-index: 1;
 }
 
-/* IMAGE BANNERS */
+/* ================= IMAGE BANNERS ================= */
+
 .banner-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
+  border-radius: inherit;
 }
 
-/* VIDEO BANNERS */
+/* ================= VIDEO BANNERS ================= */
+
 .banner-video {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* important for mobile */
+  object-fit: contain; /* mobile friendly */
   background: #000;
   display: block;
-  margin-top:-20px
+  border-radius: inherit;
+  margin-top: -40px;
 }
 
-/* DOT NAVIGATION */
+/* ================= DOT NAVIGATION ================= */
+
 .carousel-dots {
   position: absolute;
-  bottom: 10px;
+  bottom: 12px;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   z-index: 5;
 }
 
@@ -277,30 +277,42 @@ html, body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255, 255, 255, 0.5);
   border: none;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .dot.active {
-  background: #fff;
+  background: #ffffff;
   width: 10px;
   height: 10px;
 }
 
 /* =============================================================== */
-/* ====================== SMALL DEVICES (sm) ===================== */
+/* ====================== SMALL PHONES =========================== */
 /* =============================================================== */
-@media (min-width: 576px) {
+
+@media (max-width: 576px) {
   .carousel-slides {
-    height: 260px;
-    width: 1200px;
+    height: 240px;
   }
 }
 
 /* =============================================================== */
-/* ====================== TABLET (md) ============================ */
+/* ====================== MOBILE / TABLET ======================== */
 /* =============================================================== */
+
+@media (min-width: 576px) {
+  .carousel-slides {
+    height: 280px;
+  }
+}
+
+/* =============================================================== */
+/* ====================== TABLET ================================ */
+/* =============================================================== */
+
 @media (min-width: 768px) {
   .carousel-slides {
     height: 340px;
@@ -312,8 +324,9 @@ html, body {
 }
 
 /* =============================================================== */
-/* ====================== LAPTOP (lg) ============================ */
+/* ====================== LAPTOP ================================ */
 /* =============================================================== */
+
 @media (min-width: 992px) {
   .carousel-slides {
     height: 400px;
@@ -323,67 +336,133 @@ html, body {
 /* =============================================================== */
 /* ====================== DESKTOP / XL =========================== */
 /* =============================================================== */
+
 @media (min-width: 1200px) {
   .carousel-slides {
     height: 460px;
   }
-} 
+}
 /* Mobile Responsive Adjustments */
 @media screen and (max-width: 768px) {
-  
+
+  /* ================= COLLAGE LAYOUT ================= */
+
+@media screen and (max-width: 768px) {
+
+  /* ================= COLLAGE LAYOUT ================= */
+
   .collage-container {
-    flex-direction: column; /* Stack main image over thumbnails */
-    height: auto; /* Allow height to grow based on content */
+    display: flex;
+    flex-direction: column;
     gap: 15px;
+    height: auto;
   }
-.collage-header h2 {
-  text-transform: uppercase;
-  color: #4a3728;
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
-}
+
+  .collage-header h2 {
+    text-transform: uppercase;
+    color: #4a3728;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  /* ================= MAIN FEATURE ================= */
 
   .main-feature-area {
     width: 100%;
-    height: 350px;
-     /* Shorter height for mobile screens */
+    height: auto; /* IMPORTANT */
   }
+
+  .feature-slide {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* ================= PRODUCT IMAGE ================= */
 
   .feature-slide img {
-    max-height:200px;
+    width: 100%;
+    max-height: 230px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
   }
+
+  /* ================= PRODUCT DETAILS ================= */
 
   .feature-details {
-    width: 90%; /* Take up more width on mobile */
-    left: 5%;
-    bottom: 10px;
-    padding: 10px;
-  }
-
-  .feature-details h3 {
-    font-size: 1.1rem;
-    margin-left: -20px;
-    margin-bottom: -10px;
-  }
-  .rating {
-   color: #000000;
-    margin-bottom: -260px;
-    margin-left:-20px;
-  }
-
-  /* Transform Sidebar into a horizontal scrollable strip */
-  .thumbnail-sidebar {
-    display: flex; /* Change from grid to flex for horizontal scroll */
-    flex-direction: row;
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: hidden;
-    padding-bottom: 10px;
-    -webkit-overflow-scrolling: touch; /* Smooth scroll for iOS */
+    position: static; /* REMOVE ABSOLUTE */
+    width: 100%;
+    background: transparent;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 10px;
   }
 
+  /* PRODUCT NAME */
+  .feature-details h3 {
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #2c2c2c;
+    margin: 0;
+    text-align: center;
+  }
+
+  /* REMOVE RATING */
+  .rating {
+    display: none;
+  }
+
+  /* ================= ADD TO CART ================= */
+
+  .cart-btn {
+    background-color: rgb(162, 117, 38);
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .cart-btn:hover {
+    background-color: #3e2723;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  .cart-btn:active {
+    transform: translateY(0);
+  }
+
+  /* ================= THUMBNAILS ================= */
+
+  .thumbnail-sidebar {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .thumb-item {
-    flex: 0 0 80px; /* Fixed width for each thumbnail */
+    flex: 0 0 80px;
     height: 80px;
     padding: 5px;
   }
@@ -391,53 +470,26 @@ html, body {
   .thumb-item img {
     width: 60px;
     height: 60px;
+    object-fit: contain;
   }
 
-  /* Optional: Hide scrollbar for a cleaner look */
+  /* Hide scrollbar */
   .thumbnail-sidebar::-webkit-scrollbar {
     display: none;
   }
+
   .thumbnail-sidebar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
-  /* Adjust navigation arrows for smaller screen */
+  /* ================= NAV ARROWS ================= */
+
   .nav-arrow {
     padding: 10px;
     font-size: 1rem;
   }
-  .cart-btn {
-  background-color:rgb(162, 117, 38); /* Dark Earthy Brown */
-  color: #ffffff;
-  border: none;
-  padding: 1px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top:260px;
-  margin-left: -20px;
 }
-
-.cart-btn:hover {
-  background-color: #3e2723;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.cart-btn:active {
-  transform: translateY(0);
-}
-
-}
-
 /* ===== Product Grid (Improved) ===== */
 .products-wrapper {
   background: white;
@@ -931,4 +983,4 @@ html, body {
     transform: translateY(0);
   }
 }
-
+}
