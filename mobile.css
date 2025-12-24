@@ -73,7 +73,7 @@ html, body {
     right: 0;
     z-index: 100;
     transition: transform 0.3s ease;
-    background-color: #000000;
+    background-color: #ffffff;
   }
   nav.hidden {
     transform: translateY(-100%);
@@ -115,96 +115,40 @@ html, body {
     button[onclick="window.history.back()"]:hover {
       background: #880808;
     }
-/* MOBILE STYLES */
-@media screen and (max-width: 768px) {
-  
-  .collage-container {
-    flex-direction: column; /* Stack vertically */
-    height: auto;
-    gap: 20px;
-  }
-
-  .main-feature-area {
-    width: 100%;
-    height: 420px; /* Fixed height for the square-ish look */
-    display: flex;
-    flex-direction: column;
-  }
-
-  .feature-slide img {
-    max-height: 200px;
-    margin: 60px auto; /* Center image between top head and bottom button */
-  }
-
-  /* Position details to cover the area for Top/Bottom alignment */
-  .feature-details {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Head at top, Button at bottom */
-    padding: 20px;
-    box-sizing: border-box;
-    pointer-events: none; /* Allows arrow clicks through the div */
-  }
-
-  /* Heading: Left Top */
-  .feature-details h3 {
-    font-size: 1.3rem;
-    margin: 0;
-    text-align: left;
-    pointer-events: auto;
-  }
-
-  /* Rating: Under Head */
-  .rating {
-    text-align: left;
-    margin-top: 5px;
-    color: #000;
-    pointer-events: auto;
-  }
-
-  /* Add to Cart: Bottom Center */
-  .cart-btn {
-    align-self: center; /* Horizontally centered */
-    margin-bottom: 10px;
-    pointer-events: auto;
-    background-color: #5d4037;
-    color: white;
-    padding: 12px 30px;
-    border: none;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-
-  /* Sidebar: Horizontal Row */
-  .thumbnail-sidebar {
-    display: flex;
-    flex-direction: row;
-    grid-template-columns: none;
-    overflow-x: auto; /* Swipe left/right */
-    padding: 10px 0;
-    gap: 12px;
-  }
-
-  .thumb-item {
-    flex: 0 0 80px; /* Force small size */
-    height: 80px;
-  }
-
-  .nav-arrow {
-    padding: 10px;
-    font-size: 0.8rem;
-  }
+    /* Search Container */
+.search-container {
+  display: flex;
+  align-items: center;
+  background: transparent;     /* Removed black background */
+  border: 1.5px solid #ccc;    /* New border */
+  border-radius: 30px;
+  padding: 2px 10px;
+  height: 45px;
+  position: relative;
+  width: 100%;
+  max-width: 400px;            /* Corrected width; adjust if needed */
+  transition: border-color 0.2s ease;
 }
-.scroll-container {
+  .search-container img {
+    height: 40px;
+    width: 50px;
+    margin-right: 6px;
+  }
+  .search-container input {
+    font-size: 0.9rem;
+    padding: 4px;
+  }
+  .search-icon {
+    width: 18px;
+    height: 18px;
+    right: 8px;
+  }
+
+
+  .scroll-container {
   width: 100%;
   padding: 20px 0;
-  background-color: #fdfbf7; /* Earthy background */
+  background-color: #ffffff; /* Earthy background */
   overflow: hidden; /* Container hides overflow */
   margin-top: 20px;
 }
@@ -222,24 +166,25 @@ html, body {
 /* Scroll Item Box */
 .scroll-item {
   flex: 0 0 100px; /* Fixed small width */
-  height: 100px; /* Fixed small height */
+  height: 80px; /* Fixed small height */
   background: #ffffff;
   border: 1px solid #e0d9d0;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.3s ease;
+  border-color: #860b0b;
+  border-radius: 10px;
 }
 
 .scroll-item img {
   max-width: 80%;
   max-height: 80%;
-  object-fit: contain;
 }
 
 .scroll-item:hover {
-  transform: translateY(-5px);
-  border-color: #5d4037;
+  border-color: #97d425;
+  transform: scale(1.05);
 }
 
 /* Hide scrollbar for a modern look */
@@ -250,7 +195,8 @@ html, body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-/* =============================================================== */
+
+/*=============================================================== */
 /* ====================== BANNER / CAROUSEL ====================== */
 /* =============================================================== */
 
@@ -273,14 +219,14 @@ html, body {
   overflow: hidden;
   height: 260px; /* MOBILE DEFAULT */
   margin-bottom: -50px;
-  margin-top:-20px;
+  margin-top:-30px;
 }
 /* Small phones */
 @media (max-width: 800px) {
   .carousel-slides {
     height: 300px;
     margin-top: -40px;
-    margin-bottom: -60px;
+    margin-bottom: -20px;
   }
 }
 /* EACH SLIDE */
@@ -312,7 +258,7 @@ html, body {
   object-fit: contain; /* important for mobile */
   background: #000;
   display: block;
-  margin-top:-20px;
+  margin-top:-20px
 }
 
 /* DOT NAVIGATION */
@@ -381,37 +327,7 @@ html, body {
   .carousel-slides {
     height: 460px;
   }
-}
-
-/* Search Container */
-.search-container {
-  display: flex;
-  align-items: center;
-  background: transparent;     /* Removed black background */
-  border: 1.5px solid #ccc;    /* New border */
-  border-radius: 30px;
-  padding: 2px 10px;
-  height: 45px;
-  position: relative;
-  width: 100%;
-  max-width: 400px;            /* Corrected width; adjust if needed */
-  transition: border-color 0.2s ease;
-}
-  .search-container img {
-    height: 40px;
-    width: 50px;
-    margin-right: 6px;
-  }
-  .search-container input {
-    font-size: 0.9rem;
-    padding: 4px;
-  }
-  .search-icon {
-    width: 18px;
-    height: 18px;
-    right: 8px;
-  }
-
+} 
 /* Mobile Responsive Adjustments */
 @media screen and (max-width: 768px) {
   
@@ -420,6 +336,12 @@ html, body {
     height: auto; /* Allow height to grow based on content */
     gap: 15px;
   }
+.collage-header h2 {
+  text-transform: uppercase;
+  color: #4a3728;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+}
 
   .main-feature-area {
     width: 100%;
@@ -439,9 +361,14 @@ html, body {
   }
 
   .feature-details h3 {
-    font-size: 1.2rem;
-    margin-left: -10px;
-    margin-top: 10px;
+    font-size: 1.1rem;
+    margin-left: -20px;
+    margin-bottom: -10px;
+  }
+  .rating {
+   color: #000000;
+    margin-bottom: -260px;
+    margin-left:-20px;
   }
 
   /* Transform Sidebar into a horizontal scrollable strip */
@@ -480,19 +407,14 @@ html, body {
     padding: 10px;
     font-size: 1rem;
   }
-  .rating {
-   color: #000000;
-    margin-bottom: -200px;
-    margin-left:125px;
-
-  }
   .cart-btn {
   background-color:rgb(162, 117, 38); /* Dark Earthy Brown */
   color: #ffffff;
   border: none;
   padding: 1px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;
@@ -500,8 +422,8 @@ html, body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom:10px;
-  margin-left: 5px;
+  margin-top:260px;
+  margin-left: -20px;
 }
 
 .cart-btn:hover {
@@ -742,9 +664,9 @@ html, body {
 /* Heading */
 .services-section h2 {
   font-family: 'Poppins', sans-serif;
-  font-size: 2rem;
+  font-size: 1.2rem;
   font-weight: 400px;
-  color: #000000;
+  color: #4a3728;
   margin-top: -10px;
 }
 
@@ -786,7 +708,7 @@ html, body {
 .service-vehicle {
   width: 100px;
   position:absolute;
-  bottom: -2px;
+  bottom:14px;
   left: 10px;              /* Vehicle visible on the left */
   animation: ride 4s linear forwards;
   animation-play-state: paused;
@@ -809,7 +731,8 @@ html, body {
 
 .about-us-section h2 {
   margin-bottom: 20px;
-  color: #333;
+  color: #4a3728;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.2rem;
 
   opacity: 0;
@@ -856,8 +779,9 @@ html, body {
 /* Heading */
 .connect-section h2 {
   margin-bottom: 6px;
+  color: #4a3728;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.2rem;
-  color: #333;
 }
 
 /* Paragraph spacing FIX */
