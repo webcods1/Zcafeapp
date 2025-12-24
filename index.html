@@ -608,15 +608,26 @@ document.getElementById("wishlist-icon").appendChild(wishlistBadge);
     },
     { threshold: 0.3 }
   );
+function updateMain(index, img, title, rating) {
+  const displayImg = document.getElementById("display-img");
+
+  displayImg.src = img;
+  displayImg.onerror = () => {
+    displayImg.src = "/public/fallback.png";
+  };
+
+  document.getElementById("display-title").textContent = title;
+  document.getElementById("display-rating").textContent = rating;
+}
 
   connectObserver.observe(connectSection);
 const products = [
-  { img: 'public/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
-  { img: 'public/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
-  { img: 'public/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
-  { img: 'public/boost.png', title: 'Milk Boost', rate: '★★★★★' },
-  { img: 'public/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
-  { img: 'public/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' }
+  { img: '/public/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
+  { img: '/public/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
+  { img: '/public/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
+  { img: '/public/boost.png', title: 'Milk Boost', rate: '★★★★★' },
+  { img: '/public/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
+  { img: '/public/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' }
 ];
 
 let currentIndex = 0;
@@ -653,12 +664,12 @@ function moveSlide(direction) {
   updateMain(currentIndex, p.img, p.title, p.rate);
 }
 const product = [
-  { img: 'public/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
-  { img: 'public/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
-  { img: 'public/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
-  { img: 'public/boost.png', title: 'Milk Boost', rate: '★★★★★' },
-  { img: 'public/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
-  { img: 'public/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' }
+  { img: '/public/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
+  { img: '/public/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
+  { img: '/public/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
+  { img: '/public/boost.png', title: 'Milk Boost', rate: '★★★★★' },
+  { img: '/public/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
+  { img: '/public/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' }
 ];
 
 let purchase = 0;
