@@ -1,9 +1,6 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "cleanUrls": false,
-  "trailingSlash": false,
-  "routes": [
-    {
-      "handle": "filesystem"
-    }
-  ]
+  "trailingSlash": false
 }
