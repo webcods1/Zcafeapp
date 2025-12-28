@@ -202,12 +202,13 @@ html, body {
 
 .banner-carousel {
   position: relative;
-  width: 100%;
+  width: 90%;
   background: #ffffff;
-  margin-top: 20px;
-  height: 200px;
+  margin-top: 10px;
+  height: 180px;
   overflow: hidden;
   border-radius: 16px;
+  margin-left:20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
@@ -257,7 +258,8 @@ html, body {
   background: #000;
   display: block;
   border-radius: inherit;
-  margin-top: -40px;
+  margin-top: -55px;
+  margin-left: -1px;
 }
 
 /* ================= DOT NAVIGATION ================= */
