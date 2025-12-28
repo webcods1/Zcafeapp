@@ -16,7 +16,9 @@ export default defineConfig({
         profile: resolve(__dirname, 'profile.html'),
         bag: resolve(__dirname, 'bag.html'),
         service: resolve(__dirname, 'service.html'),
-        wishlist: resolve(__dirname, 'wishlist.html')
+        wishlist: resolve(__dirname, 'wishlist.html'),
+        admin: resolve(__dirname, 'admin.html'),
+        adminLogin: resolve(__dirname, 'admin-login.html')
       }
     }
   }
