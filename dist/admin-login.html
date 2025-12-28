@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ZCafe Admin Login</title>
+  <style>
+    body { font-family: Arial; background:#f4f4f4; }
+    .login-box {
+      max-width: 380px;
+      margin: 80px auto;
+      background:#fff;
+      padding:20px;
+      border-radius:8px;
+      box-shadow:0 2px 6px rgba(0,0,0,.2);
+    }
+    input, select, button {
+      width:100%;
+      padding:10px;
+      margin-top:10px;
+    }
+    button {
+      background:#aa0a0a;
+      color:#fff;
+      border:none;
+      cursor:pointer;
+    }
+    .toggle {
+      text-align:center;
+      margin-top:10px;
+      cursor:pointer;
+      color:#007bff;
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/adminLogin-CrYtbsEC.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+</head>
+<body>
+
+<div class="login-box">
+  <h3 id="title">Admin Login</h3>
+
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
+
+  <!-- Registration only -->
+  <select id="branch" style="display:none;">
+    <option value="">Select Branch</option>
+    <option value="Vatakara">Vatakara</option>
+    <option value="Ernakulam">Ernakulam</option>
+    <option value="Pattikkad">Pattikkad</option>
+    <option value="Thrissur">Thrissur</option>
+    <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+  </select>
+
+  <button onclick="submit()">Submit</button>
+
+  <div class="toggle" onclick="toggleMode()">
+    New Admin? Register here
+  </div>
+</div>
+
+
+</body>
+</html>

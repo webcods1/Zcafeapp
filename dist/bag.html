@@ -4,8 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Cart</title>
-  <link rel="stylesheet" crossorigin href="/assets/desktop-CiABBmWi.css">
-  <link rel="stylesheet" crossorigin href="/assets/mobile-CcYSEnTR.css">
+  <style>
+    .footer {
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 0.85rem;
+  margin-top: 560px;
+  color: #777;
+}
+  </style>
+  <script type="module" crossorigin src="/assets/bag-MMuBRK6F.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="/assets/desktop-KWxfvQ-M.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-C8MmmVho.css">
 </head>
 <body class="no-top-nav">
   <script>
@@ -20,29 +31,24 @@
     })();
   </script>
 
-  <!-- Bag Header -->
   <header class="bag-header">
     <svg viewBox="0 0 24 24" width="24" height="24">
       <path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z"/>
     </svg>
   </header>
 
-
   <div class="container">
     <div class="bag-items" id="bag-items"></div>
-
     <div class="actions">
       <button class="book-btn" id="book-btn">Book Now</button>
       <button class="clear-btn" id="clear-btn">Clear Bag</button>
     </div>
   </div>
 
-  <!-- ===== Footer ===== -->
   <footer class="footer">
     <p>&copy; 2025 ZCafe. All rights reserved by Webcods</p>
   </footer>
 
-  <!-- Bottom Navbar -->
   <div class="bottom-nav">
     <a class="nav-item" href="index.html" id="home-link">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2Z"/></svg>
@@ -62,100 +68,7 @@
       <div class="cart-badge" id="cart-badge"></div>
     </a>
   </div>
-
-  <script>
-    let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const bagContainer = document.getElementById("bag-items");
-    const cartBadge = document.getElementById("cart-badge");
-
-    function saveCart() {
-      localStorage.setItem("cartItems", JSON.stringify(cart));
-      updateBadge();
-    }
-
-    function updateBadge() {
-      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-      cartBadge.textContent = totalQty;
-      cartBadge.style.display = totalQty > 0 ? "flex" : "none";
-    }
-
-    // Scroll-triggered animation for h3 elements
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    function renderBag() {
-      bagContainer.innerHTML = "";
-      if(cart.length === 0) {
-        bagContainer.innerHTML = "<p>Your Cart is empty.</p>";
-        updateBadge();
-        return;
-      }
-      cart.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.className = "bag-item";
-        div.innerHTML = `
-          <h3>${item.name}</h3>
-          <input type="number" min="1" value="${item.quantity}" onchange="updateQuantity(${index}, this.value)">
-          <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-        `;
-        bagContainer.appendChild(div);
-      });
-      updateBadge();
-
-      // Observe h3 elements after rendering
-      document.querySelectorAll('h3').forEach(element => {
-        observer.observe(element);
-      });
-    }
-
-    function updateQuantity(index, newQty) {
-      const qty = parseInt(newQty);
-      if(qty < 1) return;
-      cart[index].quantity = qty;
-      saveCart();
-      renderBag();
-    }
-
-    function removeItem(index) {
-      cart.splice(index,1);
-      saveCart();
-      renderBag();
-    }
-
-    document.getElementById("book-btn").addEventListener("click", () => {
-      if(cart.length === 0) {
-        alert("Your bag is empty!");
-        return;
-      }
-      alert("✅ Your products have been booked successfully!");
-      cart = [];
-      saveCart();
-      renderBag();
-    });
-
-    document.getElementById("clear-btn").addEventListener("click", () => {
-      if(cart.length === 0) return;
-      if(confirm("Are you sure you want to clear the bag?")) {
-        cart = [];
-        saveCart();
-        renderBag();
-      }
-    });
-
-    renderBag();
-
-
-  </script>
+
 
 </body>
 </html>

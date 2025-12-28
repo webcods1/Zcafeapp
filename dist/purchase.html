@@ -5,52 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Purchase - ZCafe</title>
 
-  <style>
-    /* Page-specific banner tweaks for purchase page */
-    html, body { overflow-x: hidden; }
-    .banner-carousel {
-      width: 100vw;
-      left: 50%;
-      margin-left: -50vw;
-      margin-right: -50vw;
-      position: relative;
-      background: transparent;
-      box-sizing: border-box;
-    }
-    .carousel-slides {
-      height: clamp(260px, 32vh, 420px);
-      max-width: 1400px;
-      margin: 80px auto 0 auto;
-      overflow: hidden;
-      position: relative;
-      border-radius: 8px;
-    }
-    .banner-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center center;
-      display: block;
-      background: #fff;
-    }
-    .banner-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      display: block;
-      max-width: none;
-      background: #000;
-    }
-    /* overlay paragraphs if present */
-    .banner-overlay p{ color:#fff; text-shadow:0 2px 6px rgba(0,0,0,.6); background:rgba(0,0,0,.25); padding:6px 10px; border-radius:6px; }
-  </style>
-  <link rel="stylesheet" crossorigin href="/assets/desktop-CiABBmWi.css">
-  <link rel="stylesheet" crossorigin href="/assets/mobile-CcYSEnTR.css">
+  <link rel="stylesheet" crossorigin href="/assets/desktop-KWxfvQ-M.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-C8MmmVho.css">
 </head>
 
 <body>
   <script>
+
     (function(){
       var loader = document.createElement('div');
       loader.className = 'app-loader';
@@ -81,11 +42,20 @@
         </div>
       </div>
     </div>
-    <div class="deliver-to">
-      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      <span>Deliver To:</span>
-      <input type="text" id="address-input" placeholder="Enter your address">
-    </div>
+<div class="deliver-to">
+  <svg viewBox="0 0 24 24">
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+  </svg>
+
+  <span>Deliver To:</span>
+
+  <!-- READ ONLY -->
+  <input
+    type="text"
+    id="address-input"
+    readonly
+  >
+</div>
   </nav>
 
   <!-- ===== Banner Carousel ===== -->
@@ -94,35 +64,35 @@
         <!-- Main Banner (Diet Coffee) -->
         <div class="banner banner-slide">
           <video class="banner-video" playsinline muted loop preload="metadata">
-            <source src="/DietCoffeeZ.mp4" type="video/mp4">
+            <source src="/DietCoffeeZ.webm" type="video/mp4">
           </video>
         </div>
 
         <!-- Premium Tea Banner -->
         <div class="banner banner-slide">
           <video class="banner-video" playsinline muted loop preload="metadata">
-            <source src="/PremiumTeaZ.mp4" type="video/mp4">
+            <source src="/PremiumTeaZ.webm" type="video/mp4">
           </video>
         </div>
 
         <!-- Milk Boost Banner -->
         <div class="banner banner-slide">
           <video class="banner-video" playsinline muted loop preload="metadata">
-            <source src="/MilkBoostZ.mp4" type="video/mp4">
+            <source src="/MilkBoostZ.webm" type="video/mp4">
           </video>
         </div>
 
         <!-- Milk Horlicks Banner -->
         <div class="banner banner-slide">
           <video class="banner-video" playsinline muted loop preload="metadata">
-            <source src="/MilkhorlicksZ.mp4" type="video/mp4">
+            <source src="/MilkhorlicksZ.webm" type="video/mp4">
           </video>
         </div>
 
         <!-- Cappuccino Banner -->
         <div class="banner banner-slide">
           <video class="banner-video" playsinline muted loop preload="metadata">
-            <source src="/cappuccinoZ.mp4" type="video/mp4">
+            <source src="/cappuccinoZ.webm" type="video/mp4">
           </video>
         </div>
     </div>
@@ -262,16 +232,31 @@
   </div>
 
 <script>
-  // address logic
-  let userAddress = localStorage.getItem("userAddress") || "";
-  const addressInput = document.getElementById("address-input");
-  if (userAddress) {
-    addressInput.value = userAddress; }
-  addressInput.addEventListener("input", () => {
-    userAddress = addressInput.value.trim();
-    localStorage.setItem("userAddress", userAddress);
-  });
+// ================= DELIVERY ADDRESS (FROM PROFILE) =================
+  document.addEventListener("DOMContentLoaded", () => {
+    const addressInput = document.getElementById("address-input");
+    const deliverToSpan = document.querySelector(".deliver-to span");
 
+    const companyName = localStorage.getItem("companyName");
+    const deliveryAddress = localStorage.getItem("deliveryAddress");
+
+    // Label
+    if (companyName) {
+      deliverToSpan.textContent = `Deliver To (${companyName}):`;
+    } else {
+      deliverToSpan.textContent = "Deliver To:";
+    }
+
+    // Address
+    if (deliveryAddress) {
+      addressInput.value = deliveryAddress;
+    } else {
+      addressInput.value = "Please set delivery address in profile";
+    }
+
+    // 🔒 READ ONLY (PROFILE CONTROLS IT)
+    addressInput.readOnly = true;
+  });
   // search recommendations
   const searchInput = document.querySelector('.search-container input');
   const recommendations = ['Coffee Non sugar', 'Tea Premium', 'Milk Boost', 'Cappuccino', 'Milk Horlicks', 'Coffee Premium'];
@@ -362,20 +347,6 @@
     searchInput.value = searchQuery;
   }
 
-  // Update click event for suggestions to filter immediately and keep input value
-  // (The dropdown creation is above, so we need to modify the addEventListener inside showSuggestions)
-  // Actually, since showSuggestions is called on input, and click is inside, but to modify, we can redefine or adjust.
-
-  // Modify the suggestion click to filter immediately
-  // Since the div is created dynamically, we need to change the addEventListener
-  // In showSuggestions, change:
-  // div.addEventListener('click', () => {
-  //   searchInput.value = item;
-  //   dropdown.style.display = 'none';
-  // });
-  // To:
-  // But since it's inside showSuggestions, we need to edit the function.
-
   // Function to show suggestions
   function showSuggestions() {
     const query = searchInput.value.toLowerCase().trim();
@@ -401,13 +372,50 @@
       dropdown.style.display = 'none';
     }
   }
+/* =================
+ CART LOGIC (FIXED)
+/* ========================================================= */
+let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-  // cart logic
-  let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
-  const cartBadge = document.createElement("div");
-  cartBadge.className = "cart-badge";
-  cartBadge.style.display = "none";
-  document.getElementById("bag-link").appendChild(cartBadge);
+const cartBadge = document.createElement("div");
+cartBadge.className = "cart-badge";
+document.getElementById("bag-link").appendChild(cartBadge);
+
+function updateBadge() {
+  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+  cartBadge.textContent = totalQty;
+  cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+}
+
+updateBadge();
+
+/* ✅ FIXED ADD TO CART */
+document.querySelectorAll(".add-cart-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const location = localStorage.getItem("location");
+    if (!location) {
+      alert("Please set delivery address in Profile first.");
+      window.location.href = "profile.html";
+      return;
+    }
+
+    const card = btn.closest(".product-card");
+    const name = card.dataset.name;
+    const quantity = parseInt(card.querySelector(".quantity-input").value) || 1;
+
+    const existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.quantity += quantity;
+    } else {
+      cart.push({ name, quantity });
+    }
+
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+    updateBadge();
+
+    alert(`${quantity} × ${name} added to bag`);
+  });
+});
 
   // function to update badge
   function updateBadge() {
@@ -637,7 +645,42 @@
       if (bottomNav) bottomNav.classList.remove('hidden');
     }
     lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-  });
+
+function updateDeliverTo() {
+  const addressInput = document.getElementById("address-input");
+  const deliverToSpan = document.querySelector(".deliver-to span");
+
+  const companyName = localStorage.getItem("companyName");
+  const location = localStorage.getItem("location"); // ADDRESS from profile.html
+
+  if (!location) {
+    deliverToSpan.textContent = "Deliver To:";
+    addressInput.value = "Please set delivery address in Profile";
+    addressInput.style.color = "#aa0a0a";
+    return;
+  }
+
+  // Show company name if exists
+  if (companyName) {
+    deliverToSpan.textContent = `Deliver To (${companyName}):`;
+  } else {
+    deliverToSpan.textContent = "Deliver To:";
+  }
+
+  addressInput.value = location;
+  addressInput.style.color = "#000";
+}
+
+// Run on page load
+document.addEventListener("DOMContentLoaded", updateDeliverTo);
+
+// Auto-refresh if profile is updated in another tab
+window.addEventListener("storage", (e) => {
+  if (e.key === "location" || e.key === "companyName") {
+    updateDeliverTo();
+  }
+});
+});
 
 </script>
 </body>
