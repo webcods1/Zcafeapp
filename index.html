@@ -671,7 +671,7 @@
       setTimeout(() => {
         mainImg.src = img;
         document.getElementById('display-title').innerText = title;
-        document.getElementById('display-link').href = `purchase.html?product=${encodeURIComponent(title)}`;
+        document.getElementById('display-rating').innerText = rate;
 
         mainImg.style.opacity = '1';
         mainImg.style.transform = 'translateX(0)';
@@ -691,45 +691,7 @@
       const p = products[currentIndex];
       updateMain(currentIndex, p.img, p.title, p.rate);
     }
-    const product = [
-      { img: '/public/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
-      { img: '/public/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
-      { img: '/public/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
-      { img: '/public/boost.png', title: 'Milk Boost', rate: '★★★★★' },
-      { img: '/public/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
-      { img: '/public/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' }
-    ];
 
-    let purchase = 0;
-
-    function updateMain(index, img, title, rate) {
-      currentIndex = index;
-      const mainImg = document.getElementById('display-img');
-
-      // Quick fade-out effect
-      mainImg.style.opacity = '0.5';
-
-      setTimeout(() => {
-        mainImg.src = img;
-        document.getElementById('display-title').innerText = title;
-        document.getElementById('display-rating').innerText = rate;
-        mainImg.style.opacity = '1';
-
-        // Highlight active thumbnail
-        document.querySelectorAll('.thumb-item').forEach((item, i) => {
-          item.classList.toggle('active', i === index);
-        });
-      }, 200);
-    }
-
-    function moveSlide(direction) {
-      currentIndex += direction;
-      if (currentIndex >= products.length) currentIndex = 0;
-      if (currentIndex < 0) currentIndex = products.length - 1;
-
-      const p = products[currentIndex];
-      updateMain(currentIndex, p.img, p.title, p.rate);
-    }
 
     // Logic for the Add to Cart action
     function addToCart() {
