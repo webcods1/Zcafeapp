@@ -1,13 +1,15 @@
 /* ===== Import Fonts ===== */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sauce+One:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
 }
 
@@ -15,7 +17,8 @@ body {
   font-family: 'Open Sauce One', Arial, sans-serif;
   background: #ffffff;
   color: #333;
-  padding-top: 80px; /* Account for fixed navbar */
+  padding-top: 80px;
+  /* Account for fixed navbar */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -23,15 +26,17 @@ body {
 
 /* ===== Navbar ===== */
 nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    transition: transform 0.3s ease;
-    background-color: rgb(255, 255, 255);
-    padding: 10px;
-  }nav.hidden {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: transform 0.3s ease;
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+}
+
+nav.hidden {
   transform: translateY(-100%);
 }
 
@@ -66,16 +71,20 @@ nav {
 .search-container {
   display: flex;
   align-items: center;
-  background: transparent;     /* Removed black background */
-  border: 1.5px solid #ccc;    /* New border */
+  background: transparent;
+  /* Removed black background */
+  border: 1.5px solid #ccc;
+  /* New border */
   border-radius: 30px;
   padding: 2px 10px;
   height: 45px;
   position: relative;
   width: 100%;
-  max-width: 1100px;            /* Corrected width; adjust if needed */
+  max-width: 1100px;
+  /* Corrected width; adjust if needed */
   transition: border-color 0.2s ease;
 }
+
 .search-container img {
   height: 45px;
   width: 55px;
@@ -96,6 +105,7 @@ nav {
 .search-container input::placeholder {
   color: #bbb;
 }
+
 .search-icon {
   position: absolute;
   top: 50%;
@@ -146,18 +156,22 @@ nav {
   color: #222;
   margin-bottom: 5px;
 }
-  .scroll-container {
+
+.scroll-container {
   width: 100%;
   padding: 20px 0;
-  background-color: #ffffff; /* Earthy background */
-  overflow: hidden; /* Container hides overflow */
+  background-color: #ffffff;
+  /* Earthy background */
+  overflow: hidden;
+  /* Container hides overflow */
   margin-top: 20px;
 }
 
 .image-scroll-row {
   display: flex;
   gap: 115px;
-  overflow-x: auto; /* Enables horizontal scroll */
+  overflow-x: auto;
+  /* Enables horizontal scroll */
   padding: 10px 20px;
   scroll-behavior: smooth;
   /* Hide scrollbar for Chrome/Safari/Opera */
@@ -167,8 +181,10 @@ nav {
 
 /* Scroll Item Box */
 .scroll-item {
-  flex: 0 0 100px; /* Fixed small width */
-  height: 80px; /* Fixed small height */
+  flex: 0 0 100px;
+  /* Fixed small width */
+  height: 80px;
+  /* Fixed small height */
   background: #ffffff;
   border: 1px solid #e0d9d0;
   display: flex;
@@ -193,9 +209,12 @@ nav {
 .image-scroll-row::-webkit-scrollbar {
   display: none;
 }
+
 .image-scroll-row {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* ===== Banner Carousel ===== */
@@ -219,7 +238,8 @@ nav {
   width: 100%;
   max-width: 1900px;
   margin: 0 auto;
-  height: 560px; /* Mobile default */
+  height: 560px;
+  /* Mobile default */
   overflow: hidden;
   border-radius: 60px;
 }
@@ -252,12 +272,13 @@ nav {
 /* ================= VIDEO BANNERS ================= */
 
 .banner-video {
-  width: 100%;
-  height:500px;
-  object-fit: contain; /* mobile friendly */
+  width: 100% !important;
+  height: 500px !important;
+  object-fit: contain !important;
+  /* mobile friendly */
   background: #ffffff;
   display: block;
-  border-radius:inherit;
+  border-radius: 60px !important;
   margin-top: -55px;
   margin-left: 160px;
 
@@ -291,10 +312,12 @@ nav {
   width: 10px;
   height: 10px;
 }
+
 /* ===== Products Section (Desktop) ===== */
 .products-collage {
   padding: 50px 5%;
-  background-color: #fdfbf7; /* Earthy off-white */
+  background-color: #fdfbf7;
+  /* Earthy off-white */
   font-family: 'Arial', sans-serif;
 }
 
@@ -360,7 +383,8 @@ nav {
   transition: 0.3s;
 }
 
-.thumb-item:hover, .thumb-item.active {
+.thumb-item:hover,
+.thumb-item.active {
   border-color: #8b5e3c;
   background: #fff;
 }
@@ -382,11 +406,19 @@ nav {
   padding: 15px;
   cursor: pointer;
 }
-.next { right: 0; }
-.prev { left: 0; }
+
+.next {
+  right: 0;
+}
+
+.prev {
+  left: 0;
+}
+
 /* Styling for the Add to Cart Button */
 .cart-btn {
-  background-color: #5d4037; /* Dark Earthy Brown */
+  background-color: #5d4037;
+  /* Dark Earthy Brown */
   color: #ffffff;
   border: none;
   padding: 12px 24px;
@@ -405,7 +437,7 @@ nav {
 .cart-btn:hover {
   background-color: #3e2723;
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .cart-btn:active {
@@ -450,6 +482,7 @@ nav {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -478,18 +511,18 @@ nav {
 }
 
 /* ===== Product Info ===== */
-  .product-info {
-    padding: 12px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    flex-grow: 1;
-    gap: 8px;
-    background: #ffffff;
-    color: #fff;
-    margin-top: 10px;
-  }
+.product-info {
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  gap: 8px;
+  background: #ffffff;
+  color: #fff;
+  margin-top: 10px;
+}
 
 .product-info h3 {
   font-size: 1rem;
@@ -613,7 +646,8 @@ nav {
   position: relative;
   width: 100%;
   background: #ffffff;
-  padding: 40px 20px 100px; /* added bottom padding for button */
+  padding: 40px 20px 100px;
+  /* added bottom padding for button */
   text-align: center;
   overflow: hidden;
   min-height: 250px;
@@ -629,14 +663,14 @@ nav {
 }
 
 /* Road Track */
-  .service-track {
-    width: 2000px;
-    margin-inline-start:-30px;
-    height: 6px;
-    background: #000;
-    margin-top: 115px;
-    position:absolute;
-  }
+.service-track {
+  width: 2000px;
+  margin-inline-start: -30px;
+  height: 6px;
+  background: #000;
+  margin-top: 115px;
+  position: absolute;
+}
 
 /* Service Button */
 .service-button {
@@ -665,27 +699,34 @@ nav {
 /* Vehicle Image */
 .service-vehicle {
   width: 100px;
-  position:absolute;
+  position: absolute;
   bottom: -2px;
-  left: 10px;              /* Vehicle visible on the left */
+  left: 10px;
+  /* Vehicle visible on the left */
   animation: ride 4s linear forwards;
   animation-play-state: paused;
 }
 
 @keyframes ride {
-  from { left: -10px; }
-  to { left: 100%; }
+  from {
+    left: -10px;
+  }
+
+  to {
+    left: 100%;
+  }
 
 }
 
 /* ===== About Us & Connect Sections ===== */
-.about-us-section{
+.about-us-section {
   max-width: 1200px;
   margin: 40px auto;
   padding: 0 15px;
   text-align: center;
 
 }
+
 .connect-section {
   max-width: 1200px;
   margin: 40px auto;
@@ -694,7 +735,8 @@ nav {
 }
 
 .about-us-section {
-  clear: both; /* Ensure it appears below the floated service image */
+  clear: both;
+  /* Ensure it appears below the floated service image */
 }
 
 .about-us-section h2,
@@ -762,7 +804,8 @@ nav {
 
 /* ===== Footer ===== */
 .footer {
-  position:relative;   /* remove fixed */
+  position: relative;
+  /* remove fixed */
   bottom: 0;
   left: 0;
   right: 0;
@@ -772,7 +815,8 @@ nav {
   font-size: 0.9rem;
   background: #f8f8f8;
   border-top: 1px solid #ddd;
-  margin-top: 40px;      /* spacing from content */
+  margin-top: 40px;
+  /* spacing from content */
 }
 
 /* ===== Bag Header ===== */
@@ -806,7 +850,7 @@ nav {
 .bag-item {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-bottom: 15px;
   display: flex;
@@ -919,6 +963,7 @@ nav {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

@@ -166,12 +166,12 @@ body {
 
   .scroll-container {
     width: 100%;
-    padding: 20px 0;
+    padding: 5px 0;
     background-color: #ffffff;
     /* Earthy background */
     overflow: hidden;
     /* Container hides overflow */
-    margin-top: 20px;
+    margin-top: -45px;
   }
 
   .image-scroll-row {
@@ -232,7 +232,7 @@ body {
     width: 90%;
     background: #ffffff;
     margin-top: 10px;
-    height: 180px;
+    height: 170px;
     overflow: hidden;
     border-radius: 16px;
     margin-left: 20px;
@@ -288,7 +288,7 @@ body {
     display: block;
     border-radius: inherit;
     margin-top: -55px;
-    margin-left: -1px;
+    margin-left: 10px;
   }
 
   /* ================= DOT NAVIGATION ================= */
@@ -745,7 +745,7 @@ body {
 
     /* Add to cart button */
     .product-info button.add-cart-btn {
-      background: #aa0a0a;
+      background: rgb(162, 117, 38);
       color: #fff;
       border: none;
       width: 100%;

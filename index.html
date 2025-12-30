@@ -178,17 +178,63 @@
       </div>
 
       <div class="thumbnail-sidebar">
-        <div class="thumb-item active" onclick="updateMain(0, '/ztea.png', 'Premium Tea', '★★★★★')">
-          <img src="/public/ztea.png" alt="Coffee">
+        <div class="thumb-item active" onclick="updateMain(0, '/public/ztea.png', 'Premium Tea', '★★★★★')">
+          <img src="/public/ztea.png" alt="Premium Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(1, '/zwtea.png', 'Non Sugar Tea', '★★★★★')">
-          <img src="/public/zwtea.png" alt="Tea">
+        <div class="thumb-item" onclick="updateMain(1, '/public/zwtea.png', 'Non Sugar Tea', '★★★★★')">
+          <img src="/public/zwtea.png" alt="Non Sugar Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(2, '/MasalaTea.png', 'Masala Tea', '★★★★☆')">
+        <div class="thumb-item" onclick="updateMain(2, '/public/MasalaTea.png', 'Masala Tea', '★★★★☆')">
           <img src="/public/MasalaTea.png" alt="Masala Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(3, '/LemonTea.png', 'LemonTea', '★★★★☆')">
+        <div class="thumb-item" onclick="updateMain(3, '/public/LemonTea.png', 'LemonTea', '★★★★☆')">
           <img src="/public/LemonTea.png" alt="Lemon Tea">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="products-collage" id="coffee-varieties">
+    <div class="collage-header">
+      <h2>Coffee Premix & Varieties</h2>
+      <p>Rich and aromatic blends for coffee lovers</p>
+    </div>
+
+    <div class="collage-container">
+      <div class="main-feature-area">
+        <div class="carousel-track" id="main-carousel-coffee">
+          <div class="feature-slide active">
+            <img src="/public/zcoffepre.png" alt="Featured Product" id="display-img-coffee">
+            <div class="feature-details">
+              <h3 id="display-title-coffee">Premium Coffee</h3>
+              <div class="rating" id="display-rating-coffee">★★★★★</div>
+              <button id="add-to-cart-btn-coffee" class="cart-btn" onclick="addToCartCoffee()">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button class="nav-arrow prev" onclick="moveSlideCoffee(-1)">&#10094;</button>
+        <button class="nav-arrow next" onclick="moveSlideCoffee(1)">&#10095;</button>
+      </div>
+
+      <div class="thumbnail-sidebar">
+        <div class="thumb-item thumb-item-coffee active"
+          onclick="updateMainCoffee(0, '/public/zcoffepre.png', 'Premium Coffee', '★★★★★')">
+          <img src="/public/zcoffepre.png" alt="Premium Coffee">
+        </div>
+        <div class="thumb-item thumb-item-coffee"
+          onclick="updateMainCoffee(1, '/public/cappuccino.png', 'Cappuccino', '★★★★☆')">
+          <img src="/public/cappuccino.png" alt="Cappuccino">
+        </div>
+        <div class="thumb-item thumb-item-coffee"
+          onclick="updateMainCoffee(2, '/public/zcoffe.png', 'Diet Coffee', '★★★★☆')">
+          <img src="/public/zcoffe.png" alt="Diet Coffee">
+        </div>
+        <div class="thumb-item thumb-item-coffee"
+          onclick="updateMainCoffee(3, '/public/boost.png', 'Milk Boost', '★★★★★')">
+          <img src="/public/boost.png" alt="Milk Boost">
         </div>
       </div>
     </div>
@@ -630,26 +676,12 @@
       },
       { threshold: 0.3 }
     );
-    function updateMain(index, img, title, rating) {
-      const displayImg = document.getElementById("display-img");
-
-      displayImg.src = img;
-      displayImg.onerror = () => {
-        displayImg.src = "/public/fallback.png";
-      };
-
-      document.getElementById("display-title").textContent = title;
-      document.getElementById("display-rating").textContent = rating;
-    }
-
     connectObserver.observe(connectSection);
     const products = [
-      { img: '/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
-      { img: '/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
-      { img: '/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
-      { img: '/boost.png', title: 'Milk Boost', rate: '★★★★★' },
-      { img: '/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
-      { img: '/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' }
+      { img: '/public/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
+      { img: '/public/zwtea.png', title: 'Non Sugar Tea', rate: '★★★★★' },
+      { img: '/public/MasalaTea.png', title: 'Masala Tea', rate: '★★★★☆' },
+      { img: '/public/LemonTea.png', title: 'LemonTea', rate: '★★★★☆' }
     ];
 
     let currentIndex = 0;
@@ -689,9 +721,79 @@
 
     // Logic for the Add to Cart action
     function addToCart() {
-      const currentProduct = products[currentIndex].title;
-      alert(currentProduct + " has been added to your cart!");
-      // Here you can add your actual cart logic (e.g., updating a cart counter)
+      const currentProduct = products[currentIndex];
+      // Reuse the global cart variable
+      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+      const existingItem = cart.find(item => item.name === currentProduct.title);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ name: currentProduct.title, quantity: 1 });
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      updateBadge();
+      // Show alert instead of redirecting
+      alert(currentProduct.title + " has been added to your cart!");
+    }
+
+    // ================= COFFEE COLLAGE LOGIC =================
+    const productsCoffee = [
+      { img: '/public/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
+      { img: '/public/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
+      { img: '/public/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
+      { img: '/public/boost.png', title: 'Milk Boost', rate: '★★★★★' }
+    ];
+
+    let currentIndexCoffee = 0;
+
+    function updateMainCoffee(index, img, title, rate) {
+      currentIndexCoffee = index;
+
+      // Animation: Slide effect
+      const mainImg = document.getElementById('display-img-coffee');
+      mainImg.style.opacity = '0';
+      mainImg.style.transform = 'translateX(20px)';
+
+      setTimeout(() => {
+        mainImg.src = img;
+        document.getElementById('display-title-coffee').innerText = title;
+        document.getElementById('display-rating-coffee').innerText = rate;
+
+        mainImg.style.opacity = '1';
+        mainImg.style.transform = 'translateX(0)';
+
+        // Update active thumbnail
+        document.querySelectorAll('.thumb-item-coffee').forEach((item, i) => {
+          item.classList.toggle('active', i === index);
+        });
+      }, 300);
+    }
+
+    function moveSlideCoffee(direction) {
+      currentIndexCoffee += direction;
+      if (currentIndexCoffee >= productsCoffee.length) currentIndexCoffee = 0;
+      if (currentIndexCoffee < 0) currentIndexCoffee = productsCoffee.length - 1;
+
+      const p = productsCoffee[currentIndexCoffee];
+      updateMainCoffee(currentIndexCoffee, p.img, p.title, p.rate);
+    }
+
+    function addToCartCoffee() {
+      const currentProduct = productsCoffee[currentIndexCoffee];
+      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+      const existingItem = cart.find(item => item.name === currentProduct.title);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ name: currentProduct.title, quantity: 1 });
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      updateBadge();
+      alert(currentProduct.title + " has been added to your cart!");
     }
   </script>
   <!-- Bootstrap 5 JS Bundle (includes Popper) -->
