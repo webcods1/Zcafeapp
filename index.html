@@ -102,31 +102,32 @@
     <div class="carousel-slides mx-auto">
 
       <div class="banner banner-slide active d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop autoplay>
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop
+          autoplay>
           <source src="/DietCoffeeZ.webm" type="video/mp4">
         </video>
       </div>
 
       <div class="banner banner-slide d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop>
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop>
           <source src="/PremiumTeaZ.webm" type="video/mp4">
         </video>
       </div>
 
       <div class="banner banner-slide d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop>
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop>
           <source src="/MilkBoostZ.webm" type="video/mp4">
         </video>
       </div>
 
       <div class="banner banner-slide d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop>
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop>
           <source src="/MilkhorlicksZ.webm" type="video/mp4">
         </video>
       </div>
 
       <div class="banner banner-slide d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop>
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop>
           <source src="/cappuccinoZ.webm" type="video/mp4">
         </video>
       </div>
@@ -162,7 +163,7 @@
       <div class="main-feature-area">
         <div class="carousel-track" id="main-carousel">
           <div class="feature-slide active">
-            <img src="public/ztea.png" alt="Featured Product" id="display-img">
+            <img src="/ztea.png" alt="Featured Product" id="display-img">
             <div class="feature-details">
               <h3 id="display-title">Premium Tea</h3>
               <div class="rating" id="display-rating">★★★★★</div>
@@ -178,17 +179,17 @@
       </div>
 
       <div class="thumbnail-sidebar">
-        <div class="thumb-item active" onclick="updateMain(0, 'public/ztea.png', 'Premium Tea', '★★★★★')">
-          <img src="public/ztea.png" alt="Premium Tea">
+        <div class="thumb-item active" onclick="updateMain(0, '/ztea.png', 'Premium Tea', '★★★★★')">
+          <img src="/ztea.png" alt="Premium Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(1, 'public/zwtea.png', 'Non Sugar Tea', '★★★★★')">
-          <img src="public/zwtea.png" alt="Non Sugar Tea">
+        <div class="thumb-item" onclick="updateMain(1, '/zwtea.png', 'Non Sugar Tea', '★★★★★')">
+          <img src="/zwtea.png" alt="Non Sugar Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(2, 'public/MasalaTea.png', 'Masala Tea', '★★★★☆')">
-          <img src="public/MasalaTea.png" alt="Masala Tea">
+        <div class="thumb-item" onclick="updateMain(2, '/MasalaTea.png', 'Masala Tea', '★★★★☆')">
+          <img src="/MasalaTea.png" alt="Masala Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(3, 'public/LemonTea.png', 'LemonTea', '★★★★☆')">
-          <img src="public/LemonTea.png" alt="Lemon Tea">
+        <div class="thumb-item" onclick="updateMain(3, '/LemonTea.png', 'LemonTea', '★★★★☆')">
+          <img src="/LemonTea.png" alt="Lemon Tea">
         </div>
       </div>
     </div>
@@ -204,7 +205,7 @@
       <div class="main-feature-area">
         <div class="carousel-track" id="main-carousel-coffee">
           <div class="feature-slide active">
-            <img src="public/zcoffepre.png" alt="Featured Product" id="display-img-coffee">
+            <img src="/zcoffepre.png" alt="Featured Product" id="display-img-coffee">
             <div class="feature-details">
               <h3 id="display-title-coffee">Premium Coffee</h3>
               <div class="rating" id="display-rating-coffee">★★★★★</div>
@@ -221,20 +222,18 @@
 
       <div class="thumbnail-sidebar">
         <div class="thumb-item thumb-item-coffee active"
-          onclick="updateMainCoffee(0, 'public/zcoffepre.png', 'Premium Coffee', '★★★★★')">
-          <img src="public/zcoffepre.png" alt="Premium Coffee">
+          onclick="updateMainCoffee(0, '/zcoffepre.png', 'Premium Coffee', '★★★★★')">
+          <img src="/zcoffepre.png" alt="Premium Coffee">
         </div>
         <div class="thumb-item thumb-item-coffee"
-          onclick="updateMainCoffee(1, 'public/cappuccino.png', 'Cappuccino', '★★★★☆')">
-          <img src="public/cappuccino.png" alt="Cappuccino">
+          onclick="updateMainCoffee(1, '/cappuccino.png', 'Cappuccino', '★★★★☆')">
+          <img src="/cappuccino.png" alt="Cappuccino">
         </div>
-        <div class="thumb-item thumb-item-coffee"
-          onclick="updateMainCoffee(2, 'public/zcoffe.png', 'Diet Coffee', '★★★★☆')">
-          <img src="public/zcoffe.png" alt="Diet Coffee">
+        <div class="thumb-item thumb-item-coffee" onclick="updateMainCoffee(2, '/zcoffe.png', 'Diet Coffee', '★★★★☆')">
+          <img src="/zcoffe.png" alt="Diet Coffee">
         </div>
-        <div class="thumb-item thumb-item-coffee"
-          onclick="updateMainCoffee(3, 'public/boost.png', 'Milk Boost', '★★★★★')">
-          <img src="public/boost.png" alt="Milk Boost">
+        <div class="thumb-item thumb-item-coffee" onclick="updateMainCoffee(3, '/boost.png', 'Milk Boost', '★★★★★')">
+          <img src="/boost.png" alt="Milk Boost">
         </div>
       </div>
     </div>
@@ -245,7 +244,7 @@
   <section class="services-section">
     <h2 class="visible">SERVICE</h2>
     <p class="visible">We are providing free service for our Machine</p>
-    <img src="public/service.png" alt="Service man on scooter" class="service-vehicle">
+    <img src="/service.png" alt="Service man on scooter" class="service-vehicle">
     <div class="service-track"></div>
 
     <button class="service-button" id="service-btn">Click Here</button>
@@ -678,10 +677,10 @@
     );
     connectObserver.observe(connectSection);
     const products = [
-      { img: 'public/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
-      { img: 'public/zwtea.png', title: 'Non Sugar Tea', rate: '★★★★★' },
-      { img: 'public/MasalaTea.png', title: 'Masala Tea', rate: '★★★★☆' },
-      { img: 'public/LemonTea.png', title: 'LemonTea', rate: '★★★★☆' }
+      { img: '/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
+      { img: '/zwtea.png', title: 'Non Sugar Tea', rate: '★★★★★' },
+      { img: '/MasalaTea.png', title: 'Masala Tea', rate: '★★★★☆' },
+      { img: '/LemonTea.png', title: 'LemonTea', rate: '★★★★☆' }
     ];
 
     let currentIndex = 0;
@@ -740,10 +739,10 @@
 
     // ================= COFFEE COLLAGE LOGIC =================
     const productsCoffee = [
-      { img: 'public/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
-      { img: 'public/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
-      { img: 'public/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
-      { img: 'public/boost.png', title: 'Milk Boost', rate: '★★★★★' }
+      { img: '/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
+      { img: '/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
+      { img: '/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
+      { img: '/boost.png', title: 'Milk Boost', rate: '★★★★★' }
     ];
 
     let currentIndexCoffee = 0;
