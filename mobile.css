@@ -231,8 +231,8 @@ body {
     position: relative;
     width: 90%;
     background: #ffffff;
-    margin-top: 10px;
-    height: 170px;
+    margin-top: 20px;
+    height: 160px;
     overflow: hidden;
     border-radius: 16px;
     margin-left: 20px;
@@ -287,8 +287,9 @@ body {
     background: #000;
     display: block;
     border-radius: inherit;
-    margin-top: -55px;
-    margin-left: 10px;
+    margin-top: -75px;
+    margin-left: -8px;
+    margin-right: -8px;
   }
 
   /* ================= DOT NAVIGATION ================= */
@@ -523,6 +524,27 @@ body {
         padding: 10px;
         font-size: 1rem;
       }
+    }
+
+    /* ===== Products Section Header ===== */
+    .products-section {
+      text-align: center;
+      padding: 20px 0 10px;
+    }
+
+    .products-section h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      color: #4a3728;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+
+    .products-section p {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+      padding: 0 10px;
     }
 
     /* ===== Product Grid (Improved) ===== */
