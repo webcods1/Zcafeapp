@@ -690,41 +690,72 @@
         if (bottomNav) bottomNav.classList.remove('hidden');
       }
       lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
 
-      function updateDeliverTo() {
-        const addressInput = document.getElementById("address-input");
-        const deliverToSpan = document.querySelector(".deliver-to span");
+    function updateDeliverTo() {
+      const addressInput = document.getElementById("address-input");
+      const deliverToSpan = document.querySelector(".deliver-to span");
 
-        const companyName = localStorage.getItem("companyName");
-        const location = localStorage.getItem("location"); // ADDRESS from profile.html
+      const companyName = localStorage.getItem("companyName");
+      const location = localStorage.getItem("location"); // ADDRESS from profile.html
 
-        if (!location) {
-          deliverToSpan.textContent = "Deliver To:";
-          addressInput.value = "Please set delivery address in Profile";
-          addressInput.style.color = "#aa0a0a";
-          return;
-        }
-
-        // Show company name if exists
-        if (companyName) {
-          deliverToSpan.textContent = `Deliver To (${companyName}):`;
-        } else {
-          deliverToSpan.textContent = "Deliver To:";
-        }
-
-        addressInput.value = location;
-        addressInput.style.color = "#000";
+      if (!location) {
+        deliverToSpan.textContent = "Deliver To:";
+        addressInput.value = "Please set delivery address in Profile";
+        addressInput.style.color = "#aa0a0a";
+        return;
       }
 
-      // Run on page load
-      document.addEventListener("DOMContentLoaded", updateDeliverTo);
+      // Show company name if exists
+      if (companyName) {
+        deliverToSpan.textContent = `Deliver To (${companyName}):`;
+      } else {
+        deliverToSpan.textContent = "Deliver To:";
+      }
 
-      // Auto-refresh if profile is updated in another tab
-      window.addEventListener("storage", (e) => {
-        if (e.key === "location" || e.key === "companyName") {
-          updateDeliverTo();
-        }
-      });
+      addressInput.value = location;
+      addressInput.style.color = "#000";
+    }
+
+    // Run on page load
+    document.addEventListener("DOMContentLoaded", updateDeliverTo);
+
+    // Auto-refresh if profile is updated in another tab
+    window.addEventListener("storage", (e) => {
+      if (e.key === "location" || e.key === "companyName") {
+        updateDeliverTo();
+      }
+    });
+    document.getElementById("profile-icon").addEventListener("click", () => {
+      window.location.href = "profile.html";
+    });
+
+    document.getElementById("bell-icon").addEventListener("click", () => {
+      window.location.href = "notification.html";
+    });
+
+    // notification badge logic
+    const notificationBadge = document.createElement("div");
+    notificationBadge.style.position = "absolute";
+    notificationBadge.style.top = "-5px";
+    notificationBadge.style.right = "-5px";
+    notificationBadge.style.background = "red";
+    notificationBadge.style.color = "white";
+    notificationBadge.style.borderRadius = "50%";
+    notificationBadge.style.width = "18px";
+    notificationBadge.style.height = "18px";
+    notificationBadge.style.fontSize = "12px";
+    notificationBadge.style.display = "flex";
+    notificationBadge.style.alignItems = "center";
+    notificationBadge.style.justifyContent = "center";
+    notificationBadge.style.fontWeight = "bold";
+    notificationBadge.style.zIndex = "10";
+    notificationBadge.textContent = "3"; // Sample count
+    document.getElementById("bell-icon").style.position = "relative";
+    document.getElementById("bell-icon").appendChild(notificationBadge);
+
+    document.getElementById("wishlist-icon").addEventListener("click", () => {
+      window.location.href = "wishlist.html";
     });
 
   </script>

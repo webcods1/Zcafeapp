@@ -382,6 +382,11 @@
       window.location.href = "wishlist.html";
     });
 
+    // notification icon click event
+    document.getElementById("bell-icon").addEventListener("click", () => {
+      window.location.href = "notification.html";
+    });
+
     // wishlist logic
     const wishlistBadge = document.createElement("div");
     wishlistBadge.style.position = "absolute";
@@ -399,6 +404,26 @@
     wishlistBadge.style.fontWeight = "bold";
     wishlistBadge.style.zIndex = "10";
     document.getElementById("wishlist-icon").appendChild(wishlistBadge);
+
+    // notification badge logic
+    const notificationBadge = document.createElement("div");
+    notificationBadge.style.position = "absolute";
+    notificationBadge.style.top = "-5px";
+    notificationBadge.style.right = "-5px";
+    notificationBadge.style.background = "red";
+    notificationBadge.style.color = "white";
+    notificationBadge.style.borderRadius = "50%";
+    notificationBadge.style.width = "18px";
+    notificationBadge.style.height = "18px";
+    notificationBadge.style.fontSize = "12px";
+    notificationBadge.style.display = "flex";
+    notificationBadge.style.alignItems = "center";
+    notificationBadge.style.justifyContent = "center";
+    notificationBadge.style.fontWeight = "bold";
+    notificationBadge.style.zIndex = "10";
+    notificationBadge.textContent = "3"; // Sample count
+    document.getElementById("bell-icon").style.position = "relative";
+    document.getElementById("bell-icon").appendChild(notificationBadge);
 
     // notification popup
     const wishlistNotification = document.createElement("div");
