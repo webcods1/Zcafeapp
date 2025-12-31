@@ -628,6 +628,7 @@ body {
       .thumbnail-sidebar {
         display: flex;
         gap: 10px;
+        justify-content: center;
         overflow-x: auto;
         padding-bottom: 10px;
         -webkit-overflow-scrolling: touch;
