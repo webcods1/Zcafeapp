@@ -1345,3 +1345,152 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   border: none;
 }
+
+/* ===== Booking Success Animation ===== */
+.booking-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.booking-modal.active {
+  display: flex;
+  opacity: 1;
+}
+
+.booking-content {
+  background: white;
+  width: 90%;
+  max-width: 350px;
+  padding: 30px 20px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.booking-content h2 {
+  font-family: 'Poppins', sans-serif;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.booking-content p {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+/* ===== Refined Circular Animation ===== */
+.delivery-scene {
+  width: 120px;
+  height: 120px;
+  margin: 20px auto;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  background: #87CEEB;
+  /* Sky blue */
+  border: 4px solid #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.moving-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-image:
+    linear-gradient(to right, transparent 0%, transparent 100%),
+    url('https://img.freepik.com/free-vector/landscape-with-mountains-trees_1048-9311.jpg?t=st=1735651000~exp=1735654600~hmac=0a6d5c6d5c6d5c6d5c6d5c6d');
+  /* Placeholder pattern or actual URL if preferred */
+  background-size: 50% 100%;
+  animation: scrollBg 4s linear infinite;
+  opacity: 0.6;
+  /* Drawing simple trees/clouds with gradients for reliability */
+  background: repeating-linear-gradient(to right,
+      #87CEEB 0%, #87CEEB 40%,
+      #2ecc71 40.1%, #2ecc71 45%,
+      /* Tree */
+      #87CEEB 45.1%, #87CEEB 100%);
+  background-size: 100px 100%;
+}
+
+@keyframes scrollBg {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100px);
+  }
+}
+
+.road-surface {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  background: #555;
+  border-top: 2px solid #fff;
+}
+
+.van-stationary {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 35px;
+  color: #aa0a0a;
+  z-index: 2;
+  animation: vanVibrate 0.2s infinite;
+}
+
+@keyframes vanVibrate {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-2px);
+  }
+
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Remove old animations */
+.van-icon {
+  display: none;
+}
+
+.delivery-track {
+  display: none;
+}
+
+.ok-btn {
+  background: #aa0a0a;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-weight: 700;
+  margin-top: 20px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(170, 10, 10, 0.3);
+}
