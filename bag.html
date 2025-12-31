@@ -7,15 +7,6 @@
   <title>Cart</title>
   <link rel="stylesheet" href="desktop.css">
   <link rel="stylesheet" href="mobile.css">
-  <style>
-    .footer {
-      text-align: center;
-      padding: 20px 10px;
-      font-size: 0.85rem;
-      margin-top: 560px;
-      color: #777;
-    }
-  </style>
 </head>
 
 <body class="no-top-nav">
@@ -31,32 +22,34 @@
     })();
   </script>
 
-  <header class="bag-header">
-    <svg viewBox="0 0 24 24" width="24" height="24">
-      <path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z" />
-    </svg>
-  </header>
+  <main class="main-content">
+    <header class="bag-header">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z" />
+      </svg>
+    </header>
 
-  <div class="container">
-    <!-- ===== Persistent Tracking Section ===== -->
-    <div id="active-tracking">
-      <div class="tracking-tag">Order in Transit</div>
-      <h4>Your Order is on the Way!</h4>
-      <p>Delivery expected within one week. Stay tuned!</p>
+    <div class="container">
+      <!-- ===== Persistent Tracking Section ===== -->
+      <div id="active-tracking">
+        <div class="tracking-tag">Order in Transit</div>
+        <h4>Your Order is on the Way!</h4>
+        <p>Delivery expected within one week. Stay tuned!</p>
 
-      <div class="delivery-scene">
-        <div class="moving-bg"></div>
-        <div class="road-surface"></div>
-        <i class="fas fa-truck van-stationary"></i>
+        <div class="delivery-scene">
+          <div class="moving-bg"></div>
+          <div class="road-surface"></div>
+          <i class="fas fa-truck van-stationary"></i>
+        </div>
+      </div>
+
+      <div class="bag-items" id="bag-items"></div>
+      <div class="actions">
+        <button class="book-btn" id="book-btn">Book Now</button>
+        <button class="clear-btn" id="clear-btn">Clear Bag</button>
       </div>
     </div>
-
-    <div class="bag-items" id="bag-items"></div>
-    <div class="actions">
-      <button class="book-btn" id="book-btn">Book Now</button>
-      <button class="clear-btn" id="clear-btn">Clear Bag</button>
-    </div>
-  </div>
+  </main>
 
   <footer class="footer">
     <p>&copy; 2025 ZCafe. All rights reserved by Webcods</p>

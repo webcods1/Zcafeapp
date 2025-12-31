@@ -24,6 +24,14 @@ body {
   flex-direction: column;
 }
 
+body.no-top-nav {
+  padding-top: 0 !important;
+}
+
+.main-content {
+  flex: 1;
+}
+
 /* ===== Navbar ===== */
 nav {
   position: fixed;
@@ -164,7 +172,7 @@ nav.hidden {
   /* Earthy background */
   overflow: hidden;
   /* Container hides overflow */
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .image-scroll-row {
@@ -177,7 +185,7 @@ nav.hidden {
   scroll-behavior: smooth;
   /* Hide scrollbar for Chrome/Safari/Opera */
   -webkit-overflow-scrolling: touch;
-  margin-top: 60px;
+  margin-top: 20px;
 }
 
 /* Scroll Item Box */
@@ -448,6 +456,7 @@ nav.hidden {
   background-color: #fdfbf7;
   /* Earthy off-white */
   font-family: 'Arial', sans-serif;
+  overflow: hidden;
 }
 
 .collage-header {
@@ -934,19 +943,13 @@ nav.hidden {
 
 /* ===== Footer ===== */
 .footer {
-  position: relative;
-  /* remove fixed */
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20px 15px;
   text-align: center;
-  color: #555;
-  font-size: 0.9rem;
-  background: #f8f8f8;
-  border-top: 1px solid #ddd;
-  margin-top: 40px;
-  /* spacing from content */
+  padding: 40px 20px;
+  color: #666;
+  font-size: 0.95rem;
+  background: #fcfcfc;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 0;
 }
 
 /* ===== Bag Header ===== */
@@ -1087,7 +1090,12 @@ nav.hidden {
 
 
 
-/* ===== Scroll reveal animation ===== */
+/* ===== iOS Video Fix ===== */
+video::-webkit-media-controls-start-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
 @keyframes scrollReveal {
   from {
     opacity: 0;

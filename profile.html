@@ -23,39 +23,41 @@
     })();
   </script>
 
-  <div style="text-align: center; margin: 20px 0;">
-    <svg width="80" height="80" viewBox="0 0 24 24" style="margin-bottom: 10px;">
-      <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5v3h18v-3c0-2.5-4-5-9-5Z" />
-    </svg>
-  </div>
-
-  <div id="profile-view">
-    <div class="profile-columns">
-      <div class="profile-column">
-        <label for="view-phone-input"><strong>Phone Number:</strong></label>
-        <input type="tel" id="view-phone-input" placeholder="Enter phone number" />
-
-        <label for="view-company-input"><strong>Company Name:</strong></label>
-        <input type="text" id="view-company-input" placeholder="Enter company name" />
-      </div>
-      <div class="profile-column">
-        <label for="view-location-input"><strong>Location/Address:</strong></label>
-        <input type="text" id="view-location-input" placeholder="Enter your city/area" />
-
-        <label for="view-deliver-input"><strong>Product Deliver From (Branch):</strong></label>
-        <select id="view-deliver-input">
-          <option value="" disabled selected>Select Branch</option>
-          <option value="Vatakara">Vatakara</option>
-          <option value="Ernakulam">Ernakulam</option>
-          <option value="Pattikkad">Pattikkad</option>
-          <option value="Thrissur">Thrissur</option>
-          <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-        </select>
-      </div>
+  <main class="main-content">
+    <div style="text-align: center; margin: 20px 0;">
+      <svg width="80" height="80" viewBox="0 0 24 24" style="margin-bottom: 10px;">
+        <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5v3h18v-3c0-2.5-4-5-9-5Z" />
+      </svg>
     </div>
 
-    <button id="save-profile-btn">Save Profile</button>
-  </div>
+    <div id="profile-view">
+      <div class="profile-columns">
+        <div class="profile-column">
+          <label for="view-phone-input"><strong>Phone Number:</strong></label>
+          <input type="tel" id="view-phone-input" placeholder="Enter phone number" />
+
+          <label for="view-company-input"><strong>Company Name:</strong></label>
+          <input type="text" id="view-company-input" placeholder="Enter company name" />
+        </div>
+        <div class="profile-column">
+          <label for="view-location-input"><strong>Location/Address:</strong></label>
+          <input type="text" id="view-location-input" placeholder="Enter your city/area" />
+
+          <label for="view-deliver-input"><strong>Product Deliver From (Branch):</strong></label>
+          <select id="view-deliver-input">
+            <option value="" disabled selected>Select Branch</option>
+            <option value="Vatakara">Vatakara</option>
+            <option value="Ernakulam">Ernakulam</option>
+            <option value="Pattikkad">Pattikkad</option>
+            <option value="Thrissur">Thrissur</option>
+            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="save-profile-btn">Save Profile</button>
+    </div>
+  </main>
 
   <footer class="footer">
     <p>&copy; 2025 ZCafe. All rights reserved by Webcods</p>

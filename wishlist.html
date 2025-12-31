@@ -1,312 +1,321 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Wishlist</title>
   <link rel="stylesheet" href="desktop.css">
   <style>
-
-/* =========================
+    /* =========================
    HEADER ICON
 ========================= */
-.bag-header {
-  display: flex;
-  justify-content: center;
-  margin-top: -80px;
+    .bag-header {
+      display: flex;
+      justify-content: center;
+      margin-top: -80px;
 
-}
+    }
 
-.bag-header svg {
-  width: 50px;
-  height: 34px;
-  fill: #aa0a0a;
-}
+    .bag-header svg {
+      width: 50px;
+      height: 34px;
+      fill: #aa0a0a;
+    }
 
-/* =========================
+    /* =========================
    MAIN CONTAINER
 ========================= */
-.container {
-  max-width: 900px;
-  margin: 0 40px;
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  margin-top: 10px;
-}
+    .container {
+      max-width: 900px;
+      margin: 0 40px;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      margin-top: 10px;
+    }
 
-/* =========================
+    /* =========================
    ITEMS LIST
 ========================= */
-.bag-items {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 25px;
-}
+    .bag-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 25px;
+    }
 
-/* =========================
+    /* =========================
    ITEM CARD
 ========================= */
-.bag-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 14px;
-  padding: 16px;
-  border-radius: 14px;
-  background: #fafafa;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-  align-items: center;
+    .bag-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 14px;
+      background: #fafafa;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      align-items: center;
 
-  /* entry animation */
-  opacity: 0;
-  transform: translateY(25px);
-  animation: slideUpFade 0.45s ease forwards;
-}
+      /* entry animation */
+      opacity: 0;
+      transform: translateY(25px);
+      animation: slideUpFade 0.45s ease forwards;
+    }
 
-/* stagger effect */
-.bag-item:nth-child(1) { animation-delay: 0.05s; }
-.bag-item:nth-child(2) { animation-delay: 0.1s; }
-.bag-item:nth-child(3) { animation-delay: 0.15s; }
-.bag-item:nth-child(4) { animation-delay: 0.2s; }
-.bag-item:nth-child(5) { animation-delay: 0.25s; }
+    /* stagger effect */
+    .bag-item:nth-child(1) {
+      animation-delay: 0.05s;
+    }
 
-/* =========================
+    .bag-item:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .bag-item:nth-child(3) {
+      animation-delay: 0.15s;
+    }
+
+    .bag-item:nth-child(4) {
+      animation-delay: 0.2s;
+    }
+
+    .bag-item:nth-child(5) {
+      animation-delay: 0.25s;
+    }
+
+    /* =========================
    ITEM EXIT STATES
 ========================= */
-.bag-item.removing {
-  opacity: 0;
-  transform: translateX(-30px);
-  transition: all 0.35s ease;
-}
+    .bag-item.removing {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: all 0.35s ease;
+    }
 
-/* =========================
+    /* =========================
    ENTRY KEYFRAME
 ========================= */
-@keyframes slideUpFade {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    @keyframes slideUpFade {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
 
-/* =========================
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
    ITEM TITLE
 ========================= */
-.bag-item h3 {
-  grid-column: 1 / -1;
-  font-size: 1.05rem;
-  font-weight: 600;
-}
+    .bag-item h3 {
+      grid-column: 1 / -1;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
 
-/* =========================
+    /* =========================
    QUANTITY INPUT
 ========================= */
-.qty-input {
-  width: 70px;
-  padding: 6px 8px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 0.9rem;
-}
+    .qty-input {
+      width: 70px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 0.9rem;
+    }
 
-/* =========================
+    /* =========================
    ITEM BUTTONS
 ========================= */
-.remove-btn,
-.add-cart-btn {
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
+    .remove-btn,
+    .add-cart-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-/* Remove */
-.remove-btn {
-  background: #eeeeee;
-  color: #555;
-}
+    /* Remove */
+    .remove-btn {
+      background: #eeeeee;
+      color: #555;
+    }
 
-.remove-btn:hover {
-  background: #e0e0e0;
-}
+    .remove-btn:hover {
+      background: #e0e0e0;
+    }
 
-/* Add to cart */
-.add-cart-btn {
-  background: #aa0a0a;
-  color: #ffffff;
-}
+    /* Add to cart */
+    .add-cart-btn {
+      background: #aa0a0a;
+      color: #ffffff;
+    }
 
-.add-cart-btn:hover {
-  background: #8c0808;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(170,10,10,0.35);
-}
+    .add-cart-btn:hover {
+      background: #8c0808;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(170, 10, 10, 0.35);
+    }
 
-/* =========================
+    /* =========================
    ACTION BUTTONS (BOTTOM)
 ========================= */
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  flex-wrap: wrap;
-}
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-.book-btn,
-.clear-btn {
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
+    .book-btn,
+    .clear-btn {
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-/* Move all */
-.book-btn {
-  background: #2ecc71;
-  color: #ffffff;
-}
+    /* Move all */
+    .book-btn {
+      background: #2ecc71;
+      color: #ffffff;
+    }
 
-.book-btn:hover {
-  background: #27ae60;
-  transform: translateY(-2px);
-}
+    .book-btn:hover {
+      background: #27ae60;
+      transform: translateY(-2px);
+    }
 
-/* Clear */
-.clear-btn {
-  background: #f1f1f1;
-  color: #444;
-}
+    /* Clear */
+    .clear-btn {
+      background: #f1f1f1;
+      color: #444;
+    }
 
-.clear-btn:hover {
-  background: #e2e2e2;
-}
+    .clear-btn:hover {
+      background: #e2e2e2;
+    }
 
-/* =========================
+    /* =========================
    EMPTY STATE
 ========================= */
-.bag-items p {
-  text-align: center;
-  color: #777;
-  padding: 30px 0;
-  font-size: 1rem;
-}
+    .bag-items p {
+      text-align: center;
+      color: #777;
+      padding: 30px 0;
+      font-size: 1rem;
+    }
 
-/* =========================
+    /* =========================
    FOOTER
 ========================= */
-.footer {
-  text-align: center;
-  padding: 20px 10px;
-  font-size: 0.85rem;
-  margin-top: 560px;
-  color: #777;
 
-}
-
-/* =========================
+    /* =========================
    CART BADGE
 ========================= */
-.cart-badge {
-  background: #aa0a0a;
-  color: #fff;
-  font-size: 0.7rem;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  margin-left: 4px;
-}
+    .cart-badge {
+      background: #aa0a0a;
+      color: #fff;
+      font-size: 0.7rem;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      margin-left: 4px;
+    }
 
-/* =========================
+    /* =========================
    FLY TO CART CLONE
 ========================= */
-.fly-item {
-  position: fixed;
-  z-index: 9999;
-  pointer-events: none;
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-  transition: transform 0.7s cubic-bezier(0.4,0,0.2,1),
-              opacity 0.7s ease;
-}
+    .fly-item {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.7s ease;
+    }
 
-/* =========================
+    /* =========================
    MOBILE
 ========================= */
-@media (max-width: 600px) {
+    @media (max-width: 600px) {
 
-  .container {
-    padding: 16px;
-    border-radius: 14px;
-  }
+      .container {
+        padding: 16px;
+        border-radius: 14px;
+      }
 
-  .bag-item {
-    grid-template-columns: 1fr;
-  }
+      .bag-item {
+        grid-template-columns: 1fr;
+      }
 
-  .qty-input {
-    width: 100%;
-  }
+      .qty-input {
+        width: 100%;
+      }
 
-  .remove-btn,
-  .add-cart-btn {
-    width: 100%;
-  }
+      .remove-btn,
+      .add-cart-btn {
+        width: 100%;
+      }
 
-  .actions {
-    justify-content: center;
-  }
+      .actions {
+        justify-content: center;
+      }
 
-  .actions button {
-    width: 100%;
-  }
-}
-
+      .actions button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
+
 <body>
   <script>
-    (function(){
+    (function () {
       var loader = document.createElement('div');
       loader.className = 'app-loader';
       loader.innerHTML = '<div class="logo" aria-hidden="true"></div>';
       document.documentElement.appendChild(loader);
-      function removeLoader(){ loader.classList.add('loaded'); setTimeout(()=>{ if(loader && loader.parentNode) loader.parentNode.removeChild(loader); },350); }
+      function removeLoader() { loader.classList.add('loaded'); setTimeout(() => { if (loader && loader.parentNode) loader.parentNode.removeChild(loader); }, 350); }
       if (document.readyState === 'complete') removeLoader(); else window.addEventListener('load', removeLoader);
-      window.addEventListener('beforeunload', function(){ if(!document.documentElement.contains(loader)) document.documentElement.appendChild(loader); });
+      window.addEventListener('beforeunload', function () { if (!document.documentElement.contains(loader)) document.documentElement.appendChild(loader); });
     })();
   </script>
 
-  <!-- Wishlist Header -->
-  <header class="bag-header">
-    <svg viewBox="0 0 24 24" width="24" height="24">
-      <path d="M12 21s-8-4.58-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.42-8 11-8 11Z"/>
-    </svg>
-  </header>
+  <main class="main-content">
+    <!-- Wishlist Header -->
+    <header class="bag-header">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path d="M12 21s-8-4.58-8-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.42-8 11-8 11Z" />
+      </svg>
+    </header>
 
-  <div class="container">
-    <div class="bag-items" id="wishlist-items"></div>
+    <div class="container">
+      <div class="bag-items" id="wishlist-items"></div>
 
-    <div class="actions">
-      <button class="book-btn" id="move-to-bag-btn">Move All to Cart</button>
-      <button class="clear-btn" id="clear-wishlist-btn">Clear Wishlist</button>
+      <div class="actions">
+        <button class="book-btn" id="move-to-bag-btn">Move All to Cart</button>
+        <button class="clear-btn" id="clear-wishlist-btn">Clear Wishlist</button>
+      </div>
     </div>
-  </div>
+  </main>
 
   <!-- ===== Footer ===== -->
   <footer class="footer">
@@ -316,105 +325,114 @@
   <!-- Bottom Navbar -->
   <div class="bottom-nav">
     <a class="nav-item" href="index.html" id="home-link">
-      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2Z"/></svg>
+      <svg viewBox="0 0 24 24">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2Z" />
+      </svg>
       Home
     </a>
     <a class="nav-item" href="purchase.html" id="purchase-link">
-      <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4v10l8 4 8-4z M12 3v10 M8 5v10 M16 5v10"/></svg>
+      <svg viewBox="0 0 24 24">
+        <path d="M20 7l-8-4-8 4v10l8 4 8-4z M12 3v10 M8 5v10 M16 5v10" />
+      </svg>
       Purchase
     </a>
     <a class="nav-item" href="service.html" id="service-link">
-      <svg viewBox="0 0 24 24" fill="#000"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#000">
+        <path
+          d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+      </svg>
       Service
     </a>
     <a class="nav-item" href="bag.html" id="bag-link">
-      <svg viewBox="0 0 24 24"><path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z"/></svg>
+      <svg viewBox="0 0 24 24">
+        <path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z" />
+      </svg>
       Cart
       <div class="cart-badge" id="cart-badge"></div>
     </a>
   </div>
 
-<script>
-/* =========================
-   STORAGE
-========================= */
-let wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
-let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+  <script>
+    /* =========================
+       STORAGE
+    ========================= */
+    let wishlist = JSON.parse(localStorage.getItem("wishlistItems")) || [];
+    let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-/* =========================
-   ELEMENTS
-========================= */
-const wishlistContainer = document.getElementById("wishlist-items");
-const cartBadge = document.getElementById("cart-badge");
-const moveAllBtn = document.getElementById("move-to-bag-btn");
-const clearBtn = document.getElementById("clear-wishlist-btn");
-const cartIcon = document.getElementById("bag-link");
+    /* =========================
+       ELEMENTS
+    ========================= */
+    const wishlistContainer = document.getElementById("wishlist-items");
+    const cartBadge = document.getElementById("cart-badge");
+    const moveAllBtn = document.getElementById("move-to-bag-btn");
+    const clearBtn = document.getElementById("clear-wishlist-btn");
+    const cartIcon = document.getElementById("bag-link");
 
-/* =========================
-   SAVE
-========================= */
-function saveWishlist() {
-  localStorage.setItem("wishlistItems", JSON.stringify(wishlist));
-}
+    /* =========================
+       SAVE
+    ========================= */
+    function saveWishlist() {
+      localStorage.setItem("wishlistItems", JSON.stringify(wishlist));
+    }
 
-function saveCart() {
-  localStorage.setItem("cartItems", JSON.stringify(cart));
-  updateBadge();
-}
+    function saveCart() {
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      updateBadge();
+    }
 
-/* =========================
-   BADGE
-========================= */
-function updateBadge() {
-  const totalQty = cart.reduce((s, i) => s + i.quantity, 0);
-  cartBadge.textContent = totalQty;
-  cartBadge.style.display = totalQty > 0 ? "flex" : "none";
-}
+    /* =========================
+       BADGE
+    ========================= */
+    function updateBadge() {
+      const totalQty = cart.reduce((s, i) => s + i.quantity, 0);
+      cartBadge.textContent = totalQty;
+      cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+    }
 
-/* =========================
-   FLY TO CART
-========================= */
-function flyToCart(itemEl) {
-  const clone = itemEl.cloneNode(true);
-  const rect = itemEl.getBoundingClientRect();
-  const cartRect = cartIcon.getBoundingClientRect();
+    /* =========================
+       FLY TO CART
+    ========================= */
+    function flyToCart(itemEl) {
+      const clone = itemEl.cloneNode(true);
+      const rect = itemEl.getBoundingClientRect();
+      const cartRect = cartIcon.getBoundingClientRect();
 
-  clone.classList.add("fly-item");
-  clone.style.width = rect.width + "px";
-  clone.style.height = rect.height + "px";
-  clone.style.left = rect.left + "px";
-  clone.style.top = rect.top + "px";
+      clone.classList.add("fly-item");
+      clone.style.width = rect.width + "px";
+      clone.style.height = rect.height + "px";
+      clone.style.left = rect.left + "px";
+      clone.style.top = rect.top + "px";
 
-  document.body.appendChild(clone);
+      document.body.appendChild(clone);
 
-  requestAnimationFrame(() => {
-    clone.style.transform = `
+      requestAnimationFrame(() => {
+        clone.style.transform = `
       translate(${cartRect.left - rect.left}px,
                 ${cartRect.top - rect.top}px) scale(0.2)
     `;
-    clone.style.opacity = "0";
-  });
+        clone.style.opacity = "0";
+      });
 
-  setTimeout(() => clone.remove(), 700);
-}
+      setTimeout(() => clone.remove(), 700);
+    }
 
-/* =========================
-   RENDER
-========================= */
-function renderWishlist() {
-  wishlistContainer.innerHTML = "";
+    /* =========================
+       RENDER
+    ========================= */
+    function renderWishlist() {
+      wishlistContainer.innerHTML = "";
 
-  if (!wishlist.length) {
-    wishlistContainer.innerHTML = "<p>Your wishlist is empty ❤️</p>";
-    updateBadge();
-    return;
-  }
+      if (!wishlist.length) {
+        wishlistContainer.innerHTML = "<p>Your wishlist is empty ❤️</p>";
+        updateBadge();
+        return;
+      }
 
-  wishlist.forEach((item, index) => {
-    const div = document.createElement("div");
-    div.className = "bag-item";
+      wishlist.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "bag-item";
 
-    div.innerHTML = `
+        div.innerHTML = `
       <h3>${item.name}</h3>
       <input type="number" min="1" value="${item.quantity}"
         class="qty-input"
@@ -423,94 +441,95 @@ function renderWishlist() {
       <button class="add-cart-btn" onclick="moveToBag(${index})">Add to Cart</button>
     `;
 
-    wishlistContainer.appendChild(div);
-  });
+        wishlistContainer.appendChild(div);
+      });
 
-  updateBadge();
-}
+      updateBadge();
+    }
 
-/* =========================
-   UPDATE QTY
-========================= */
-function updateQuantity(index, qty) {
-  qty = parseInt(qty);
-  if (qty < 1) return;
-  wishlist[index].quantity = qty;
-  saveWishlist();
-}
+    /* =========================
+       UPDATE QTY
+    ========================= */
+    function updateQuantity(index, qty) {
+      qty = parseInt(qty);
+      if (qty < 1) return;
+      wishlist[index].quantity = qty;
+      saveWishlist();
+    }
 
-/* =========================
-   REMOVE
-========================= */
-function removeItem(index) {
-  const el = wishlistContainer.children[index];
-  el.classList.add("removing");
+    /* =========================
+       REMOVE
+    ========================= */
+    function removeItem(index) {
+      const el = wishlistContainer.children[index];
+      el.classList.add("removing");
 
-  setTimeout(() => {
-    wishlist.splice(index, 1);
-    saveWishlist();
+      setTimeout(() => {
+        wishlist.splice(index, 1);
+        saveWishlist();
+        renderWishlist();
+      }, 350);
+    }
+
+    /* =========================
+       MOVE ONE → CART
+    ========================= */
+    function moveToBag(index) {
+      const el = wishlistContainer.children[index];
+      flyToCart(el);
+      el.classList.add("removing");
+
+      const item = wishlist[index];
+      const existing = cart.find(c => c.name === item.name);
+
+      if (existing) existing.quantity += item.quantity;
+      else cart.push({ name: item.name, quantity: item.quantity });
+
+      setTimeout(() => {
+        wishlist.splice(index, 1);
+        saveWishlist();
+        saveCart();
+        renderWishlist();
+      }, 400);
+    }
+
+    /* =========================
+       MOVE ALL → CART
+    ========================= */
+    moveAllBtn.addEventListener("click", () => {
+      if (!wishlist.length) return alert("Wishlist empty!");
+
+      [...wishlistContainer.children].forEach(el => flyToCart(el));
+
+      wishlist.forEach(item => {
+        const existing = cart.find(c => c.name === item.name);
+        if (existing) existing.quantity += item.quantity;
+        else cart.push({ name: item.name, quantity: item.quantity });
+      });
+
+      setTimeout(() => {
+        wishlist = [];
+        saveWishlist();
+        saveCart();
+        renderWishlist();
+      }, 500);
+    });
+
+    /* =========================
+       CLEAR
+    ========================= */
+    clearBtn.addEventListener("click", () => {
+      if (!wishlist.length) return;
+      if (!confirm("Clear wishlist?")) return;
+      wishlist = [];
+      saveWishlist();
+      renderWishlist();
+    });
+
+    /* INIT */
     renderWishlist();
-  }, 350);
-}
-
-/* =========================
-   MOVE ONE → CART
-========================= */
-function moveToBag(index) {
-  const el = wishlistContainer.children[index];
-  flyToCart(el);
-  el.classList.add("removing");
-
-  const item = wishlist[index];
-  const existing = cart.find(c => c.name === item.name);
-
-  if (existing) existing.quantity += item.quantity;
-  else cart.push({ name: item.name, quantity: item.quantity });
-
-  setTimeout(() => {
-    wishlist.splice(index, 1);
-    saveWishlist();
-    saveCart();
-    renderWishlist();
-  }, 400);
-}
-
-/* =========================
-   MOVE ALL → CART
-========================= */
-moveAllBtn.addEventListener("click", () => {
-  if (!wishlist.length) return alert("Wishlist empty!");
-
-  [...wishlistContainer.children].forEach(el => flyToCart(el));
-
-  wishlist.forEach(item => {
-    const existing = cart.find(c => c.name === item.name);
-    if (existing) existing.quantity += item.quantity;
-    else cart.push({ name: item.name, quantity: item.quantity });
-  });
-
-  setTimeout(() => {
-    wishlist = [];
-    saveWishlist();
-    saveCart();
-    renderWishlist();
-  }, 500);
-});
-
-/* =========================
-   CLEAR
-========================= */
-clearBtn.addEventListener("click", () => {
-  if (!wishlist.length) return;
-  if (!confirm("Clear wishlist?")) return;
-  wishlist = [];
-  saveWishlist();
-  renderWishlist();
-});
-
-/* INIT */
-renderWishlist();
-</script>
+  </script>
 
 </body>
+
 </html>

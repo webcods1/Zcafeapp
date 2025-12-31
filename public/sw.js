@@ -4,7 +4,7 @@ const ASSETS = [
   '/index.html',
   '/desktop.css',
   '/mobile.css',
-  '/public/logo.png'
+  '/logo.png'
 ];
 
 self.addEventListener('install', (event) => {
