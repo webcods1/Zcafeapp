@@ -10,7 +10,7 @@
 
 </head>
 
-<body>
+<body class="no-top-nav">
   <script>
     (function () {
       var loader = document.createElement('div');
@@ -23,8 +23,10 @@
     })();
   </script>
 
+
+
   <main class="main-content">
-    <div style="text-align: center; margin: 20px 0;">
+    <div style="text-align: center; margin-bottom: 20px;">
       <svg width="80" height="80" viewBox="0 0 24 24" style="margin-bottom: 10px;">
         <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5v3h18v-3c0-2.5-4-5-9-5Z" />
       </svg>
@@ -36,12 +38,15 @@
           <label for="view-phone-input"><strong>Phone Number:</strong></label>
           <input type="tel" id="view-phone-input" placeholder="Enter phone number" />
 
-          <label for="view-company-input"><strong>Company Name:</strong></label>
-          <input type="text" id="view-company-input" placeholder="Enter company name" />
-        </div>
-        <div class="profile-column">
           <label for="view-location-input"><strong>Location/Address:</strong></label>
-          <input type="text" id="view-location-input" placeholder="Enter your city/area" />
+          <select id="view-location-input">
+            <option value="" disabled selected>Select Location</option>
+          </select>
+
+          <label for="view-company-input"><strong>Company Name:</strong></label>
+          <select id="view-company-input">
+            <option value="" disabled selected>Select Company</option>
+          </select>
 
           <label for="view-deliver-input"><strong>Product Deliver From (Branch):</strong></label>
           <select id="view-deliver-input">
@@ -63,9 +68,37 @@
     <p>&copy; 2025 ZCafe. All rights reserved by Webcods</p>
   </footer>
 
+  <div class="bottom-nav">
+    <a class="nav-item" href="index.html" id="home-link">
+      <svg viewBox="0 0 24 24">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2Z" />
+      </svg>
+      Home
+    </a>
+    <a class="nav-item" href="purchase.html" id="purchase-link">
+      <svg viewBox="0 0 24 24">
+        <path d="M20 7l-8-4-8 4v10l8 4 8-4z M12 3v10 M8 5v10 M16 5v10" />
+      </svg>
+      Purchase
+    </a>
+    <a class="nav-item" href="service.html" id="service-link">
+      <svg viewBox="0 0 24 24" fill="#000">
+        <path
+          d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+      </svg>
+      Service
+    </a>
+    <a class="nav-item" href="bag.html" id="bag-link">
+      <svg viewBox="0 0 24 24">
+        <path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z" />
+      </svg>
+      Cart
+    </a>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBD_s0bu-ei-bsdPDIFaDF6gbuck-85hbM",
@@ -81,26 +114,78 @@
     const db = getDatabase(app);
 
     const saveBtn = document.getElementById('save-profile-btn');
+    const locationSelect = document.getElementById('view-location-input');
+    const companySelect = document.getElementById('view-company-input');
+
+    const locationData = {
+      "Calicut City": ["Others"],
+      "Kannur City": ["Others"],
+      "Kasarakod City": ["Others"],
+      "Vatakara City": [
+        "BMH vatakara",
+        "C&C vatakara",
+        "Keerthimuthra vatakara",
+        "Dreame cinemas kallachi",
+        "Others"
+      ]
+    };
+
+    function populateLocations() {
+      for (let loc in locationData) {
+        let opt = document.createElement('option');
+        opt.value = loc;
+        opt.textContent = loc;
+        locationSelect.appendChild(opt);
+      }
+    }
+
+    locationSelect.addEventListener('change', function () {
+      const selectedLoc = this.value;
+      const companies = locationData[selectedLoc] || [];
+
+      companySelect.innerHTML = '<option value="" disabled selected>Select Company</option>';
+      companies.forEach(company => {
+        let opt = document.createElement('option');
+        opt.value = company;
+        opt.textContent = company;
+        companySelect.appendChild(opt);
+      });
+    });
 
     function loadLocalProfile() {
-      document.getElementById('view-phone-input').value = localStorage.getItem('phoneNumber') || '';
-      document.getElementById('view-company-input').value = localStorage.getItem('companyName') || '';
-      document.getElementById('view-location-input').value = localStorage.getItem('deliveryAddress') || '';
+      const phone = localStorage.getItem('phoneNumber') || '';
+      const loc = localStorage.getItem('deliveryAddress') || '';
+      const comp = localStorage.getItem('companyName') || '';
+
+      document.getElementById('view-phone-input').value = phone;
+
+      if (loc) {
+        locationSelect.value = loc;
+        // Trigger change to populate companies
+        const event = new Event('change');
+        locationSelect.dispatchEvent(event);
+
+        if (comp) {
+          companySelect.value = comp;
+        }
+      }
+
       document.getElementById('view-deliver-input').value = localStorage.getItem('deliverFrom') || '';
     }
 
+    populateLocations();
     loadLocalProfile();
 
     saveBtn.addEventListener('click', (e) => {
       e.preventDefault();
 
       const phone = document.getElementById('view-phone-input').value.trim();
-      const company = document.getElementById('view-company-input').value.trim();
-      const address = document.getElementById('view-location-input').value.trim(); // DELIVERY ADDRESS
+      const company = companySelect.value;
+      const address = locationSelect.value;
       const deliverFrom = document.getElementById('view-deliver-input').value;
 
-      if (!phone || !address || !deliverFrom) {
-        alert("Please fill Phone, Delivery Address, and Branch.");
+      if (!phone || !address || !company || !deliverFrom) {
+        alert("Please fill all fields.");
         return;
       }
 
@@ -127,6 +212,19 @@
           alert("Error: " + err.message);
         });
     });
+
+
+
+    function updateNavHeight() {
+      const nav = document.querySelector('nav');
+      if (nav) {
+        document.body.style.setProperty('--nav-height', nav.offsetHeight + 'px');
+      }
+    }
+    window.addEventListener('resize', updateNavHeight);
+    updateNavHeight();
+    // Re-run after a short delay to catch any dynamic content shifts
+    setTimeout(updateNavHeight, 500);
 
   </script>
 

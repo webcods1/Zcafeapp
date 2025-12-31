@@ -404,6 +404,32 @@
       searchInput.value = searchQuery;
     }
 
+    // ================= DELIVERY ADDRESS (FROM PROFILE) =================
+    document.addEventListener("DOMContentLoaded", () => {
+      const addressInput = document.getElementById("address-input");
+      const deliverToSpan = document.querySelector(".deliver-to span");
+
+      const companyName = localStorage.getItem("companyName");
+      const deliveryAddress = localStorage.getItem("deliveryAddress");
+
+      // Label
+      if (companyName) {
+        deliverToSpan.textContent = `Deliver To (${companyName}):`;
+      } else {
+        deliverToSpan.textContent = "Deliver To:";
+      }
+
+      // Address
+      if (deliveryAddress) {
+        if (addressInput) addressInput.value = deliveryAddress;
+      } else {
+        if (addressInput) addressInput.value = "Please set delivery address in profile";
+      }
+
+      // 🔒 READ ONLY (PROFILE CONTROLS IT)
+      if (addressInput) addressInput.readOnly = true;
+    });
+
     // Function to show suggestions
     function showSuggestions() {
       const query = searchInput.value.toLowerCase().trim();
@@ -446,11 +472,11 @@
 
     updateBadge();
 
-    /* ✅ FIXED ADD TO CART */
+    /* ✅ ADD TO CART LOGIC */
     document.querySelectorAll(".add-cart-btn").forEach(btn => {
       btn.addEventListener("click", () => {
-        const location = localStorage.getItem("location");
-        if (!location) {
+        const address = localStorage.getItem("deliveryAddress");
+        if (!address) {
           alert("Please set delivery address in Profile first.");
           window.location.href = "profile.html";
           return;
@@ -471,41 +497,6 @@
         updateBadge();
 
         alert(`${quantity} × ${name} added to bag`);
-      });
-    });
-
-    // function to update badge
-    function updateBadge() {
-      let totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-      cartBadge.textContent = totalQty;
-      cartBadge.style.display = totalQty > 0 ? "flex" : "none";
-    }
-
-    updateBadge();
-
-
-
-    document.querySelectorAll(".add-cart-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        if (!userAddress) {
-          alert('Please set your delivery address first.');
-          return;
-        }
-        const card = btn.closest(".product-card");
-        const name = card.dataset.name;
-        const quantity = parseInt(card.querySelector(".quantity-input").value);
-
-        const existing = cart.find(item => item.name === name);
-        if (existing) {
-          existing.quantity += quantity;
-        } else {
-          cart.push({ name, quantity });
-        }
-
-        localStorage.setItem("cartItems", JSON.stringify(cart));
-        updateBadge();
-
-        alert(`${quantity} x ${name} added to bag!`);
       });
     });
 
@@ -746,25 +737,6 @@
       window.location.href = "notification.html";
     });
 
-    // notification badge logic
-    const notificationBadge = document.createElement("div");
-    notificationBadge.style.position = "absolute";
-    notificationBadge.style.top = "-5px";
-    notificationBadge.style.right = "-5px";
-    notificationBadge.style.background = "red";
-    notificationBadge.style.color = "white";
-    notificationBadge.style.borderRadius = "50%";
-    notificationBadge.style.width = "18px";
-    notificationBadge.style.height = "18px";
-    notificationBadge.style.fontSize = "12px";
-    notificationBadge.style.display = "flex";
-    notificationBadge.style.alignItems = "center";
-    notificationBadge.style.justifyContent = "center";
-    notificationBadge.style.fontWeight = "bold";
-    notificationBadge.style.zIndex = "10";
-    notificationBadge.textContent = "3"; // Sample count
-    document.getElementById("bell-icon").style.position = "relative";
-    document.getElementById("bell-icon").appendChild(notificationBadge);
 
     document.getElementById("wishlist-icon").addEventListener("click", () => {
       window.location.href = "wishlist.html";
@@ -833,6 +805,75 @@
 
   <!-- Bootstrap 5 JS Bundle (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+    const dbApp = initializeApp({
+      apiKey: "AIzaSyBD_s0bu-ei-bsdPDIFaDF6gbuck-85hbM",
+      databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com"
+    });
+    const realtimeDb = getDatabase(dbApp);
+
+    const bellIcon = document.getElementById("bell-icon");
+    const notificationBadge = document.createElement("div");
+    notificationBadge.style.position = "absolute";
+    notificationBadge.style.top = "-5px";
+    notificationBadge.style.right = "-5px";
+    notificationBadge.style.background = "red";
+    notificationBadge.style.color = "white";
+    notificationBadge.style.borderRadius = "50%";
+    notificationBadge.style.width = "18px";
+    notificationBadge.style.height = "18px";
+    notificationBadge.style.fontSize = "12px";
+    notificationBadge.style.display = "none";
+    notificationBadge.style.alignItems = "center";
+    notificationBadge.style.justifyContent = "center";
+    notificationBadge.style.fontWeight = "bold";
+    notificationBadge.style.zIndex = "10";
+    if (bellIcon) {
+      bellIcon.style.position = "relative";
+      bellIcon.appendChild(notificationBadge);
+    }
+
+    const notifSound = document.createElement("audio");
+    notifSound.src = "https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3";
+    document.body.appendChild(notifSound);
+
+    let lastKnownNotifTime = parseInt(localStorage.getItem("lastNotifSeen") || "0");
+
+    onValue(ref(realtimeDb, "notifications"), snap => {
+      if (snap.exists()) {
+        const data = snap.val();
+        const userLoc = localStorage.getItem("deliveryAddress") || "";
+        const userComp = localStorage.getItem("companyName") || "";
+        const lastSeen = parseInt(localStorage.getItem("lastNotifSeen") || "0");
+
+        let unreadCount = 0;
+        let newestInCurrentBatch = 0;
+
+        Object.values(data).forEach(n => {
+          const matchLoc = n.targetLocation === "all" || n.targetLocation === userLoc;
+          const matchComp = n.targetCompany === "all" || n.targetCompany === userComp;
+          const notifTime = new Date(n.timestamp).getTime();
+
+          if (matchLoc && matchComp) {
+            if (notifTime > lastSeen) unreadCount++;
+            if (notifTime > newestInCurrentBatch) newestInCurrentBatch = notifTime;
+          }
+        });
+
+        if (newestInCurrentBatch > lastKnownNotifTime) {
+          notifSound.play().catch(e => console.log("Sound error:", e));
+          lastKnownNotifTime = newestInCurrentBatch;
+        }
+
+        notificationBadge.textContent = unreadCount;
+        notificationBadge.style.display = unreadCount > 0 ? "flex" : "none";
+      }
+    });
+  </script>
 </body>
 
 </html>

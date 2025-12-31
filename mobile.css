@@ -73,6 +73,10 @@ body {
     /* No top nav, so no padding */
   }
 
+  body.no-top-nav .main-content {
+    margin-top: 0 !important;
+  }
+
   /* Bottom Navbar for mobile */
   .bottom-nav {
     padding: 12px 0;
@@ -172,7 +176,7 @@ body {
     padding: 5px 0;
     background-color: #ffffff;
     /* Earthy background */
-    margin-top: -10px;
+    margin-top: 20px;
     margin-bottom: 10px;
   }
 
@@ -1215,7 +1219,7 @@ body {
   /* ===== Complaint Form ===== */
   .main-content {
     max-width: 95%;
-    margin: 60px auto 20px;
+    margin: 0 auto 20px;
     padding: 0 15px;
   }
 

@@ -17,7 +17,7 @@ body {
   font-family: 'Open Sauce One', Arial, sans-serif;
   background: #ffffff;
   color: #333;
-  padding-top: 80px;
+  padding-top: var(--nav-height, 80px);
   /* Account for fixed navbar */
   min-height: 100vh;
   display: flex;
@@ -172,7 +172,7 @@ nav.hidden {
   /* Earthy background */
   overflow: hidden;
   /* Container hides overflow */
-  margin-top: 0;
+  margin-top: 40px;
 }
 
 .image-scroll-row {

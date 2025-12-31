@@ -139,7 +139,7 @@
   </style>
 </head>
 
-<body>
+<body class="no-top-nav">
   <script>
     (function () {
       var loader = document.createElement('div');
@@ -151,6 +151,8 @@
       window.addEventListener('beforeunload', function () { if (!document.documentElement.contains(loader)) document.documentElement.appendChild(loader); });
     })();
   </script>
+
+
 
   <main class="main-content">
     <h1>Machine Service </h1>
@@ -166,7 +168,7 @@
       <label for="complaint-message">Message</label>
       <textarea id="complaint-message" placeholder="Describe your complaint in detail..." required></textarea>
 
-      <button type="submit">Submit Complaint</button>
+      <button type="submit">Send Complaint</button>
     </form>
   </main>
 

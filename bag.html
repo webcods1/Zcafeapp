@@ -4,9 +4,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Cart</title>
+  <title>Cart - ZCafe</title>
   <link rel="stylesheet" href="desktop.css">
   <link rel="stylesheet" href="mobile.css">
+  <style>
+    .bag-header {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .bag-header svg {
+      width: 50px;
+      height: 50px;
+      fill: #aa0a0a;
+    }
+
+    .main-content {
+      padding-top: 20px;
+    }
+  </style>
 </head>
 
 <body class="no-top-nav">
@@ -22,16 +40,17 @@
     })();
   </script>
 
+
+
   <main class="main-content">
     <header class="bag-header">
-      <svg viewBox="0 0 24 24" width="24" height="24">
+      <svg viewBox="0 0 24 24">
         <path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z" />
       </svg>
     </header>
-
     <div class="container">
       <!-- ===== Persistent Tracking Section ===== -->
-      <div id="active-tracking">
+      <div id="active-tracking" style="display: none;">
         <div class="tracking-tag">Order in Transit</div>
         <h4>Your Order is on the Way!</h4>
         <p>Delivery expected within one week. Stay tuned!</p>
@@ -146,26 +165,28 @@
       if (actions) actions.style.display = "flex";
 
       cart.forEach((item, i) => {
-        bagContainer.innerHTML += `
-        <div class="bag-item">
+        const div = document.createElement("div");
+        div.className = "bag-item";
+        div.innerHTML = `
           <h3>${item.name}</h3>
-          <input type="number" min="1" value="${item.quantity}"
-            onchange="window.updateQty(${i}, this.value)">
-          <button onclick="window.removeItem(${i})">Remove</button>
-        </div>
-      `;
+          <input type="number" min="1" value="${item.quantity}">
+          <button class="remove-btn">Remove</button>
+        `;
+        div.querySelector('input').onchange = (e) => updateQty(i, e.target.value);
+        div.querySelector('.remove-btn').onclick = () => removeItem(i);
+        bagContainer.appendChild(div);
       });
 
       updateBadge();
     }
 
-    window.updateQty = (i, qty) => {
+    function updateQty(i, qty) {
       cart[i].quantity = parseInt(qty);
       localStorage.setItem("cartItems", JSON.stringify(cart));
       renderBag();
     };
 
-    window.removeItem = (i) => {
+    function removeItem(i) {
       cart.splice(i, 1);
       localStorage.setItem("cartItems", JSON.stringify(cart));
       renderBag();
@@ -182,7 +203,7 @@
 
       const phone = localStorage.getItem("phoneNumber");
       const deliveryAddress = localStorage.getItem("deliveryAddress");
-      const deliverFrom = localStorage.getItem("deliverFrom"); // ✅ branch
+      const deliverFrom = localStorage.getItem("deliverFrom");
       const company = localStorage.getItem("companyName");
 
       if (!phone || !deliveryAddress || !deliverFrom) {
@@ -194,11 +215,8 @@
       const orderData = {
         customerPhone: phone,
         customerCompany: company || "Regular Customer",
-
-        // 🔥 VERY IMPORTANT
-        customerLocation: deliverFrom,      // used by admin filter
-        customerAddress: deliveryAddress,   // shown in admin
-
+        customerLocation: deliverFrom,
+        customerAddress: deliveryAddress,
         items: cart,
         status: "Pending",
         timestamp: new Date().toLocaleString()
@@ -234,8 +252,31 @@
         renderBag();
       }
     });
-  </script>
 
+
+
+    // Tracking UI Sync
+    const phone = localStorage.getItem("phoneNumber");
+    if (phone) {
+      const ordersRef = query(ref(db, "orders"), orderByChild("customerPhone"), equalTo(phone));
+      onValue(ordersRef, snap => {
+        const trackingSec = document.getElementById("active-tracking");
+        if (snap.exists()) {
+          const orders = snap.val();
+          const activeOrder = Object.values(orders).find(o => o.status === "In Transit" || o.status === "Pending");
+          if (activeOrder) {
+            trackingSec.style.display = "block";
+            trackingSec.querySelector('h4').textContent = activeOrder.status === "Pending" ? "Order Confirmed" : "Your Order is on the Way!";
+          } else {
+            trackingSec.style.display = "none";
+          }
+        } else {
+          trackingSec.style.display = "none";
+        }
+      });
+    }
+
+  </script>
 </body>
 
 </html>
