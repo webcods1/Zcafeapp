@@ -18,7 +18,8 @@ export default defineConfig({
         service: resolve(__dirname, 'service.html'),
         wishlist: resolve(__dirname, 'wishlist.html'),
         admin: resolve(__dirname, 'admin.html'),
-        adminLogin: resolve(__dirname, 'admin-login.html')
+        adminLogin: resolve(__dirname, 'admin-login.html'),
+        notification: resolve(__dirname, 'notification.html')
       }
     }
   }

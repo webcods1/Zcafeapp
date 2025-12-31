@@ -76,22 +76,32 @@
   </nav>
   <div class="scroll-container">
     <div class="image-scroll-row">
-      <div class="scroll-item">
+      <div class="scroll-item" data-name="Coffee Premium" data-img="public/zcoffepre.png"
+        onclick="showProductQuickView(this)">
+        <div class="best-seller-tag">Best Seller</div>
         <img src="public/zcoffepre.png" alt="Coffee">
       </div>
-      <div class="scroll-item">
+      <div class="scroll-item" data-name="Tea Premium" data-img="public/ztea.png" onclick="showProductQuickView(this)">
+        <div class="offer-tag">UP TO 10% OFF</div>
         <img src="public/ztea.png" alt="Tea">
       </div>
-      <div class="scroll-item">
+      <div class="scroll-item" data-name="Cappuccino" data-img="public/cappuccino.png"
+        onclick="showProductQuickView(this)">
+        <div class="new-tag">NEW ARRIVAL</div>
         <img src="public/cappuccino.png" alt="Cappuccino">
       </div>
-      <div class="scroll-item">
+      <div class="scroll-item" data-name="Milk Boost" data-img="public/boost.png" onclick="showProductQuickView(this)">
+        <div class="energy-tag">ENERGY</div>
         <img src="public/boost.png" alt="Boost">
       </div>
-      <div class="scroll-item">
+      <div class="scroll-item" data-name="Coffee Non sugar" data-img="public/zcoffe.png"
+        onclick="showProductQuickView(this)">
+        <div class="healthy-tag">0% SUGAR</div>
         <img src="public/zcoffe.png" alt="Diet Coffee">
       </div>
-      <div class="scroll-item">
+      <div class="scroll-item" data-name="Milk Horlicks" data-img="public/horlicks.png"
+        onclick="showProductQuickView(this)">
+        <div class="trending-tag">TRENDING</div>
         <img src="public/horlicks.png" alt="Horlicks">
       </div>
     </div>
@@ -234,6 +244,52 @@
         </div>
         <div class="thumb-item thumb-item-coffee" onclick="updateMainCoffee(3, '/boost.png', 'Milk Boost', '★★★★★')">
           <img src="/boost.png" alt="Milk Boost">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="products-collage" id="special-varieties">
+    <div class="collage-header">
+      <h2>Special Premix & Varieties</h2>
+      <p>Our most loved and special selections</p>
+    </div>
+
+    <div class="collage-container">
+      <div class="main-feature-area">
+        <div class="carousel-track" id="main-carousel-special">
+          <div class="feature-slide active">
+            <img src="/boost.png" alt="Featured Product" id="display-img-special">
+            <div class="feature-details">
+              <h3 id="display-title-special">Milk Boost</h3>
+              <div class="rating" id="display-rating-special">★★★★★</div>
+              <button id="add-to-cart-btn-special" class="cart-btn" onclick="addToCartSpecial()">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button class="nav-arrow prev" onclick="moveSlideSpecial(-1)">&#10094;</button>
+        <button class="nav-arrow next" onclick="moveSlideSpecial(1)">&#10095;</button>
+      </div>
+
+      <div class="thumbnail-sidebar">
+        <div class="thumb-item thumb-item-special active"
+          onclick="updateMainSpecial(0, '/boost.png', 'Milk Boost', '★★★★★')">
+          <img src="/boost.png" alt="Milk Boost">
+        </div>
+        <div class="thumb-item thumb-item-special"
+          onclick="updateMainSpecial(1, '/horlicks.png', 'Milk Horlicks', '★★★★★')">
+          <img src="/horlicks.png" alt="Milk Horlicks">
+        </div>
+        <div class="thumb-item thumb-item-special"
+          onclick="updateMainSpecial(2, '/MasalaTea.png', 'Masala Tea', '★★★★☆')">
+          <img src="/MasalaTea.png" alt="Masala Tea">
+        </div>
+        <div class="thumb-item thumb-item-special"
+          onclick="updateMainSpecial(3, '/LemonTea.png', 'Lemon Tea', '★★★★☆')">
+          <img src="/LemonTea.png" alt="Lemon Tea">
         </div>
       </div>
     </div>
@@ -819,7 +875,117 @@
       updateBadge();
       alert(currentProduct.title + " has been added to your cart!");
     }
+
+    // Swinging tag effect on horizontal scroll
+    const scrollRow = document.querySelector('.image-scroll-row');
+    const tags = document.querySelectorAll('.best-seller-tag, .offer-tag, .new-tag, .energy-tag, .healthy-tag, .trending-tag');
+    let scrollTimeout;
+
+    if (scrollRow) {
+      scrollRow.addEventListener('scroll', () => {
+        tags.forEach(tag => tag.classList.add('swinging'));
+
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          tags.forEach(tag => tag.classList.remove('swinging'));
+        }, 500); // Stop swinging 500ms after scroll stops
+      });
+    }
+
+    function showProductQuickView(element) {
+      const productName = element.getAttribute('data-name');
+      const productImg = element.getAttribute('data-img');
+
+      document.getElementById('modal-product-img').src = productImg;
+      document.getElementById('modal-product-name').innerText = productName;
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    function closeProductModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+
+    function confirmAddToCart() {
+      const productName = document.getElementById('modal-product-name').innerText;
+      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+      const existingItem = cart.find(item => item.name === productName);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ name: productName, quantity: 1 });
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      if (typeof updateBadge === 'function') updateBadge();
+
+      // Close modal and show small feedback
+      closeProductModal();
+      alert(productName + " has been added to your cart!");
+    }
+
+    // ================= SPECIAL COLLAGE LOGIC =================
+    const productsSpecial = [
+      { img: '/boost.png', title: 'Milk Boost', rate: '★★★★★' },
+      { img: '/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' },
+      { img: '/MasalaTea.png', title: 'Masala Tea', rate: '★★★★☆' },
+      { img: '/LemonTea.png', title: 'Lemon Tea', rate: '★★★★☆' }
+    ];
+
+    let currentIndexSpecial = 0;
+
+    function updateMainSpecial(index, img, title, rate) {
+      currentIndexSpecial = index;
+      const mainImg = document.getElementById('display-img-special');
+      mainImg.style.opacity = '0';
+      mainImg.style.transform = 'translateX(20px)';
+      setTimeout(() => {
+        mainImg.src = img;
+        document.getElementById('display-title-special').innerText = title;
+        document.getElementById('display-rating-special').innerText = rate;
+        mainImg.style.opacity = '1';
+        mainImg.style.transform = 'translateX(0)';
+        document.querySelectorAll('.thumb-item-special').forEach((item, i) => {
+          item.classList.toggle('active', i === index);
+        });
+      }, 300);
+    }
+
+    function moveSlideSpecial(direction) {
+      currentIndexSpecial += direction;
+      if (currentIndexSpecial >= productsSpecial.length) currentIndexSpecial = 0;
+      if (currentIndexSpecial < 0) currentIndexSpecial = productsSpecial.length - 1;
+      const p = productsSpecial[currentIndexSpecial];
+      updateMainSpecial(currentIndexSpecial, p.img, p.title, p.rate);
+    }
+
+    function addToCartSpecial() {
+      const p = productsSpecial[currentIndexSpecial];
+      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const existingProduct = cart.find(item => item.name === p.title);
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        cart.push({ name: p.title, quantity: 1 });
+      }
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      if (typeof updateBadge === 'function') updateBadge();
+      alert(p.title + " has been added to your cart!");
+    }
   </script>
+  <!-- ===== Product Quick View Modal ===== -->
+  <div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this) closeProductModal()">
+    <div class="quick-card">
+      <button class="close-modal" onclick="closeProductModal()">&times;</button>
+      <img src="" alt="Product Image" id="modal-product-img">
+      <h3 id="modal-product-name">Product Name</h3>
+      <p>Premium quality selection from ZCafe. Perfectly crafted for your delight.</p>
+      <button class="modal-add-btn" onclick="confirmAddToCart()">
+        <i class="fas fa-shopping-cart"></i> Add to Cart
+      </button>
+    </div>
+  </div>
+
   <!-- Bootstrap 5 JS Bundle (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
