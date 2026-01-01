@@ -12,7 +12,7 @@
       display: flex;
       justify-content: center;
       margin-top: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .bag-header svg {
@@ -21,9 +21,141 @@
       fill: #aa0a0a;
     }
 
-    .main-content {
-      padding-top: 20px;
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 18px;
     }
+
+    .bag-items {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+
+    .bag-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 14px;
+      background: #fafafa;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      align-items: center;
+    }
+
+    .bag-item h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      grid-column: 1 / -1;
+      margin: 0;
+    }
+
+    .bag-item input {
+      width: 70px;
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .remove-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      background: #eee;
+      cursor: pointer;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .book-btn {
+      background: #aa0a0a;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .clear-btn {
+      background: #f1f1f1;
+      padding: 12px 24px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Tracking Section */
+    #active-tracking {
+      background: #fff;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .tracking-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      background: #aa0a0a;
+      /* Changed from orange to theme red */
+      color: #fff;
+    }
+
+    #active-tracking h4 {
+      margin: 10px 0;
+      color: #333;
+    }
+
+    #active-tracking p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    @keyframes pulse-success {
+      0% {
+        box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(39, 174, 96, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 0 15px;
+        padding: 10px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .actions button {
+        width: 100%;
+      }
+    }
+  </style>
   </style>
 </head>
 
@@ -255,23 +387,101 @@
 
 
 
+    /* DATE EXTRACTOR */
+    function extractDate(ts) {
+      if (!ts) return "";
+      const m = ts.match(/(\d{2})[\/\-](\d{2})[\/\-](\d{4})/);
+      if (!m) return "";
+      return `${m[3]}-${m[2]}-${m[1]}`; // yyyy-mm-dd
+    }
+
     // Tracking UI Sync
     const phone = localStorage.getItem("phoneNumber");
+    const userLoc = localStorage.getItem("deliverFrom") || "";
+    const userComp = localStorage.getItem("companyName") || "";
+    const todayStr = new Date().toISOString().split("T")[0];
+
     if (phone) {
       const ordersRef = query(ref(db, "orders"), orderByChild("customerPhone"), equalTo(phone));
       onValue(ordersRef, snap => {
         const trackingSec = document.getElementById("active-tracking");
         if (snap.exists()) {
           const orders = snap.val();
-          const activeOrder = Object.values(orders).find(o => o.status === "In Transit" || o.status === "Pending");
+          const ordersArr = Object.values(orders).reverse();
+          // Find the most recent order that is still in an active/recent state
+          const activeOrder = ordersArr.find(o => {
+            const d = extractDate(o.timestamp);
+            return d === todayStr && ["In Transit", "Pending", "Delivered", "Completed"].includes(o.status);
+          });
+
           if (activeOrder) {
             trackingSec.style.display = "block";
-            trackingSec.querySelector('h4').textContent = activeOrder.status === "Pending" ? "Order Confirmed" : "Your Order is on the Way!";
+            const h4 = trackingSec.querySelector('h4');
+            const p = trackingSec.querySelector('p');
+            const tag = trackingSec.querySelector('.tracking-tag');
+
+            if (activeOrder.status === "Delivered" || activeOrder.status === "Completed") {
+              tag.textContent = "Delivery Success";
+              tag.style.background = "#27ae60";
+              h4.innerHTML = 'Delivery Complete! <i class="fas fa-check-circle" style="color: #27ae60; margin-left: 8px;"></i>';
+              p.textContent = "Your order has been delivered. Enjoy your ZCafe beverages!";
+              trackingSec.querySelector('.delivery-scene').style.display = 'none';
+
+              // Add a nice celebrate effect if it just became delivered
+              trackingSec.style.border = "2px solid #27ae60";
+              trackingSec.style.animation = "pulse-success 2s infinite";
+            } else {
+              tag.textContent = "Order Tracking";
+              tag.style.background = "#aa0a0a";
+              h4.textContent = activeOrder.status === "Pending" ? "Order Confirmed" : "Your Order is on the Way!";
+              p.textContent = "Your fresh beverages are being prepared and will be delivered soon.";
+              trackingSec.querySelector('.delivery-scene').style.display = 'block';
+              trackingSec.style.border = "none";
+              trackingSec.style.animation = "none";
+            }
           } else {
             trackingSec.style.display = "none";
           }
         } else {
           trackingSec.style.display = "none";
+        }
+      });
+
+      // Listen for Notifications as well (for Group Delivery alerts)
+      const notifRef = ref(db, "notifications");
+      onValue(notifRef, snap => {
+        if (snap.exists()) {
+          const data = snap.val();
+          const newestNotif = Object.values(data).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))[0];
+
+          if (newestNotif && newestNotif.title === "Delivery Complete!") {
+            const matchLoc = newestNotif.targetLocation === "all" || newestNotif.targetLocation === userLoc;
+            const matchComp = newestNotif.targetCompany === "all" || newestNotif.targetCompany === userComp;
+            const matchDate = newestNotif.targetDate === todayStr;
+
+            // If it's a recent notification (last 30 mins)
+            const notifTime = new Date(newestNotif.timestamp).getTime();
+            const now = Date.now();
+            if (matchLoc && matchComp && matchDate && (now - notifTime < 30 * 60 * 1000)) {
+              const trackingSec = document.getElementById("active-tracking");
+              const h4 = trackingSec.querySelector('h4');
+
+              // Only override if not already showing Delivered status or if it's hidden
+              if (trackingSec.style.display === "none" || !h4.innerHTML.includes("Delivery Complete")) {
+                trackingSec.style.display = "block";
+                const p = trackingSec.querySelector('p');
+                const tag = trackingSec.querySelector('.tracking-tag');
+
+                tag.textContent = "Delivery Alert";
+                tag.style.background = "#27ae60";
+                h4.innerHTML = 'Delivery Complete! <i class="fas fa-check-circle" style="color: #27ae60; margin-left: 8px;"></i>';
+                p.textContent = newestNotif.message;
+                trackingSec.querySelector('.delivery-scene').style.display = 'none';
+                trackingSec.style.border = "2px solid #27ae60";
+                trackingSec.style.animation = "pulse-success 2s infinite";
+              }
+            }
+          }
         }
       });
     }

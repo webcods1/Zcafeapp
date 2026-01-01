@@ -190,6 +190,11 @@
       color: #fff;
     }
 
+    .delivered-btn {
+      background: #0ea5e9;
+      color: #fff;
+    }
+
     .loading {
       text-align: center;
       color: #777;
@@ -274,6 +279,7 @@
               <option value="miss">Did you miss your tomorrow order?</option>
               <option value="welcome">Welcome to ZCafe!</option>
               <option value="offer">Special Discount Inside!</option>
+              <option value="delivery">Delivery Completed</option>
             </select>
             <input type="text" id="notif-title" placeholder="Notification Title"
               style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
@@ -288,7 +294,9 @@
               <option value="all">Target All Companies</option>
             </select>
             <button class="done-btn" onclick="sendNotification()"
-              style="padding: 12px; margin-top: auto; cursor: pointer;">Send to Selected Group</button>
+              style="padding: 10px; margin-top: auto; cursor: pointer;">Send Notification Only</button>
+            <button class="delivered-btn" onclick="markGroupDelivered()" style="padding: 10px; cursor: pointer;">Mark
+              Delivered & Notify Group</button>
           </div>
         </div>
       </section>
@@ -405,6 +413,7 @@
       <ul>${o.items.map(i => `<li>${i.name} x ${i.quantity}</li>`).join("")}</ul>
       <div class="order-actions">
         <button class="done-btn" onclick="markComplete('${o.id}')">Done</button>
+        <button class="delivered-btn" onclick="markDelivered('${o.id}')">Delivered</button>
         <button class="delete-btn" onclick="deleteOrder('${o.id}')">Delete</button>
       </div>
     `;
@@ -421,6 +430,10 @@
     window.markComplete = id =>
       confirm("Mark order completed?")
       && update(ref(db, "orders/" + id), { status: "Completed" });
+
+    window.markDelivered = id =>
+      confirm("Mark order as Delivered?")
+      && update(ref(db, "orders/" + id), { status: "Delivered" });
 
     window.deleteOrder = id =>
       confirm("Delete order?")
@@ -477,23 +490,73 @@
 
       if (!title || !msg) return alert("Fill title and message!");
 
-      if (!confirm(`Send this to ${loc === 'all' ? 'Everyone' : (comp === 'all' ? loc : comp)}?`)) return;
+      return triggerNotification(title, msg, loc, comp);
+    };
+
+    function triggerNotification(title, msg, loc, comp, targetDate = null) {
+      if (!confirm(`Send this to ${loc === 'all' ? 'Everyone' : (comp === 'all' ? loc : comp)}?`)) return Promise.resolve(false);
 
       const newNotifRef = ref(db, 'notifications/' + Date.now());
-      import("https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js").then(mod => {
-        mod.set(newNotifRef, {
-          title,
-          message: msg,
-          targetLocation: loc,
-          targetCompany: comp,
-          timestamp: new Date().toISOString(),
-          sender: adminBranch
-        }).then(() => {
-          alert("Notification sent!");
-          document.getElementById("notif-title").value = "";
-          document.getElementById("notif-msg").value = "";
-        });
+      return modSet(newNotifRef, {
+        title,
+        message: msg,
+        targetLocation: loc,
+        targetCompany: comp,
+        targetDate: targetDate, // Added for targeting today's orders
+        timestamp: new Date().toISOString(),
+        sender: adminBranch
+      }).then(() => {
+        alert("Notification sent!");
+        document.getElementById("notif-title").value = "";
+        document.getElementById("notif-msg").value = "";
+        return true;
       });
+    }
+
+    // Helper to access 'set' from Firebase
+    let modSet;
+    import("https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js").then(mod => {
+      modSet = mod.set;
+    });
+
+    window.markGroupDelivered = async () => {
+      const loc = notifLoc.value;
+      const comp = notifComp.value;
+      const todayKey = new Date().toISOString().split("T")[0];
+
+      if (loc === 'all') return alert("Please select a specific location first.");
+
+      const targets = allOrders.filter(o =>
+        (o.customerLocation === loc || loc === 'all') &&
+        (o.customerCompany === comp || comp === 'all') &&
+        extractDate(o.timestamp) === todayKey &&
+        o.status !== "Delivered"
+      );
+
+      if (targets.length === 0) {
+        if (!confirm("No active orders found for today in this group. Still send notification?")) return;
+      } else {
+        if (!confirm(`Mark ${targets.length} orders as Delivered and Notify they are completed?`)) return;
+      }
+
+      // Update orders in Firebase
+      const updates = {};
+      targets.forEach(o => {
+        updates[`orders/${o.id}/status`] = "Delivered";
+      });
+
+      if (Object.keys(updates).length > 0) {
+        await update(ref(db), updates);
+      }
+
+      // Send the Delivery Complete notification
+      triggerNotification(
+        "Delivery Complete!",
+        "Your ZCafe order has been delivered! Enjoy your fresh beverages. ☕✨",
+        loc,
+        comp,
+        todayKey // Only targeting users who ordered today
+      );
     };
 
     /* ================= TEMPLATES ================= */
@@ -510,6 +573,10 @@
       "offer": {
         title: "Special Discount Inside!",
         msg: "Exclusive offer for your location! Order now and get a special surprise with your delivery."
+      },
+      "delivery": {
+        title: "Delivery Complete!",
+        msg: "Your ZCafe order has been delivered! Enjoy your fresh beverages. ☕✨"
       }
     };
 
