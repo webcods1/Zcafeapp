@@ -36,6 +36,42 @@
   <!-- Your custom styles (override Bootstrap) -->
   <link rel="stylesheet" href="desktop.css">
   <link rel="stylesheet" href="mobile.css">
+
+  <style>
+    @keyframes slideUpFade {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+
+      15% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      85% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+    }
+
+    @keyframes cartPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.3);
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -419,14 +455,71 @@
     let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
     const cartBadge = document.createElement("div");
     cartBadge.className = "cart-badge";
-    cartBadge.style.display = "none";
-    document.getElementById("bag-link").appendChild(cartBadge);
+    cartBadge.style.cssText = `
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff0000;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    `;
+
+    // Make sure the parent has position relative
+    const bagLink = document.getElementById("bag-link");
+    bagLink.style.position = "relative";
+    bagLink.appendChild(cartBadge);
 
     // function to update badge
     function updateBadge() {
       let totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
       cartBadge.textContent = totalQty;
       cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+    }
+
+    // Animated cart notification function
+    function showCartNotification(productName) {
+      // Update badge first
+      updateBadge();
+
+      // Create floating notification
+      const notification = document.createElement('div');
+      notification.textContent = `${productName} added!`;
+      notification.style.cssText = `
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 10000;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        animation: slideUpFade 2s ease-out forwards;
+      `;
+      document.body.appendChild(notification);
+
+      // Pulse the cart badge
+      cartBadge.style.animation = 'cartPulse 0.5s ease-out';
+      setTimeout(() => {
+        cartBadge.style.animation = '';
+      }, 500);
+
+      // Remove notification after animation
+      setTimeout(() => {
+        notification.remove();
+      }, 2000);
     }
 
     updateBadge();
@@ -784,8 +877,8 @@
     // Logic for the Add to Cart action
     function addToCart() {
       const currentProduct = products[currentIndex];
-      // Reuse the global cart variable
-      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      // Reload cart from localStorage and update global variable
+      cart = JSON.parse(localStorage.getItem("cartItems")) || [];
 
       const existingItem = cart.find(item => item.name === currentProduct.title);
       if (existingItem) {
@@ -795,9 +888,7 @@
       }
 
       localStorage.setItem("cartItems", JSON.stringify(cart));
-      updateBadge();
-      // Show alert instead of redirecting
-      alert(currentProduct.title + " has been added to your cart!");
+      showCartNotification(currentProduct.title);
     }
 
     // ================= COFFEE COLLAGE LOGIC =================
@@ -844,7 +935,7 @@
 
     function addToCartCoffee() {
       const currentProduct = productsCoffee[currentIndexCoffee];
-      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      cart = JSON.parse(localStorage.getItem("cartItems")) || [];
 
       const existingItem = cart.find(item => item.name === currentProduct.title);
       if (existingItem) {
@@ -854,8 +945,7 @@
       }
 
       localStorage.setItem("cartItems", JSON.stringify(cart));
-      updateBadge();
-      alert(currentProduct.title + " has been added to your cart!");
+      showCartNotification(currentProduct.title);
     }
 
     // Swinging tag effect on horizontal scroll
@@ -889,7 +979,7 @@
 
     function confirmAddToCart() {
       const productName = document.getElementById('modal-product-name').innerText;
-      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      cart = JSON.parse(localStorage.getItem("cartItems")) || [];
 
       const existingItem = cart.find(item => item.name === productName);
       if (existingItem) {
@@ -899,11 +989,11 @@
       }
 
       localStorage.setItem("cartItems", JSON.stringify(cart));
-      if (typeof updateBadge === 'function') updateBadge();
-
-      // Close modal and show small feedback
+      if (typeof showCartNotification === 'function') {
+        showCartNotification(productName);
+      }
+      // Close modal
       closeProductModal();
-      alert(productName + " has been added to your cart!");
     }
 
     // ================= SPECIAL COLLAGE LOGIC =================
@@ -943,7 +1033,7 @@
 
     function addToCartSpecial() {
       const p = productsSpecial[currentIndexSpecial];
-      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      cart = JSON.parse(localStorage.getItem("cartItems")) || [];
       const existingProduct = cart.find(item => item.name === p.title);
       if (existingProduct) {
         existingProduct.quantity += 1;
@@ -951,8 +1041,7 @@
         cart.push({ name: p.title, quantity: 1 });
       }
       localStorage.setItem("cartItems", JSON.stringify(cart));
-      if (typeof updateBadge === 'function') updateBadge();
-      alert(p.title + " has been added to your cart!");
+      showCartNotification(p.title);
     }
   </script>
   <!-- ===== Product Quick View Modal ===== -->

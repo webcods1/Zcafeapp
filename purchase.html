@@ -11,6 +11,42 @@
 
   <link rel="stylesheet" href="desktop.css">
   <link rel="stylesheet" href="mobile.css">
+
+  <style>
+    @keyframes slideUpFade {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+
+      15% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      85% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+    }
+
+    @keyframes cartPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.3);
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -462,12 +498,69 @@
 
     const cartBadge = document.createElement("div");
     cartBadge.className = "cart-badge";
-    document.getElementById("bag-link").appendChild(cartBadge);
+    cartBadge.style.cssText = `
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff0000;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    `;
+
+    const bagLink = document.getElementById("bag-link");
+    bagLink.style.position = "relative";
+    bagLink.appendChild(cartBadge);
 
     function updateBadge() {
       const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
       cartBadge.textContent = totalQty;
       cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+    }
+
+    // Animated cart notification function
+    function showCartNotification(productName) {
+      // Update badge first
+      updateBadge();
+
+      // Create floating notification
+      const notification = document.createElement('div');
+      notification.textContent = `${productName} added!`;
+      notification.style.cssText = `
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 10000;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        animation: slideUpFade 2s ease-out forwards;
+      `;
+      document.body.appendChild(notification);
+
+      // Pulse the cart badge
+      cartBadge.style.animation = 'cartPulse 0.5s ease-out';
+      setTimeout(() => {
+        cartBadge.style.animation = '';
+      }, 500);
+
+      // Remove notification after animation
+      setTimeout(() => {
+        notification.remove();
+      }, 2000);
     }
 
     updateBadge();
@@ -486,6 +579,8 @@
         const name = card.dataset.name;
         const quantity = parseInt(card.querySelector(".quantity-input").value) || 1;
 
+        // Update global cart variable
+        cart = JSON.parse(localStorage.getItem("cartItems")) || [];
         const existing = cart.find(item => item.name === name);
         if (existing) {
           existing.quantity += quantity;
@@ -494,9 +589,7 @@
         }
 
         localStorage.setItem("cartItems", JSON.stringify(cart));
-        updateBadge();
-
-        alert(`${quantity} × ${name} added to bag`);
+        showCartNotification(`${quantity}× ${name}`);
       });
     });
 
@@ -773,7 +866,7 @@
 
     function confirmAddToCart() {
       const productName = document.getElementById('modal-product-name').innerText;
-      let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      cart = JSON.parse(localStorage.getItem("cartItems")) || [];
 
       const existingItem = cart.find(item => item.name === productName);
       if (existingItem) {
@@ -783,11 +876,10 @@
       }
 
       localStorage.setItem("cartItems", JSON.stringify(cart));
-      if (typeof updateBadge === 'function') updateBadge();
+      showCartNotification(productName);
 
-      // Close modal and show small feedback
+      // Close modal
       closeProductModal();
-      alert(productName + " has been added to your cart!");
     }
   </script>
   <!-- ===== Product Quick View Modal ===== -->

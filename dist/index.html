@@ -34,8 +34,46 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Your custom styles (override Bootstrap) -->
-  <link rel="stylesheet" crossorigin href="/assets/desktop-KWxfvQ-M.css">
-  <link rel="stylesheet" crossorigin href="/assets/mobile-C8MmmVho.css">
+
+  <style>
+    @keyframes slideUpFade {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+
+      15% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      85% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+    }
+
+    @keyframes cartPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.3);
+      }
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/main-Cdj-iKZw.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="/assets/desktop-OWArZ9vK.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-DzcQ2Tde.css">
 </head>
 
 <body>
@@ -74,25 +112,33 @@
       <input type="text" id="address-input" placeholder="Enter your address">
     </div>
   </nav>
+
   <div class="scroll-container">
     <div class="image-scroll-row">
-      <div class="scroll-item">
-        <img src="/assets/zcoffepre-TPXaAqFC.png" alt="Coffee">
+      <div class="scroll-item" data-name="Coffee Premium" data-img="/zcoffepre.png"
+        onclick="showProductQuickView(this)">
+        <div class="best-seller-tag">Best Seller</div>
+        <img src="/zcoffepre.png" alt="Coffee">
       </div>
-      <div class="scroll-item">
-        <img src="/assets/ztea-B80gYzx8.png" alt="Tea">
+      <div class="scroll-item" data-name="Tea Premium" data-img="/ztea.png" onclick="showProductQuickView(this)">
+        <div class="offer-tag">UP TO 10% OFF</div>
+        <img src="/ztea.png" alt="Tea">
       </div>
-      <div class="scroll-item">
-        <img src="/assets/cappuccino-Y1hSEmKr.png" alt="Cappuccino">
+      <div class="scroll-item" data-name="Cappuccino" data-img="/cappuccino.png" onclick="showProductQuickView(this)">
+        <div class="new-tag">NEW ARRIVAL</div>
+        <img src="/cappuccino.png" alt="Cappuccino">
       </div>
-      <div class="scroll-item">
-        <img src="/assets/boost-Dt7fdnWX.png" alt="Boost">
+      <div class="scroll-item" data-name="Milk Boost" data-img="/boost.png" onclick="showProductQuickView(this)">
+        <div class="energy-tag">ENERGY</div>
+        <img src="/boost.png" alt="Boost">
       </div>
-      <div class="scroll-item">
-        <img src="/assets/zcoffe-CyO7bAJS.png" alt="Diet Coffee">
+      <div class="scroll-item" data-name="Coffee Non sugar" data-img="/zcoffe.png" onclick="showProductQuickView(this)">
+        <div class="healthy-tag">0% SUGAR</div>
+        <img src="/zcoffe.png" alt="Diet Coffee">
       </div>
-      <div class="scroll-item">
-        <img src="/assets/horlicks-C-maDT7o.png" alt="Horlicks">
+      <div class="scroll-item" data-name="Milk Horlicks" data-img="/horlicks.png" onclick="showProductQuickView(this)">
+        <div class="trending-tag">TRENDING</div>
+        <img src="/horlicks.png" alt="Horlicks">
       </div>
     </div>
   </div>
@@ -102,32 +148,37 @@
     <div class="carousel-slides mx-auto">
 
       <div class="banner banner-slide active d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop autoplay>
-          <source src="/DietCoffeeZ.webm" type="video/mp4">
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop
+          autoplay poster="/bannerDC.png">
+          <source src="/DietCoffeeZ.webm" type="video/webm">
         </video>
       </div>
 
       <div class="banner banner-slide d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop>
-          <source src="/PremiumTeaZ.webm" type="video/mp4">
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop
+          autoplay poster="/bannerPT.png">
+          <source src="/PremiumTeaZ.webm" type="video/webm">
         </video>
       </div>
 
       <div class="banner banner-slide d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop>
-          <source src="/MilkBoostZ.webm" type="video/mp4">
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop
+          autoplay poster="/bannerMB.png">
+          <source src="/MilkBoostZ.webm" type="video/webm">
         </video>
       </div>
 
       <div class="banner banner-slide d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop>
-          <source src="/MilkhorlicksZ.webm" type="video/mp4">
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop
+          autoplay poster="/bannerMH.png">
+          <source src="/MilkhorlicksZ.webm" type="video/webm">
         </video>
       </div>
 
       <div class="banner banner-slide d-flex justify-content-center align-items-center">
-        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" playsinline muted loop>
-          <source src="/cappuccinoZ.webm" type="video/mp4">
+        <video class="banner-video w-xs-100 h-xs-80 h-md-100 h-lg-100" webkit-playsinline playsinline muted loop
+          autoplay poster="/bannerCA.png">
+          <source src="/cappuccinoZ.webm" type="video/webm">
         </video>
       </div>
 
@@ -162,9 +213,9 @@
       <div class="main-feature-area">
         <div class="carousel-track" id="main-carousel">
           <div class="feature-slide active">
-            <img src="/assets/zcoffepre-TPXaAqFC.png" alt="Featured Product" id="display-img">
+            <img src="/ztea.png" alt="Featured Product" id="display-img">
             <div class="feature-details">
-              <h3 id="display-title">Premium Coffee</h3>
+              <h3 id="display-title">Premium Tea</h3>
               <div class="rating" id="display-rating">★★★★★</div>
               <button id="add-to-cart-btn" class="cart-btn" onclick="addToCart()">
                 <i class="fas fa-shopping-cart"></i> Add to Cart
@@ -178,23 +229,107 @@
       </div>
 
       <div class="thumbnail-sidebar">
-        <div class="thumb-item active" onclick="updateMain(0, '/zcoffepre.png', 'Premium Coffee', '★★★★★')">
-          <img src="/assets/zcoffepre-TPXaAqFC.png" alt="Coffee">
+        <div class="thumb-item active" onclick="updateMain(0, '/ztea.png', 'Premium Tea', '★★★★★')">
+          <img src="/ztea.png" alt="Premium Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(1, '/ztea.png', 'Premium Tea', '★★★★★')">
-          <img src="/assets/ztea-B80gYzx8.png" alt="Tea">
+        <div class="thumb-item" onclick="updateMain(1, '/zwtea.png', 'Non Sugar Tea', '★★★★★')">
+          <img src="/zwtea.png" alt="Non Sugar Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(2, '/cappuccino.png', 'Cappuccino', '★★★★☆')">
-          <img src="/assets/cappuccino-Y1hSEmKr.png" alt="Cappuccino">
+        <div class="thumb-item" onclick="updateMain(2, '/MasalaTea.png', 'Masala Tea', '★★★★☆')">
+          <img src="/MasalaTea.png" alt="Masala Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(3, '/boost.png', 'Milk Boost', '★★★★★')">
-          <img src="/assets/boost-Dt7fdnWX.png" alt="Boost">
+        <div class="thumb-item" onclick="updateMain(3, '/LemonTea.png', 'LemonTea', '★★★★☆')">
+          <img src="/LemonTea.png" alt="Lemon Tea">
         </div>
-        <div class="thumb-item" onclick="updateMain(4, '/zcoffe.png', 'Diet Coffee', '★★★★☆')">
-          <img src="/assets/zcoffe-CyO7bAJS.png" alt="Diet Coffee">
+      </div>
+    </div>
+  </section>
+
+  <section class="products-collage" id="coffee-varieties">
+    <div class="collage-header">
+      <h2>Coffee Premix & Varieties</h2>
+      <p>Rich and aromatic blends for coffee lovers</p>
+    </div>
+
+    <div class="collage-container">
+      <div class="main-feature-area">
+        <div class="carousel-track" id="main-carousel-coffee">
+          <div class="feature-slide active">
+            <img src="/zcoffepre.png" alt="Featured Product" id="display-img-coffee">
+            <div class="feature-details">
+              <h3 id="display-title-coffee">Premium Coffee</h3>
+              <div class="rating" id="display-rating-coffee">★★★★★</div>
+              <button id="add-to-cart-btn-coffee" class="cart-btn" onclick="addToCartCoffee()">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="thumb-item" onclick="updateMain(5, '/horlicks.png', 'Milk Horlicks', '★★★★★')">
-          <img src="/assets/horlicks-C-maDT7o.png" alt="Horlicks">
+
+        <button class="nav-arrow prev" onclick="moveSlideCoffee(-1)">&#10094;</button>
+        <button class="nav-arrow next" onclick="moveSlideCoffee(1)">&#10095;</button>
+      </div>
+
+      <div class="thumbnail-sidebar">
+        <div class="thumb-item thumb-item-coffee active"
+          onclick="updateMainCoffee(0, '/zcoffepre.png', 'Premium Coffee', '★★★★★')">
+          <img src="/zcoffepre.png" alt="Premium Coffee">
+        </div>
+        <div class="thumb-item thumb-item-coffee"
+          onclick="updateMainCoffee(1, '/cappuccino.png', 'Cappuccino', '★★★★☆')">
+          <img src="/cappuccino.png" alt="Cappuccino">
+        </div>
+        <div class="thumb-item thumb-item-coffee" onclick="updateMainCoffee(2, '/zcoffe.png', 'Diet Coffee', '★★★★☆')">
+          <img src="/zcoffe.png" alt="Diet Coffee">
+        </div>
+        <div class="thumb-item thumb-item-coffee" onclick="updateMainCoffee(3, '/boost.png', 'Milk Boost', '★★★★★')">
+          <img src="/boost.png" alt="Milk Boost">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="products-collage" id="special-varieties">
+    <div class="collage-header">
+      <h2>Special Premix & Varieties</h2>
+      <p>Our most loved and special selections</p>
+    </div>
+
+    <div class="collage-container">
+      <div class="main-feature-area">
+        <div class="carousel-track" id="main-carousel-special">
+          <div class="feature-slide active">
+            <img src="/boost.png" alt="Featured Product" id="display-img-special">
+            <div class="feature-details">
+              <h3 id="display-title-special">Milk Boost</h3>
+              <div class="rating" id="display-rating-special">★★★★★</div>
+              <button id="add-to-cart-btn-special" class="cart-btn" onclick="addToCartSpecial()">
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button class="nav-arrow prev" onclick="moveSlideSpecial(-1)">&#10094;</button>
+        <button class="nav-arrow next" onclick="moveSlideSpecial(1)">&#10095;</button>
+      </div>
+
+      <div class="thumbnail-sidebar">
+        <div class="thumb-item thumb-item-special active"
+          onclick="updateMainSpecial(0, '/boost.png', 'Milk Boost', '★★★★★')">
+          <img src="/boost.png" alt="Milk Boost">
+        </div>
+        <div class="thumb-item thumb-item-special"
+          onclick="updateMainSpecial(1, '/horlicks.png', 'Milk Horlicks', '★★★★★')">
+          <img src="/horlicks.png" alt="Milk Horlicks">
+        </div>
+        <div class="thumb-item thumb-item-special"
+          onclick="updateMainSpecial(2, '/MasalaTea.png', 'Masala Tea', '★★★★☆')">
+          <img src="/MasalaTea.png" alt="Masala Tea">
+        </div>
+        <div class="thumb-item thumb-item-special"
+          onclick="updateMainSpecial(3, '/LemonTea.png', 'Lemon Tea', '★★★★☆')">
+          <img src="/LemonTea.png" alt="Lemon Tea">
         </div>
       </div>
     </div>
@@ -205,7 +340,7 @@
   <section class="services-section">
     <h2 class="visible">SERVICE</h2>
     <p class="visible">We are providing free service for our Machine</p>
-    <img src="/assets/service-CtbDvk9J.png" alt="Service man on scooter" class="service-vehicle">
+    <img src="/service.png" alt="Service man on scooter" class="service-vehicle">
     <div class="service-track"></div>
 
     <button class="service-button" id="service-btn">Click Here</button>
@@ -253,7 +388,6 @@
     </a>
 
   </div>
-  </section>
 
   <!-- ===== Footer ===== -->
   <footer class="footer">
@@ -300,35 +434,94 @@
       const deliveryAddress = localStorage.getItem("deliveryAddress");
 
       // Label
-      if (companyName) {
-        deliverToSpan.textContent = `Deliver To (${companyName}):`;
-      } else {
-        deliverToSpan.textContent = "Deliver To:";
+      if (deliverToSpan) {
+        if (companyName) {
+          deliverToSpan.textContent = `Deliver To (${companyName}):`;
+        } else {
+          deliverToSpan.textContent = "Deliver To:";
+        }
       }
 
       // Address
-      if (deliveryAddress) {
-        addressInput.value = deliveryAddress;
-      } else {
-        addressInput.value = "Please set delivery address in profile";
+      if (addressInput) {
+        if (deliveryAddress) {
+          addressInput.value = deliveryAddress;
+        } else {
+          addressInput.value = "Please set delivery address in profile";
+        }
+        addressInput.readOnly = true;
       }
-
-      // 🔒 READ ONLY (PROFILE CONTROLS IT)
-      addressInput.readOnly = true;
     });
 
     // cart logic
     let cart = JSON.parse(localStorage.getItem("cartItems")) || [];
     const cartBadge = document.createElement("div");
     cartBadge.className = "cart-badge";
-    cartBadge.style.display = "none";
-    document.getElementById("bag-link").appendChild(cartBadge);
+    cartBadge.style.cssText = `
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff0000;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 11px;
+      font-weight: bold;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    `;
+
+    // Make sure the parent has position relative
+    const bagLink = document.getElementById("bag-link");
+    bagLink.style.position = "relative";
+    bagLink.appendChild(cartBadge);
 
     // function to update badge
     function updateBadge() {
       let totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
       cartBadge.textContent = totalQty;
       cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+    }
+
+    // Animated cart notification function
+    function showCartNotification(productName) {
+      // Update badge first
+      updateBadge();
+
+      // Create floating notification
+      const notification = document.createElement('div');
+      notification.textContent = `${productName} added!`;
+      notification.style.cssText = `
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 10000;
+        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        animation: slideUpFade 2s ease-out forwards;
+      `;
+      document.body.appendChild(notification);
+
+      // Pulse the cart badge
+      cartBadge.style.animation = 'cartPulse 0.5s ease-out';
+      setTimeout(() => {
+        cartBadge.style.animation = '';
+      }, 500);
+
+      // Remove notification after animation
+      setTimeout(() => {
+        notification.remove();
+      }, 2000);
     }
 
     updateBadge();
@@ -341,6 +534,11 @@
     // wishlist icon click event
     document.getElementById("wishlist-icon").addEventListener("click", () => {
       window.location.href = "wishlist.html";
+    });
+
+    // notification icon click event
+    document.getElementById("bell-icon").addEventListener("click", () => {
+      window.location.href = "notification.html";
     });
 
     // wishlist logic
@@ -357,7 +555,6 @@
     wishlistBadge.style.display = "flex";
     wishlistBadge.style.alignItems = "center";
     wishlistBadge.style.justifyContent = "center";
-    wishlistBadge.style.fontWeight = "bold";
     wishlistBadge.style.zIndex = "10";
     document.getElementById("wishlist-icon").appendChild(wishlistBadge);
 
@@ -636,26 +833,12 @@
       },
       { threshold: 0.3 }
     );
-    function updateMain(index, img, title, rating) {
-      const displayImg = document.getElementById("display-img");
-
-      displayImg.src = img;
-      displayImg.onerror = () => {
-        displayImg.src = "/public/fallback.png";
-      };
-
-      document.getElementById("display-title").textContent = title;
-      document.getElementById("display-rating").textContent = rating;
-    }
-
     connectObserver.observe(connectSection);
     const products = [
-      { img: '/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
       { img: '/ztea.png', title: 'Premium Tea', rate: '★★★★★' },
-      { img: '/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
-      { img: '/boost.png', title: 'Milk Boost', rate: '★★★★★' },
-      { img: '/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
-      { img: '/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' }
+      { img: '/zwtea.png', title: 'Non Sugar Tea', rate: '★★★★★' },
+      { img: '/MasalaTea.png', title: 'Masala Tea', rate: '★★★★☆' },
+      { img: '/LemonTea.png', title: 'LemonTea', rate: '★★★★☆' }
     ];
 
     let currentIndex = 0;
@@ -695,17 +878,194 @@
 
     // Logic for the Add to Cart action
     function addToCart() {
-      const currentProduct = products[currentIndex].title;
-      alert(currentProduct + " has been added to your cart!");
-      // Here you can add your actual cart logic (e.g., updating a cart counter)
+      const currentProduct = products[currentIndex];
+      // Reload cart from localStorage and update global variable
+      cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+      const existingItem = cart.find(item => item.name === currentProduct.title);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ name: currentProduct.title, quantity: 1 });
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      showCartNotification(currentProduct.title);
+    }
+
+    // ================= COFFEE COLLAGE LOGIC =================
+    const productsCoffee = [
+      { img: '/zcoffepre.png', title: 'Premium Coffee', rate: '★★★★★' },
+      { img: '/cappuccino.png', title: 'Cappuccino', rate: '★★★★☆' },
+      { img: '/zcoffe.png', title: 'Diet Coffee', rate: '★★★★☆' },
+      { img: '/boost.png', title: 'Milk Boost', rate: '★★★★★' }
+    ];
+
+    let currentIndexCoffee = 0;
+
+    function updateMainCoffee(index, img, title, rate) {
+      currentIndexCoffee = index;
+
+      // Animation: Slide effect
+      const mainImg = document.getElementById('display-img-coffee');
+      mainImg.style.opacity = '0';
+      mainImg.style.transform = 'translateX(20px)';
+
+      setTimeout(() => {
+        mainImg.src = img;
+        document.getElementById('display-title-coffee').innerText = title;
+        document.getElementById('display-rating-coffee').innerText = rate;
+
+        mainImg.style.opacity = '1';
+        mainImg.style.transform = 'translateX(0)';
+
+        // Update active thumbnail
+        document.querySelectorAll('.thumb-item-coffee').forEach((item, i) => {
+          item.classList.toggle('active', i === index);
+        });
+      }, 300);
+    }
+
+    function moveSlideCoffee(direction) {
+      currentIndexCoffee += direction;
+      if (currentIndexCoffee >= productsCoffee.length) currentIndexCoffee = 0;
+      if (currentIndexCoffee < 0) currentIndexCoffee = productsCoffee.length - 1;
+
+      const p = productsCoffee[currentIndexCoffee];
+      updateMainCoffee(currentIndexCoffee, p.img, p.title, p.rate);
+    }
+
+    function addToCartCoffee() {
+      const currentProduct = productsCoffee[currentIndexCoffee];
+      cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+      const existingItem = cart.find(item => item.name === currentProduct.title);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ name: currentProduct.title, quantity: 1 });
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      showCartNotification(currentProduct.title);
+    }
+
+    // Swinging tag effect on horizontal scroll
+    const scrollRow = document.querySelector('.image-scroll-row');
+    const tags = document.querySelectorAll('.best-seller-tag, .offer-tag, .new-tag, .energy-tag, .healthy-tag, .trending-tag');
+    let scrollTimeout;
+
+    if (scrollRow) {
+      scrollRow.addEventListener('scroll', () => {
+        tags.forEach(tag => tag.classList.add('swinging'));
+
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          tags.forEach(tag => tag.classList.remove('swinging'));
+        }, 500); // Stop swinging 500ms after scroll stops
+      });
+    }
+
+    function showProductQuickView(element) {
+      const productName = element.getAttribute('data-name');
+      const productImg = element.getAttribute('data-img');
+
+      document.getElementById('modal-product-img').src = productImg;
+      document.getElementById('modal-product-name').innerText = productName;
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+
+    function closeProductModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+
+    function confirmAddToCart() {
+      const productName = document.getElementById('modal-product-name').innerText;
+      cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+      const existingItem = cart.find(item => item.name === productName);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ name: productName, quantity: 1 });
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      if (typeof showCartNotification === 'function') {
+        showCartNotification(productName);
+      }
+      // Close modal
+      closeProductModal();
+    }
+
+    // ================= SPECIAL COLLAGE LOGIC =================
+    const productsSpecial = [
+      { img: '/boost.png', title: 'Milk Boost', rate: '★★★★★' },
+      { img: '/horlicks.png', title: 'Milk Horlicks', rate: '★★★★★' },
+      { img: '/MasalaTea.png', title: 'Masala Tea', rate: '★★★★☆' },
+      { img: '/LemonTea.png', title: 'Lemon Tea', rate: '★★★★☆' }
+    ];
+
+    let currentIndexSpecial = 0;
+
+    function updateMainSpecial(index, img, title, rate) {
+      currentIndexSpecial = index;
+      const mainImg = document.getElementById('display-img-special');
+      mainImg.style.opacity = '0';
+      mainImg.style.transform = 'translateX(20px)';
+      setTimeout(() => {
+        mainImg.src = img;
+        document.getElementById('display-title-special').innerText = title;
+        document.getElementById('display-rating-special').innerText = rate;
+        mainImg.style.opacity = '1';
+        mainImg.style.transform = 'translateX(0)';
+        document.querySelectorAll('.thumb-item-special').forEach((item, i) => {
+          item.classList.toggle('active', i === index);
+        });
+      }, 300);
+    }
+
+    function moveSlideSpecial(direction) {
+      currentIndexSpecial += direction;
+      if (currentIndexSpecial >= productsSpecial.length) currentIndexSpecial = 0;
+      if (currentIndexSpecial < 0) currentIndexSpecial = productsSpecial.length - 1;
+      const p = productsSpecial[currentIndexSpecial];
+      updateMainSpecial(currentIndexSpecial, p.img, p.title, p.rate);
+    }
+
+    function addToCartSpecial() {
+      const p = productsSpecial[currentIndexSpecial];
+      cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const existingProduct = cart.find(item => item.name === p.title);
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+      } else {
+        cart.push({ name: p.title, quantity: 1 });
+      }
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+      showCartNotification(p.title);
     }
   </script>
+  <!-- ===== Product Quick View Modal ===== -->
+  <div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this) closeProductModal()">
+    <div class="quick-card">
+      <button class="close-modal" onclick="closeProductModal()">&times;</button>
+      <img src="" alt="Product Image" id="modal-product-img">
+      <h3 id="modal-product-name">Product Name</h3>
+      <p>Premium quality selection from ZCafe. Perfectly crafted for your delight.</p>
+      <button class="modal-add-btn" onclick="confirmAddToCart()">
+        <i class="fas fa-shopping-cart"></i> Add to Cart
+      </button>
+    </div>
+  </div>
+
   <!-- Bootstrap 5 JS Bundle (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
 
+
 </body>
 
 </html>

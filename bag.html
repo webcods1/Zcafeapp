@@ -141,6 +141,95 @@
       }
     }
 
+    @keyframes fadeInScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Booking History Styles */
+    .history-order-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      margin-bottom: 15px;
+      border-left: 4px solid #aa0a0a;
+    }
+
+    .history-order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .history-order-date {
+      font-size: 0.9rem;
+      color: #666;
+      font-weight: 600;
+    }
+
+    .history-status-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-transit {
+      background: #cfe2ff;
+      color: #084298;
+    }
+
+    .status-delivered {
+      background: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .history-items-list {
+      margin: 10px 0;
+      padding-left: 20px;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    .history-items-list li {
+      margin: 5px 0;
+    }
+
+    .history-order-total {
+      text-align: right;
+      font-weight: 600;
+      color: #333;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    #history-toggle-header:hover {
+      background: #f8f8f8 !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+    }
+
+    #history-toggle-header:active {
+      transform: scale(0.98);
+    }
+
     @media (max-width: 600px) {
       .container {
         margin: 0 15px;
@@ -192,12 +281,58 @@
           <div class="road-surface"></div>
           <i class="fas fa-truck van-stationary"></i>
         </div>
+
+        <!-- Dismiss button for completed deliveries -->
+        <button id="dismiss-tracking-btn"
+          style="display: none; margin-top: 15px; padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+          Got it! 👍
+        </button>
       </div>
 
       <div class="bag-items" id="bag-items"></div>
       <div class="actions">
         <button class="book-btn" id="book-btn">Book Now</button>
         <button class="clear-btn" id="clear-btn">Clear Bag</button>
+      </div>
+
+      <!-- Empty cart message with order button -->
+      <div id="empty-cart-message" style="display: none; text-align: center; padding: 40px 20px;">
+        <svg viewBox="0 0 24 24" style="width: 80px; height: 80px; fill: #ccc; margin-bottom: 20px;">
+          <path d="M6 7V6a6 6 0 0 1 12 0v1h2v14H4V7Zm2 0h8V6a4 4 0 0 0-8 0Z" />
+        </svg>
+        <h3 style="color: #666; margin-bottom: 10px;">Your Cart is Empty</h3>
+        <p style="color: #999; margin-bottom: 25px;">Start adding your favorite beverages!</p>
+        <button onclick="window.location.href='purchase.html'"
+          style="background: #aa0a0a; color: white; padding: 12px 30px; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(170, 10, 10, 0.2);">
+          Start New Order
+        </button>
+      </div>
+
+      <!-- Booking History Section -->
+      <div id="booking-history-section" style="margin-top: 40px; padding-bottom: 80px;">
+        <div id="history-toggle-header"
+          style="background: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; margin-bottom: 15px;"
+          onclick="toggleBookingHistory()">
+          <h2 style="margin: 0; color: #333; font-size: 1.2rem; font-family: 'Poppins', sans-serif;">
+            📋 Booking History
+          </h2>
+          <svg id="history-arrow" viewBox="0 0 24 24"
+            style="width: 24px; height: 24px; fill: #666; transition: transform 0.3s ease;">
+            <path d="M7 10l5 5 5-5z" />
+          </svg>
+        </div>
+
+        <div id="booking-history-content" style="display: none; overflow: hidden; transition: all 0.3s ease;">
+          <div id="booking-history-container"></div>
+          <div id="no-history-message" style="display: none; text-align: center; padding: 30px; color: #999;">
+            <svg viewBox="0 0 24 24" style="width: 60px; height: 60px; fill: #ddd; margin-bottom: 15px;">
+              <path
+                d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10z" />
+            </svg>
+            <p style="font-size: 1rem;">No booking history yet</p>
+            <p style="font-size: 0.9rem; margin-top: 5px;">Your past orders will appear here</p>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -286,15 +421,18 @@
     function renderBag() {
       bagContainer.innerHTML = "";
       const actions = document.querySelector('.actions');
+      const emptyMessage = document.getElementById('empty-cart-message');
 
       if (!cart.length) {
-        bagContainer.innerHTML = "<p>Your Cart is empty.</p>";
+        bagContainer.innerHTML = "";
         if (actions) actions.style.display = "none";
+        if (emptyMessage) emptyMessage.style.display = "block";
         updateBadge();
         return;
       }
 
       if (actions) actions.style.display = "flex";
+      if (emptyMessage) emptyMessage.style.display = "none";
 
       cart.forEach((item, i) => {
         const div = document.createElement("div");
@@ -344,6 +482,16 @@
         return;
       }
 
+      // Create consistent timestamp in DD/MM/YYYY, HH:MM:SS format
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = now.getFullYear();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const timestamp = `${day}/${month}/${year}, ${hours}:${minutes}:${seconds}`;
+
       const orderData = {
         customerPhone: phone,
         customerCompany: company || "Regular Customer",
@@ -351,7 +499,7 @@
         customerAddress: deliveryAddress,
         items: cart,
         status: "Pending",
-        timestamp: new Date().toLocaleString()
+        timestamp: timestamp
       };
 
       push(ref(db, "orders"), orderData)
@@ -385,6 +533,104 @@
       }
     });
 
+    // Initial render
+    renderBag();
+
+    // Toggle Booking History visibility
+    function toggleBookingHistory() {
+      const content = document.getElementById('booking-history-content');
+      const arrow = document.getElementById('history-arrow');
+      const header = document.getElementById('history-toggle-header');
+
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        arrow.style.transform = 'rotate(180deg)';
+        header.style.background = '#f8f8f8';
+      } else {
+        content.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+        header.style.background = '#fff';
+      }
+    }
+
+    // Make toggleBookingHistory available globally
+    window.toggleBookingHistory = toggleBookingHistory;
+
+    // Load Booking History
+    function loadBookingHistory() {
+      const phone = localStorage.getItem("phoneNumber");
+      if (!phone) {
+        document.getElementById('no-history-message').style.display = 'block';
+        return;
+      }
+
+      const ordersRef = query(ref(db, "orders"), orderByChild("customerPhone"), equalTo(phone));
+      onValue(ordersRef, snap => {
+        const historyContainer = document.getElementById('booking-history-container');
+        const noHistoryMsg = document.getElementById('no-history-message');
+
+        if (!snap.exists()) {
+          historyContainer.innerHTML = '';
+          noHistoryMsg.style.display = 'block';
+          return;
+        }
+
+        const orders = snap.val();
+        const ordersArray = Object.entries(orders).map(([id, order]) => ({
+          id,
+          ...order
+        }));
+
+        // Sort by timestamp (newest first)
+        ordersArray.sort((a, b) => {
+          const dateA = new Date(a.timestamp.split(',')[0].split('/').reverse().join('-'));
+          const dateB = new Date(b.timestamp.split(',')[0].split('/').reverse().join('-'));
+          return dateB - dateA;
+        });
+
+        if (ordersArray.length === 0) {
+          historyContainer.innerHTML = '';
+          noHistoryMsg.style.display = 'block';
+          return;
+        }
+
+        noHistoryMsg.style.display = 'none';
+        historyContainer.innerHTML = ordersArray.map(order => {
+          const items = order.items || [];
+          const totalItems = items.reduce((sum, item) => sum + (item.quantity || 0), 0);
+
+          // Status badge class
+          let statusClass = 'status-pending';
+          if (order.status === 'In Transit') statusClass = 'status-transit';
+          if (order.status === 'Delivered' || order.status === 'Completed') statusClass = 'status-delivered';
+
+          return `
+            <div class="history-order-card">
+              <div class="history-order-header">
+                <span class="history-order-date">📅 ${order.timestamp || 'Date unavailable'}</span>
+                <span class="history-status-badge ${statusClass}">${order.status || 'Pending'}</span>
+              </div>
+              <div>
+                <strong style="color: #333;">📍 ${order.customerLocation || 'Branch not specified'}</strong>
+                ${order.customerCompany ? `<br><span style="color: #666; font-size: 0.85rem;">🏢 ${order.customerCompany}</span>` : ''}
+              </div>
+              <ul class="history-items-list">
+                ${items.map(item => `
+                  <li>${item.quantity || 1}× ${item.name || 'Unknown item'}</li>
+                `).join('')}
+              </ul>
+              <div class="history-order-total">
+                Total Items: ${totalItems}
+              </div>
+            </div>
+          `;
+        }).join('');
+      });
+    }
+
+    // Load history on page load
+    loadBookingHistory();
+
 
 
     /* DATE EXTRACTOR */
@@ -397,7 +643,7 @@
 
     // Tracking UI Sync
     const phone = localStorage.getItem("phoneNumber");
-    const userLoc = localStorage.getItem("deliverFrom") || "";
+    const userLoc = localStorage.getItem("deliveryAddress") || ""; // City location for notification matching
     const userComp = localStorage.getItem("companyName") || "";
     const todayStr = new Date().toISOString().split("T")[0];
 
@@ -421,21 +667,86 @@
             const tag = trackingSec.querySelector('.tracking-tag');
 
             if (activeOrder.status === "Delivered" || activeOrder.status === "Completed") {
-              tag.textContent = "Delivery Success";
-              tag.style.background = "#27ae60";
-              h4.innerHTML = 'Delivery Complete! <i class="fas fa-check-circle" style="color: #27ae60; margin-left: 8px;"></i>';
-              p.textContent = "Your order has been delivered. Enjoy your ZCafe beverages!";
-              trackingSec.querySelector('.delivery-scene').style.display = 'none';
+              // Check if user has already seen this delivery completion
+              const deliveryKey = `delivery_seen_${activeOrder.id}`;
+              const hasSeenDelivery = localStorage.getItem(deliveryKey);
 
-              // Add a nice celebrate effect if it just became delivered
-              trackingSec.style.border = "2px solid #27ae60";
-              trackingSec.style.animation = "pulse-success 2s infinite";
+              if (!hasSeenDelivery) {
+                // First time seeing this completed delivery
+                trackingSec.style.display = "block";
+
+                tag.textContent = "Delivery Success";
+                tag.style.background = "#27ae60";
+                h4.innerHTML = 'Delivery Complete! <i class="fas fa-check-circle" style="color: #27ae60; margin-left: 8px;"></i>';
+                p.textContent = "Your order has been delivered. Enjoy your ZCafe beverages!";
+
+                // Show completion animation instead of hiding
+                const deliveryScene = trackingSec.querySelector('.delivery-scene');
+                deliveryScene.style.display = 'block';
+
+                // Stop the moving background (van has arrived)
+                const movingBg = deliveryScene.querySelector('.moving-bg');
+                if (movingBg) movingBg.style.animationPlayState = 'paused';
+
+                // Add success overlay
+                let successOverlay = deliveryScene.querySelector('.success-overlay');
+                if (!successOverlay) {
+                  successOverlay = document.createElement('div');
+                  successOverlay.className = 'success-overlay';
+                  successOverlay.innerHTML = '<i class="fas fa-check-circle" style="font-size: 80px; color: #27ae60;"></i>';
+                  successOverlay.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(39, 174, 96, 0.2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    animation: fadeInScale 1s ease-out;
+                    z-index: 10;
+                  `;
+                  deliveryScene.appendChild(successOverlay);
+                }
+
+                // Add celebrate effect
+                trackingSec.style.border = "2px solid #27ae60";
+                trackingSec.style.animation = "pulse-success 2s infinite";
+
+                // Show dismiss button
+                const dismissBtn = document.getElementById('dismiss-tracking-btn');
+                dismissBtn.style.display = 'block';
+                dismissBtn.onclick = () => {
+                  // Mark as seen
+                  localStorage.setItem(deliveryKey, 'true');
+                  // Hide tracking
+                  trackingSec.style.display = 'none';
+                  // Clear cart and show empty state
+                  cart = [];
+                  localStorage.removeItem('cartItems');
+                  renderBag();
+                };
+              } else {
+                // User has already seen this delivery - don't show tracking
+                trackingSec.style.display = "none";
+              }
             } else {
               tag.textContent = "Order Tracking";
               tag.style.background = "#aa0a0a";
               h4.textContent = activeOrder.status === "Pending" ? "Order Confirmed" : "Your Order is on the Way!";
               p.textContent = "Your fresh beverages are being prepared and will be delivered soon.";
               trackingSec.querySelector('.delivery-scene').style.display = 'block';
+
+              // Ensure animation is running
+              const movingBg = trackingSec.querySelector('.moving-bg');
+              if (movingBg) movingBg.style.animationPlayState = 'running';
+
+              // Remove success overlay if it exists
+              const successOverlay = trackingSec.querySelector('.success-overlay');
+              if (successOverlay) successOverlay.remove();
+
               trackingSec.style.border = "none";
               trackingSec.style.animation = "none";
             }
@@ -462,23 +773,80 @@
             // If it's a recent notification (last 30 mins)
             const notifTime = new Date(newestNotif.timestamp).getTime();
             const now = Date.now();
+
             if (matchLoc && matchComp && matchDate && (now - notifTime < 30 * 60 * 1000)) {
+              // Check if user has already seen delivery from order tracking
+              // Look for any delivery_seen flag for today's date
+              const hasSeenAnyDelivery = Object.keys(localStorage).some(key =>
+                key.startsWith('delivery_seen_') && localStorage.getItem(key) === 'true'
+              );
+
+              // Don't show notification-based delivery if already seen from order tracking
+              if (hasSeenAnyDelivery) {
+                return; // Exit early - user already acknowledged delivery
+              }
+
               const trackingSec = document.getElementById("active-tracking");
               const h4 = trackingSec.querySelector('h4');
 
-              // Only override if not already showing Delivered status or if it's hidden
+              // Only show if tracking is hidden or not showing delivery complete
               if (trackingSec.style.display === "none" || !h4.innerHTML.includes("Delivery Complete")) {
                 trackingSec.style.display = "block";
                 const p = trackingSec.querySelector('p');
                 const tag = trackingSec.querySelector('.tracking-tag');
 
+
                 tag.textContent = "Delivery Alert";
                 tag.style.background = "#27ae60";
                 h4.innerHTML = 'Delivery Complete! <i class="fas fa-check-circle" style="color: #27ae60; margin-left: 8px;"></i>';
                 p.textContent = newestNotif.message;
-                trackingSec.querySelector('.delivery-scene').style.display = 'none';
+
+                // Show completion animation instead of hiding
+                const deliveryScene = trackingSec.querySelector('.delivery-scene');
+                deliveryScene.style.display = 'block';
+
+                // Stop the moving background (van has arrived)
+                const movingBg = deliveryScene.querySelector('.moving-bg');
+                if (movingBg) movingBg.style.animationPlayState = 'paused';
+
+                // Add success overlay
+                let successOverlay = deliveryScene.querySelector('.success-overlay');
+                if (!successOverlay) {
+                  successOverlay = document.createElement('div');
+                  successOverlay.className = 'success-overlay';
+                  successOverlay.innerHTML = '<i class="fas fa-check-circle" style="font-size: 80px; color: #27ae60;"></i>';
+                  successOverlay.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(39, 174, 96, 0.2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    animation: fadeInScale 1s ease-out;
+                    z-index: 10;
+                  `;
+                  deliveryScene.appendChild(successOverlay);
+                }
+
                 trackingSec.style.border = "2px solid #27ae60";
                 trackingSec.style.animation = "pulse-success 2s infinite";
+
+                // Show dismiss button and set up handler
+                const dismissBtn = document.getElementById('dismiss-tracking-btn');
+                dismissBtn.style.display = 'block';
+                dismissBtn.onclick = () => {
+                  // Mark as seen with generic key for notification-based delivery
+                  localStorage.setItem(`delivery_seen_notif_${todayStr}`, 'true');
+                  trackingSec.style.display = 'none';
+                  // Clear cart and show empty state
+                  cart = [];
+                  localStorage.removeItem('cartItems');
+                  renderBag();
+                };
               }
             }
           }

@@ -332,7 +332,12 @@
     /* FIREBASE */
     const app = initializeApp({
       apiKey: "AIzaSyBD_s0bu-ei-bsdPDIFaDF6gbuck-85hbM",
-      databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com"
+      authDomain: "zcafe-65f97.firebaseapp.com",
+      databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com",
+      projectId: "zcafe-65f97",
+      storageBucket: "zcafe-65f97.firebasestorage.app",
+      messagingSenderId: "480288327990",
+      appId: "1:480288327990:web:9c79040289023919034b97"
     });
     const db = getDatabase(app);
 
@@ -344,16 +349,25 @@
 
     /* DATE EXTRACTOR (SAFE) */
     function extractDate(ts) {
-      if (!ts) return "";
+      if (!ts) {
+        console.log("Empty timestamp received");
+        return "";
+      }
       const m = ts.match(/(\d{2})[\/\-](\d{2})[\/\-](\d{4})/);
-      if (!m) return "";
-      return `${m[3]}-${m[2]}-${m[1]}`; // yyyy-mm-dd
+      if (!m) {
+        console.log("Could not extract date from timestamp:", ts);
+        return "";
+      }
+      const result = `${m[3]}-${m[2]}-${m[1]}`;
+      return result;
     }
 
     /* LOAD ORDERS */
+    console.log("Admin Branch:", adminBranch);
     onValue(
       query(ref(db, "orders"), orderByChild("customerLocation"), equalTo(adminBranch)),
       snap => {
+        console.log("Orders snapshot exists:", snap.exists());
         document.getElementById("loading-msg").style.display = "none";
         allOrders = [];
 
@@ -361,12 +375,16 @@
         const todayKey = new Date().toISOString().split("T")[0];
 
         if (!snap.exists()) {
+          console.log("No orders found for branch:", adminBranch);
           renderOrders();
           return;
         }
 
+        console.log("Orders data:", snap.val());
+
         const data = snap.val();
         const keys = Object.keys(data).reverse();
+        console.log(`Found ${keys.length} total orders for branch ${adminBranch}`);
 
         if (lastOrderCount && keys.length > lastOrderCount) sound.play();
         lastOrderCount = keys.length;
@@ -374,6 +392,7 @@
         keys.forEach(id => {
           const o = data[id];
           const d = extractDate(o.timestamp);
+          console.log(`Order ${id}: timestamp=${o.timestamp}, extractedDate=${d}, todayKey=${todayKey}, match=${d === todayKey}`);
           allOrders.push({ id, ...o });
 
           if (o.status === "Completed") completed++;
@@ -396,14 +415,21 @@
       const f = statusFilter.value;
       const d = dateFilter.value;
 
+      console.log(`Rendering orders - Total: ${allOrders.length}, Search: "${q}", Status: ${f}, Date: ${d}`);
+
       ordersList.innerHTML = "";
 
-      allOrders.filter(o => {
+      const filtered = allOrders.filter(o => {
         const text = `${o.customerPhone || ""} ${o.customerCompany || ""}`.toLowerCase();
-        return text.includes(q)
-          && (f === "all" || o.status === f)
-          && (!d || extractDate(o.timestamp) === d);
-      }).forEach(o => {
+        const matchSearch = text.includes(q);
+        const matchStatus = (f === "all" || o.status === f);
+        const matchDate = (!d || extractDate(o.timestamp) === d);
+        return matchSearch && matchStatus && matchDate;
+      });
+
+      console.log(`Filtered orders: ${filtered.length}`);
+
+      filtered.forEach(o => {
         const div = document.createElement("div");
         div.className = "order-card" + (o.status === "Completed" ? " completed" : "");
         div.innerHTML = `
@@ -524,19 +550,45 @@
       const comp = notifComp.value;
       const todayKey = new Date().toISOString().split("T")[0];
 
+      console.log("Mark Group Delivered clicked:");
+      console.log("- Selected Location:", loc);
+      console.log("- Selected Company:", comp);
+      console.log("- Today's Date:", todayKey);
+      console.log("- Total orders loaded:", allOrders.length);
+
       if (loc === 'all') return alert("Please select a specific location first.");
 
-      const targets = allOrders.filter(o =>
-        (o.customerLocation === loc || loc === 'all') &&
-        (o.customerCompany === comp || comp === 'all') &&
-        extractDate(o.timestamp) === todayKey &&
-        o.status !== "Delivered"
-      );
+      // Filter orders based on delivery address (city) and company
+      const targets = allOrders.filter(o => {
+        const orderDate = extractDate(o.timestamp);
+        const locMatch = (o.customerAddress === loc || loc === 'all');
+        const compMatch = (o.customerCompany === comp || comp === 'all');
+        const dateMatch = orderDate === todayKey;
+        const statusMatch = o.status !== "Delivered" && o.status !== "Completed";
+
+        console.log(`Order ${o.id}:`, {
+          customerAddress: o.customerAddress,
+          customerCompany: o.customerCompany,
+          customerLocation: o.customerLocation,
+          orderDate,
+          status: o.status,
+          locMatch,
+          compMatch,
+          dateMatch,
+          statusMatch
+        });
+
+        return locMatch && compMatch && dateMatch && statusMatch;
+      });
+
+      console.log("Matching orders found:", targets.length);
 
       if (targets.length === 0) {
-        if (!confirm("No active orders found for today in this group. Still send notification?")) return;
+        alert(`No active orders found for today.\n\nLocation: ${loc}\nCompany: ${comp}\nDate: ${todayKey}\n\nCheck console for details.`);
+        // Still allow sending notification
+        if (!confirm("No orders found. Still send notification to this group?")) return;
       } else {
-        if (!confirm(`Mark ${targets.length} orders as Delivered and Notify they are completed?`)) return;
+        if (!confirm(`Found ${targets.length} order(s) to mark as Delivered.\n\nLocation: ${loc}\nCompany: ${comp}\n\nProceed?`)) return;
       }
 
       // Update orders in Firebase
@@ -547,16 +599,19 @@
 
       if (Object.keys(updates).length > 0) {
         await update(ref(db), updates);
+        console.log("Updated orders:", Object.keys(updates).length);
       }
 
       // Send the Delivery Complete notification
-      triggerNotification(
+      await triggerNotification(
         "Delivery Complete!",
         "Your ZCafe order has been delivered! Enjoy your fresh beverages. ☕✨",
         loc,
         comp,
         todayKey // Only targeting users who ordered today
       );
+
+      alert(`Success! ${targets.length > 0 ? targets.length + ' order(s) marked as delivered and' : ''} Notification sent!`);
     };
 
     /* ================= TEMPLATES ================= */
@@ -589,7 +644,7 @@
     };
 
     /* DEFAULT DATE = TODAY */
-    dateFilter.value = new Date().toISOString().split("T")[0];
+    dateFilter.value = new Date().toISOString().split("T")[0]; // Show today's orders by default
   </script>
 
 </body>

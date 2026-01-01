@@ -1527,3 +1527,92 @@ video::-webkit-media-controls-start-play-button {
   border-top: 1px solid #eee;
   margin-top: auto;
 }
+
+/* ===== Profile Page Mobile Styles ===== */
+@media (max-width: 760px) {
+  #profile-view {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 15px;
+    box-sizing: border-box;
+  }
+
+  .profile-columns {
+    display: flex;
+    flex-direction: column !important;
+    gap: 15px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .profile-column {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .profile-column label {
+    display: block;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .profile-column input,
+  .profile-column select {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    /* Prevents iOS zoom */
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fdfdfd;
+    margin-bottom: 18px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+
+  .profile-column input:focus,
+  .profile-column select:focus {
+    border-color: #aa0a0a;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 3px 10px rgba(170, 10, 10, 0.1);
+  }
+
+  #save-profile-btn {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px;
+    background: #aa0a0a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-sizing: border-box;
+    box-shadow: 0 8px 16px rgba(170, 10, 10, 0.2);
+  }
+
+  #save-profile-btn:active {
+    background: #880808;
+    transform: scale(0.98);
+  }
+
+  /* Profile icon at top */
+  .main-content>div:first-child {
+    margin-bottom: 15px;
+  }
+
+  .main-content>div:first-child svg {
+    width: 60px;
+    height: 60px;
+  }
+}
