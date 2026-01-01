@@ -136,10 +136,48 @@
     button[onclick="window.history.back()"]:hover {
       background: #880808;
     }
+
+    /* Notification Toast */
+    #notification-container {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #2e7d32, #43a047);
+      /* Green for success */
+      color: white;
+      padding: 16px 24px;
+      border-radius: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      font-weight: 600;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      font-size: 0.95rem;
+      animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translate(-50%, 100px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 
 <body class="no-top-nav">
+  <div id="notification-container"></div>
+
   <script>
     (function () {
       var loader = document.createElement('div');
@@ -159,10 +197,10 @@
     <form id="complaint-form">
       <label for="complaint-type">Complaint Type</label>
       <select id="complaint-type" required>
-        <option value="machine-not-turn-on">Machine not turning on</option>
-        <option value="water-not-heating">Water not heating</option>
-        <option value="switch-complaints">Switch complaints</option>
-        <option value="other">Other</option>
+        <option value="Machine not turning on">Machine not turning on</option>
+        <option value="Water not heating">Water not heating</option>
+        <option value="Switch complaints">Switch complaints</option>
+        <option value="Other">Other</option>
       </select>
 
       <label for="complaint-message">Message</label>
@@ -206,23 +244,73 @@
     </a>
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBD_s0bu-ei-bsdPDIFaDF6gbuck-85hbM",
+      authDomain: "zcafe-65f97.firebaseapp.com",
+      databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com",
+      projectId: "zcafe-65f97",
+      storageBucket: "zcafe-65f97.firebasestorage.app",
+      messagingSenderId: "480288327990",
+      appId: "1:480288327990:web:9c79040289023919034b97"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Show Notification Helper
+    function showNotification(msg, duration = 4000) {
+      const container = document.getElementById('notification-container');
+      container.textContent = msg;
+      container.style.display = 'flex';
+      container.style.animation = 'slideUp 0.5s ease forwards';
+
+      setTimeout(() => {
+        container.style.opacity = '0';
+        setTimeout(() => {
+          container.style.display = 'none';
+          container.style.opacity = '1';
+        }, 500);
+      }, duration);
+    }
+
     // complaint form submission
     const complaintForm = document.getElementById('complaint-form');
     complaintForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const type = document.getElementById('complaint-type').value;
       const message = document.getElementById('complaint-message').value.trim();
+
       if (!type || !message) {
-        alert('Please fill in all fields.');
+        showNotification('Please fill in all fields (Type & Message).');
         return;
       }
-      // Store complaint in localStorage (for demo purposes)
-      const complaints = JSON.parse(localStorage.getItem('complaints')) || [];
-      complaints.push({ type, message, date: new Date().toISOString() });
-      localStorage.setItem('complaints', JSON.stringify(complaints));
-      alert('Complaint submitted successfully!');
-      complaintForm.reset();
+
+      // Get user info from localStorage
+      const phone = localStorage.getItem('phoneNumber') || 'Unknown';
+      const company = localStorage.getItem('companyName') || 'Unknown Company';
+      const location = localStorage.getItem('deliveryAddress') || 'Unknown Location';
+
+      const newRequestRef = push(ref(db, 'service_requests'));
+
+      set(newRequestRef, {
+        type: type,
+        message: message,
+        customerPhone: phone,
+        customerCompany: company,
+        customerLocation: location,
+        status: 'Pending',
+        timestamp: new Date().toLocaleString()
+      }).then(() => {
+        showNotification("The servicer will call you immediately! 📞");
+        complaintForm.reset();
+      }).catch((err) => {
+        console.error(err);
+        showNotification("Error submitting request. Please try again.");
+      });
     });
 
     // Scroll hide/show navbars

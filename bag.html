@@ -581,11 +581,18 @@
           ...order
         }));
 
-        // Sort by timestamp (newest first)
+        // Sort by timestamp (newest first - includes date AND time)
         ordersArray.sort((a, b) => {
-          const dateA = new Date(a.timestamp.split(',')[0].split('/').reverse().join('-'));
-          const dateB = new Date(b.timestamp.split(',')[0].split('/').reverse().join('-'));
-          return dateB - dateA;
+          // Parse timestamp: "DD/MM/YYYY, HH:MM:SS"
+          const parseTimestamp = (ts) => {
+            if (!ts) return 0;
+            const [datePart, timePart] = ts.split(', ');
+            const [day, month, year] = datePart.split('/');
+            const [hours, minutes, seconds] = (timePart || '00:00:00').split(':');
+            return new Date(year, month - 1, day, hours, minutes, seconds).getTime();
+          };
+
+          return parseTimestamp(b.timestamp) - parseTimestamp(a.timestamp);
         });
 
         if (ordersArray.length === 0) {

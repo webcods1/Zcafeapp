@@ -22,6 +22,16 @@ body {
   flex: 1;
 }
 
+/* ===== GLOBAL HEADINGS (Matches Collage Style) ===== */
+h1,
+h2 {
+  font-family: 'Poppins', sans-serif;
+  color: #4a3728;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
 /* ===== App loader (shown on refresh/navigation) ===== */
 .app-loader {
   position: fixed;

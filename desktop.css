@@ -32,16 +32,29 @@ body.no-top-nav {
   flex: 1;
 }
 
+/* ===== GLOBAL HEADINGS (Matches Collage Style) ===== */
+h1,
+h2,
+h3 {
+  font-family: 'Poppins', sans-serif;
+  color: #4a3728;
+  text-transform: uppercase;
+  text-align: center;
+}
+
 /* ===== Navbar ===== */
 nav {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000;
+  /* Increased to stay above all content including scroll images */
   transition: transform 0.3s ease;
   background-color: rgb(255, 255, 255);
   padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Added shadow for depth */
 }
 
 nav.hidden {
@@ -363,9 +376,9 @@ nav.hidden {
   height: 600px;
   overflow: hidden;
   border-radius: 16px;
+  /* Matched mobile radius */
   margin-left: -185px;
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.12);
-  border-radius: 60px;
 }
 
 /* ================= SLIDES WRAPPER ================= */
@@ -378,7 +391,8 @@ nav.hidden {
   height: 560px;
   /* Mobile default */
   overflow: hidden;
-  border-radius: 60px;
+  border-radius: 16px;
+  /* Matched mobile radius */
 }
 
 /* ================= EACH SLIDE ================= */
@@ -415,7 +429,8 @@ nav.hidden {
   /* mobile friendly */
   background: #ffffff;
   display: block;
-  border-radius: 60px !important;
+  border-radius: 16px !important;
+  /* Matched mobile radius */
   margin-top: -55px;
   margin-left: 160px;
 
@@ -584,6 +599,31 @@ nav.hidden {
 }
 
 
+/* ===== Products Section Header ===== */
+.products-section {
+  text-align: center;
+  padding: 40px 0 20px;
+  width: 100%;
+}
+
+.products-section h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.products-section p {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
 /* ===== Product Grid ===== */
 .products-grid {
   display: grid;
@@ -633,7 +673,12 @@ nav.hidden {
   max-width: 170px;
   height: 150px;
   object-fit: contain;
+  object-position: top center;
+  /* Aligns image to top */
   display: block;
+  margin: 0 auto;
+  /* Centers the image block horizontally */
+  padding: 20px;
 
   /* Smooth fade-in appearance */
   opacity: 1 !important;
@@ -718,7 +763,7 @@ nav.hidden {
 .product-info button.add-cart-btn {
   padding: 8px 16px;
   border: none;
-  background: #aa0a0a;
+  background: rgb(162, 117, 38);
   color: #fff;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -1455,4 +1500,26 @@ video::-webkit-media-controls-start-play-button {
   background: #880808;
   transform: translateY(-2px);
   box-shadow: 0 15px 30px rgba(170, 10, 10, 0.3);
+}
+
+/* ===== Scroll Container Desktop Spacing ===== */
+@media (min-width: 761px) {
+  .scroll-container {
+    margin-top: 120px;
+    /* Increased gap to ensure images clear the navbar */
+    padding: 10px 0;
+    position: relative;
+    z-index: 1;
+    /* Stay below navbar (z-index: 1000) */
+  }
+
+  .image-scroll-row {
+    padding: 15px 30px 40px;
+    /* More padding for desktop */
+    position: relative;
+    z-index: 1;
+    /* Stay below navbar */
+  }
+
+
 }
