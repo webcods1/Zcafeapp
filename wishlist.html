@@ -256,23 +256,38 @@
    MOBILE
 ========================= */
     @media (max-width: 600px) {
-
       .container {
-        padding: 16px;
+        padding: 15px;
+        margin: 0 5px;
+        /* Matches bag.html width */
         border-radius: 14px;
+        min-height: 80vh;
+        /* Consistent form height */
       }
 
       .bag-item {
         grid-template-columns: 1fr;
+        padding: 12px;
+        /* Slightly more compact */
+      }
+
+      .bag-item h3 {
+        font-size: 0.9rem;
+        /* Reduced font size */
+        margin-bottom: 8px;
+        text-align: center;
       }
 
       .qty-input {
         width: 100%;
+        margin-bottom: 8px;
+        text-align: center;
       }
 
       .remove-btn,
       .add-cart-btn {
         width: 100%;
+        margin-bottom: 5px;
       }
 
       .actions {
