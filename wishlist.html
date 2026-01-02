@@ -256,46 +256,104 @@
    MOBILE
 ========================= */
     @media (max-width: 600px) {
+      .bag-header {
+        margin-top: 10px;
+        margin-bottom: 15px;
+      }
+
+      .bag-header svg {
+        width: 40px;
+        height: 40px;
+      }
+
       .container {
-        padding: 15px;
-        margin: 0 5px;
-        /* Matches bag.html width */
-        border-radius: 14px;
-        min-height: 80vh;
-        /* Consistent form height */
+        padding: 20px 15px;
+        margin: 10px 8px;
+        border-radius: 16px;
+        min-height: 75vh;
+      }
+
+      .bag-items {
+        gap: 12px;
+        margin-bottom: 20px;
       }
 
       .bag-item {
         grid-template-columns: 1fr;
-        padding: 12px;
-        /* Slightly more compact */
+        gap: 10px;
+        padding: 16px 12px;
+        border-radius: 12px;
       }
 
       .bag-item h3 {
-        font-size: 0.9rem;
-        /* Reduced font size */
-        margin-bottom: 8px;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 10px;
         text-align: center;
+        color: #2c2416;
+        letter-spacing: 0.3px;
       }
 
       .qty-input {
         width: 100%;
-        margin-bottom: 8px;
+        max-width: 200px;
+        margin: 0 auto 10px;
+        padding: 10px;
         text-align: center;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        display: block;
       }
 
       .remove-btn,
       .add-cart-btn {
         width: 100%;
-        margin-bottom: 5px;
+        padding: 12px 16px;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 10px;
+      }
+
+      .remove-btn {
+        background: #f5f5f5;
+        color: #666;
+      }
+
+      .add-cart-btn {
+        background: #aa0a0a;
+        color: white;
       }
 
       .actions {
         justify-content: center;
+        gap: 10px;
+        margin-top: 25px;
       }
 
-      .actions button {
+      .book-btn,
+      .clear-btn {
         width: 100%;
+        padding: 14px 20px;
+        font-size: 1rem;
+        font-weight: 700;
+        border-radius: 12px;
+      }
+
+      .book-btn {
+        background: #2ecc71;
+        margin-bottom: 10px;
+      }
+
+      .clear-btn {
+        background: #6c757d;
+        color: white;
+      }
+
+      .bag-items p {
+        font-size: 1.05rem;
+        padding: 40px 20px;
       }
     }
   </style>

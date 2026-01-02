@@ -951,7 +951,7 @@ h2 {
     margin: 20px auto;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    background: linear-gradient(to bottom, #e48435, #e2eaf3);
+    background: linear-gradient(to bottom, #e48435 #e2eaf3, );
     padding: 40px 20px 100px;
     /* added bottom padding for button */
     text-align: center;

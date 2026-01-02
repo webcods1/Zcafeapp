@@ -882,6 +882,29 @@
 
       document.getElementById('modal-product-img').src = productImg;
       document.getElementById('modal-product-name').innerText = productName;
+
+      // Handle Tag Display
+      const quickCard = document.querySelector('.quick-card');
+      // Clear previous tag
+      const existingTag = quickCard.querySelector('[class*="-tag"]');
+      if (existingTag) existingTag.remove();
+
+      // Clone tag from clicked element
+      const originalTag = element.querySelector('[class*="-tag"]');
+      if (originalTag) {
+        const clonedTag = originalTag.cloneNode(true);
+        // Position specifically for the modal
+        clonedTag.style.cssText = `
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          bottom: auto;
+          z-index: 100;
+          transform: scale(1.2); /* Make it slightly larger */
+        `;
+        quickCard.appendChild(clonedTag);
+      }
+
       document.getElementById('modal-overlay').classList.add('active');
     }
 
