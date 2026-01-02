@@ -12,7 +12,7 @@ body {
   font-family: 'Open Sauce One', sans-serif;
   margin: 0;
   padding: 0;
-  background: #ffffff;
+  background: linear-gradient(to bottom, #f4e7cc, #f4e7cc);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -170,8 +170,9 @@ h2 {
   }
 
   .search-container input {
-    font-size: 0.9rem;
+    font-size: 16px;
     padding: 4px;
+    background: transparent;
   }
 
   .search-icon {
@@ -538,6 +539,8 @@ h2 {
     .products-collage {
       overflow-x: hidden;
       padding: 30px 10px;
+      background-color: #f4e7cc;
+
     }
 
     .collage-container {
@@ -866,7 +869,7 @@ h2 {
   .product-card img {
     width: auto;
     max-width: 100%;
-    height: 75px;
+    height: 125px;
     /* slightly smaller */
     object-fit: contain;
     margin: 0 auto;
@@ -882,7 +885,7 @@ h2 {
     flex-direction: column;
     align-items: center;
     gap: 3px;
-    margin-top: -2px;
+    margin-top: -27px;
     /* pulls text closer to image */
   }
 
@@ -971,7 +974,7 @@ h2 {
     margin-inline-start: -30px;
     height: 6px;
     background: #000;
-    margin-top: 115px;
+    margin-top: 160px;
     position: absolute;
   }
 
@@ -1035,7 +1038,7 @@ h2 {
     /* Adjust size as needed */
     fill: #aa0a0a;
     /* ZCafe Red */
-    margin-bottom: -35px;
+    margin-bottom: -32px;
     /* Start above the button */
     left: 50%;
     transform: translateX(-50%);
@@ -1062,20 +1065,20 @@ h2 {
     30% {
       left: 25%;
       /* Fall */
-      bottom: 28px;
+      bottom: 35px;
       transform: translateX(-50%) rotate(-400deg);
     }
 
     35% {
       left: 25%;
-      bottom: 28px;
+      bottom: 35px;
       transform: translateX(-50%) rotate(-400deg);
     }
 
     100% {
       left: 120%;
       /* Ride right off screen */
-      bottom: 28px;
+      bottom: 35px;
       transform: translateX(-50%) rotate(1000deg);
     }
   }
@@ -1595,8 +1598,8 @@ video::-webkit-media-controls-start-play-button {
   padding: 30px 15px;
   color: #777;
   font-size: 0.85rem;
-  background: #fdfdfd;
-  border-top: 1px solid #eee;
+  background: transparent;
+  border-top: none;
   margin-top: auto;
 }
 

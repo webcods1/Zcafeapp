@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Purchase - ZCafe</title>
 
   <!-- Bootstrap CSS -->
@@ -674,6 +675,37 @@
       updateHeart(btn, isInWishlist);
     });
 
+    // Generic notification function (reused structure)
+    function showWishlistNotification(text) {
+      // Create floating notification
+      const notification = document.createElement('div');
+      notification.textContent = text;
+      notification.style.cssText = `
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 10000;
+        box-shadow: 0 10px 40px rgba(221, 36, 118, 0.4);
+        animation: slideUpFade 2s ease-out forwards;
+      `;
+      document.body.appendChild(notification);
+
+      // Pulse the wishlist badge/icon if possible
+      // (Optional: can animate wishlist-icon similar to cartPulse)
+
+      // Remove notification after animation
+      setTimeout(() => {
+        notification.remove();
+      }, 2000);
+    }
+
     // wishlist button click event
     document.querySelectorAll(".wishlist-btn").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -686,23 +718,16 @@
           // remove from wishlist
           wishlist.splice(existingIndex, 1);
           updateHeart(btn, false);
-          alert(`${name} removed from wishlist!`);
+          showWishlistNotification(`${name} removed from wishlist!`);
         } else {
           // add to wishlist
           wishlist.push({ name, quantity });
           updateHeart(btn, true);
-          alert(`${quantity} x ${name} added to wishlist!`);
+          showWishlistNotification(`${name} added to wishlist!`);
         }
         localStorage.setItem("wishlistItems", JSON.stringify(wishlist));
         updateWishlistBadge();
-        let totalQty = wishlist.reduce((sum, item) => sum + item.quantity, 0);
-        if (totalQty > 0) {
-          wishlistNotification.textContent = `${totalQty} item(s) in wishlist`;
-          wishlistNotification.style.display = "block";
-          setTimeout(() => {
-            wishlistNotification.style.display = "none";
-          }, 2000);
-        }
+        // Mini notification on icon (optional, keeping as fallback or removing is fine, but keeping for now)
       });
     });
 

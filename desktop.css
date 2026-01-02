@@ -15,7 +15,7 @@ body {
 
 body {
   font-family: 'Open Sauce One', Arial, sans-serif;
-  background: #ffffff;
+  background-color: #f4e7cc;
   color: #333;
   padding-top: var(--nav-height, 80px);
   /* Account for fixed navbar */
@@ -1010,8 +1010,8 @@ nav.hidden {
   padding: 40px 20px;
   color: #666;
   font-size: 0.95rem;
-  background: #fcfcfc;
-  border-top: 1px solid #f0f0f0;
+  background: transparent;
+  border-top: none;
   margin-top: 0;
 }
 

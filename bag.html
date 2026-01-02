@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Cart - ZCafe</title>
   <link rel="stylesheet" href="desktop.css">
   <link rel="stylesheet" href="mobile.css">
@@ -13,6 +14,7 @@
       justify-content: center;
       margin-top: 20px;
       margin-bottom: 10px;
+      background-color: #f4e7cc;
     }
 
     .bag-header svg {
@@ -25,8 +27,11 @@
       max-width: 900px;
       margin: 20px auto;
       padding: 20px;
-      background: #ffffff;
+      background: #f4e7cc;
       border-radius: 18px;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .bag-items {
@@ -232,8 +237,8 @@
 
     @media (max-width: 600px) {
       .container {
-        margin: 0 15px;
-        padding: 10px;
+        margin: 0 5px;
+        padding: 15px;
       }
 
       .actions {
@@ -322,7 +327,8 @@
           </svg>
         </div>
 
-        <div id="booking-history-content" style="display: none; overflow: hidden; transition: all 0.3s ease;">
+        <div id="booking-history-content"
+          style="display: none; overflow-y: auto; max-height: 400px; transition: all 0.3s ease;">
           <div id="booking-history-container"></div>
           <div id="no-history-message" style="display: none; text-align: center; padding: 30px; color: #999;">
             <svg viewBox="0 0 24 24" style="width: 60px; height: 60px; fill: #ddd; margin-bottom: 15px;">
