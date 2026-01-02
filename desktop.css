@@ -181,7 +181,7 @@ nav.hidden {
 .scroll-container {
   width: 100%;
   padding: 20px 0;
-  background-color: #ffffff;
+  background-color: #5583c9;
   /* Earthy background */
   overflow: hidden;
   /* Container hides overflow */
@@ -213,7 +213,8 @@ nav.hidden {
   align-items: center;
   justify-content: center;
   transition: transform 0.3s ease;
-  border-color: #860b0b;
+  border-color: #1f57e3;
+  border-width: 3px;
   border-radius: 10px;
   cursor: pointer;
   /* Indicated as clickable */
@@ -370,14 +371,16 @@ nav.hidden {
 /* ===== Banner Carousel ===== */
 .banner-carousel {
   position: relative;
-  width: 1500px;
+  width: 90%;
+  max-width: 1400px;
   background: #ffffff;
-  margin-top: 10px;
+  margin-top: 70px;
+  margin-left: -10px;
+  margin-right: auto;
   height: 600px;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 60px;
   /* Matched mobile radius */
-  margin-left: -185px;
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.12);
 }
 
@@ -391,7 +394,7 @@ nav.hidden {
   height: 560px;
   /* Mobile default */
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 60px;
   /* Matched mobile radius */
 }
 
@@ -429,7 +432,7 @@ nav.hidden {
   /* mobile friendly */
   background: #ffffff;
   display: block;
-  border-radius: 16px !important;
+  border-radius: 60px !important;
   /* Matched mobile radius */
   margin-top: -55px;
   margin-left: 160px;
@@ -468,7 +471,7 @@ nav.hidden {
 /* ===== Products Section (Desktop) ===== */
 .products-collage {
   padding: 50px 5%;
-  background-color: #fdfbf7;
+  background-color: #f4e7cc;
   /* Earthy off-white */
   font-family: 'Arial', sans-serif;
   overflow: hidden;
@@ -514,6 +517,22 @@ nav.hidden {
   bottom: 20px;
   left: 20px;
   padding: 15px;
+}
+
+.feature-details h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c2c2c;
+  margin: 0 0 10px 0;
+  text-align: left;
+}
+
+.feature-details .rating {
+  font-size: 1.2rem;
+  color: #f9a825;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 /* Sidebar Styles */
@@ -609,8 +628,7 @@ nav.hidden {
 .products-section h2 {
   font-family: 'Poppins', sans-serif;
   font-size: 2.2rem;
-  font-weight: 700;
-  color: #333;
+  color: #4a3728;
   text-transform: uppercase;
   margin-bottom: 15px;
   letter-spacing: 1px;
@@ -1522,4 +1540,151 @@ video::-webkit-media-controls-start-play-button {
   }
 
 
+}
+
+/* ===== Desktop Service Section Styles ===== */
+.services-section {
+  position: relative;
+  width: 90%;
+  margin: 20px auto;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(to bottom, #e2eaf3, #4eabf7);
+  padding: 40px 20px 100px;
+  /* added bottom padding for button */
+  text-align: center;
+  overflow: hidden;
+  min-height: 300px;
+}
+
+/* Heading */
+.services-section h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: #ffffff;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.services-section p {
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-bottom: 30px;
+  opacity: 0.95;
+}
+
+/* Road Track */
+.service-track {
+  width: 5010%;
+  height: 8px;
+  background: #000;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: -10px;
+}
+
+/* Service Button */
+.service-button {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: auto;
+  padding: 18px 50px;
+  background: rgba(255, 255, 255, 0.25);
+  /* Trending Glass */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #aa0a0a;
+  /* Red text for contrast */
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  /* Defined glass border */
+  border-radius: 12px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+.service-button:hover {
+  background: rgba(255, 255, 255, 0.45);
+  border-color: #aa0a0a;
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 8px 32px 0 rgba(170, 10, 10, 0.15);
+}
+
+@keyframes arrowSlide {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+.service-button i {
+  animation: arrowSlide 1.2s ease-in-out infinite;
+}
+
+/* Vehicle Icon (Service Gear) */
+/* Vehicle Icon (Service Gear) */
+.service-vehicle {
+  width: 50px;
+  height: 50px;
+  /* Adjust size as needed */
+  fill: #aa0a0a;
+  /* ZCafe Red */
+  margin-bottom: -15px;
+  /* Start above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  /* Centered */
+  z-index: 10;
+  animation: rideSequence 5s ease-in-out forwards;
+  animation-play-state: paused;
+}
+
+@keyframes rideSequence {
+  0% {
+    left: 50%;
+    bottom: 120px;
+    transform: translateX(-50%) rotate(0deg);
+  }
+
+  25% {
+    left: 38%;
+    /* Roll left */
+    bottom: 120px;
+    transform: translateX(-50%) rotate(-360deg);
+  }
+
+  30% {
+    left: 38%;
+    /* Fall */
+    bottom: 10px;
+    transform: translateX(-50%) rotate(-400deg);
+  }
+
+  35% {
+    left: 38%;
+    bottom: 28px;
+    transform: translateX(-50%) rotate(-400deg);
+  }
+
+  100% {
+    left: 120%;
+    /* Ride right off screen */
+    bottom: 15px;
+    transform: translateX(-50%) rotate(1000deg);
+  }
 }

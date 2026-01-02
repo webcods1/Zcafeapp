@@ -6,11 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Service - ZCafe</title>
 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
   <link rel="stylesheet" href="desktop.css">
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #f9f9f9;
+      background: linear-gradient(to bottom, #e4eaf1, #4eabf7);
       color: #333;
       margin: 0;
       padding: 0;
@@ -24,6 +27,7 @@
       padding: 20px;
       max-width: 600px;
       margin: 0 auto;
+
     }
 
     .main-content h1 {
@@ -34,10 +38,10 @@
     }
 
     form {
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
       margin-bottom: 20px;
     }
 
@@ -206,8 +210,201 @@
       <label for="complaint-message">Message</label>
       <textarea id="complaint-message" placeholder="Describe your complaint in detail..." required></textarea>
 
-      <button type="submit">Send Complaint</button>
+      <div class="service-animation-container">
+        <!-- Vehicle -->
+        <svg class="service-vehicle-page" id="service-gear" viewBox="0 0 24 24" fill="#aa0a0a">
+          <path
+            d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+        </svg>
+
+        <!-- Button -->
+        <button type="button" id="send-complaint-btn" class="service-button-page">
+          Send Complaint <i class="fas fa-arrow-right"></i>
+        </button>
+
+        <!-- Track -->
+        <div class="service-track-page"></div>
+      </div>
     </form>
+
+    <style>
+      .service-animation-container {
+        position: relative;
+        height: 120px;
+        /* Space for animation */
+        margin-top: 30px;
+        overflow: visible;
+        /* Allow icon to roll from outside */
+      }
+
+      .service-track-page {
+        position: absolute;
+        bottom: 10px;
+        left: -100px;
+        /* Extend beyond left edge */
+        right: -100px;
+        /* Extend beyond right edge */
+        height: 6px;
+        background: #000;
+      }
+
+      .service-button-page {
+        position: absolute;
+        bottom: 60px;
+        /* Adjusted to be above track */
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        padding: 12px 30px;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        color: #aa0a0a;
+        border: 1.5px solid rgba(255, 255, 255, 0.8);
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 20;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: -5px;
+      }
+
+      .service-button-page:hover {
+        background: rgba(255, 255, 255, 0.45);
+        border-color: #aa0a0a;
+        transform: translateX(-50%) scale(1.05);
+      }
+
+      @keyframes arrowSlide {
+
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+
+        50% {
+          transform: translateX(4px);
+        }
+      }
+
+      .service-button-page i {
+        animation: arrowSlide 1.2s ease-in-out infinite;
+      }
+
+      .service-vehicle-page {
+        width: 50px;
+        height: 50px;
+        fill: #aa0a0a;
+        position: absolute;
+        bottom: 10px;
+        /* Sit on track */
+        left: -60px;
+        /* Start offscreen */
+        z-index: 10;
+        transform-origin: center;
+      }
+
+      /* Entrance Animation (Left -> Center) */
+      @keyframes scrollIn {
+        0% {
+          left: -60px;
+          transform: translateX(0) rotate(0deg);
+        }
+
+        100% {
+          left: 50%;
+          transform: translateX(-50%) rotate(720deg);
+        }
+      }
+
+      /* Exit Animation (Center -> Right Out) */
+      @keyframes scrollOut {
+        0% {
+          left: 50%;
+          transform: translateX(-50%) rotate(0deg);
+        }
+
+        100% {
+          left: 120%;
+          transform: translateX(0) rotate(720deg);
+        }
+      }
+
+      .animate-enter {
+        animation: scrollIn 2s ease-out forwards;
+      }
+
+      .animate-exit {
+        animation: scrollOut 2s ease-in forwards;
+      }
+
+      /* Desktop: Set track to 100% width */
+      @media (min-width: 761px) {
+        .service-track-page {
+          position: absolute;
+          bottom: 10px;
+          left: -600px;
+          /* Extend beyond left edge */
+          right: -600px;
+          /* Extend beyond right edge */
+          height: 6px;
+          background: #000;
+        }
+
+        .service-vehicle-page {
+          width: 50px;
+          height: 50px;
+          fill: #aa0a0a;
+          position: absolute;
+          bottom: 10px;
+          /* Sit on track */
+          left: -60px;
+          /* Start offscreen */
+          z-index: 10;
+          transform-origin: center;
+        }
+
+        /* Entrance Animation (Left -> Center) */
+        @keyframes scrollIn {
+          0% {
+            left: -590px;
+            transform: translateX(0) rotate(0deg);
+          }
+
+          100% {
+            left: 50%;
+            transform: translateX(-50%) rotate(720deg);
+          }
+        }
+
+        /* Exit Animation (Center -> Right Out) */
+        @keyframes scrollOut {
+          0% {
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+          }
+
+          100% {
+            left: 300%;
+            transform: translateX(0) rotate(720deg);
+          }
+        }
+
+        .animate-enter {
+          animation: scrollIn 2s ease-out forwards;
+        }
+
+        .animate-exit {
+          animation: scrollOut 2s ease-in forwards;
+        }
+
+      }
+    </style>
   </main>
 
   <!-- ===== Footer ===== -->
@@ -277,18 +474,39 @@
       }, duration);
     }
 
-    // complaint form submission
+    // Initialize Animations
+    const serviceGear = document.getElementById('service-gear');
+    const sendBtn = document.getElementById('send-complaint-btn');
     const complaintForm = document.getElementById('complaint-form');
-    complaintForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+
+    // On Load: Scroll icon from left to center
+    window.addEventListener('load', () => {
+      serviceGear.classList.add('animate-enter');
+    });
+
+    // Handle Button Click
+    sendBtn.addEventListener('click', () => {
       const type = document.getElementById('complaint-type').value;
       const message = document.getElementById('complaint-message').value.trim();
 
+      // Simple validation
       if (!type || !message) {
         showNotification('Please fill in all fields (Type & Message).');
         return;
       }
 
+      // Trigger Exit Animation (Center -> Right Out)
+      serviceGear.classList.remove('animate-enter');
+      serviceGear.classList.add('animate-exit');
+
+      // Wait for animation to finish, then process submission
+      serviceGear.addEventListener('animationend', () => {
+        // Submit Logic
+        submitComplaint(type, message);
+      }, { once: true });
+    });
+
+    function submitComplaint(type, message) {
       // Get user info from localStorage
       const phone = localStorage.getItem('phoneNumber') || 'Unknown';
       const company = localStorage.getItem('companyName') || 'Unknown Company';
@@ -307,11 +525,18 @@
       }).then(() => {
         showNotification("The servicer will call you immediately! 📞");
         complaintForm.reset();
+
+        // Reset Animation for next time (Optional)
+        setTimeout(() => {
+          serviceGear.classList.remove('animate-exit');
+          serviceGear.classList.add('animate-enter');
+        }, 1000);
+
       }).catch((err) => {
         console.error(err);
         showNotification("Error submitting request. Please try again.");
       });
-    });
+    }
 
     // Scroll hide/show navbars
     let lastScrollTop = 0;
