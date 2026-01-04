@@ -102,10 +102,48 @@ h2 {
     z-index: 100;
     transition: transform 0.3s ease;
     background-color: #ffffff;
+    padding: 8px 10px;
   }
 
   nav.hidden {
     transform: translateY(-100%);
+  }
+
+  /* Nav Top Container */
+  .nav-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+
+  /* Right Side Icons Container */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  /* Individual Nav Icons */
+  .nav-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .nav-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: #bababa;
+    transition: fill 0.2s;
+  }
+
+  .nav-icon:active svg {
+    fill: #555;
   }
 
   /* ===== Bottom Navbar ===== */
@@ -180,6 +218,41 @@ h2 {
     height: 18px;
     right: 8px;
   }
+
+  /* Deliver To Section */
+  .deliver-to {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #000000;
+    margin-top: 8px;
+    padding: 0 5px;
+  }
+
+  .deliver-to svg {
+    width: 16px;
+    height: 16px;
+    fill: #d9534f;
+    flex-shrink: 0;
+  }
+
+  .deliver-to span {
+    white-space: nowrap;
+  }
+
+  .deliver-to input {
+    border: none;
+    outline: none;
+    font-size: 0.85rem;
+    background: transparent;
+    padding: 2px 4px;
+    flex: 1;
+    color: #000000;
+    min-width: 0;
+  }
+
 
 
   .scroll-container {
@@ -848,9 +921,6 @@ h2 {
 
   }
 
-  /* Price text */
-
-  /* Small action button */
   /* ===== Product Images ===== */
   .product-card {
     background: #fff;
@@ -951,7 +1021,7 @@ h2 {
     margin: 20px auto;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    background: linear-gradient(to bottom, #e48435 #e2eaf3, );
+    background: linear-gradient(to bottom, #e48435, #e2eaf3);
     padding: 40px 20px 100px;
     /* added bottom padding for button */
     text-align: center;
@@ -1132,7 +1202,6 @@ h2 {
     margin: 30px auto;
     padding: 0 15px;
     text-align: center;
-    margin-top: 300px;
   }
 
   /* Hidden by default */

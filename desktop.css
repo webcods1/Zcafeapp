@@ -373,15 +373,12 @@ nav.hidden {
   position: relative;
   width: 90%;
   max-width: 1400px;
-  background: #ffffff;
-  margin-top: 70px;
-  margin-left: -10px;
-  margin-right: auto;
+  margin: 70px auto 0 auto;
+  /* Centered horizontally */
   height: 600px;
   overflow: hidden;
   border-radius: 60px;
   /* Matched mobile radius */
-  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.12);
 }
 
 /* ================= SLIDES WRAPPER ================= */
@@ -427,16 +424,17 @@ nav.hidden {
 
 .banner-video {
   width: 100% !important;
-  height: 500px !important;
+  height: 100% !important;
+  max-height: 560px;
   object-fit: contain !important;
-  /* mobile friendly */
-  background: #ffffff;
+  object-position: center center;
+  /* Center both horizontally and vertically */
+  background: transparent;
   display: block;
   border-radius: 60px !important;
   /* Matched mobile radius */
-  margin-top: -55px;
-  margin-left: 160px;
-
+  margin: 0 auto;
+  /* Centered horizontally */
 }
 
 /* ================= DOT NAVIGATION ================= */
@@ -847,7 +845,7 @@ nav.hidden {
 .services-section {
   position: relative;
   width: 100%;
-  background: #ffffff;
+  background: linear-gradient(to bottom, #e48435 #e2eaf3, );
   padding: 40px 20px 100px;
   /* added bottom padding for button */
   text-align: center;
