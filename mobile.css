@@ -12,7 +12,7 @@ body {
   font-family: 'Open Sauce One', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to bottom, #f4e7cc, #f4e7cc);
+  background: linear-gradient(to bottom, #f4e7cc, #f2eee6);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -222,7 +222,7 @@ h2 {
     align-items: center;
     justify-content: center;
     transition: transform 0.3s ease;
-    border-color: #e18317;
+    border-color: #f4e7cc;
     border-width: 3px;
     border-radius: 10px;
     cursor: pointer;
