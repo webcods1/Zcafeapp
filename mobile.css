@@ -102,48 +102,16 @@ h2 {
     z-index: 100;
     transition: transform 0.3s ease;
     background-color: #ffffff;
-    padding: 8px 10px;
   }
+
+  .nav-right {
+    margin-right: 10px
+  }
+
+  ;
 
   nav.hidden {
     transform: translateY(-100%);
-  }
-
-  /* Nav Top Container */
-  .nav-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-  }
-
-  /* Right Side Icons Container */
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
-  }
-
-  /* Individual Nav Icons */
-  .nav-icon {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  .nav-icon svg {
-    width: 22px;
-    height: 22px;
-    fill: #bababa;
-    transition: fill 0.2s;
-  }
-
-  .nav-icon:active svg {
-    fill: #555;
   }
 
   /* ===== Bottom Navbar ===== */
@@ -196,7 +164,7 @@ h2 {
     height: 45px;
     position: relative;
     width: 100%;
-    max-width: 400px;
+    max-width: 250px;
     /* Corrected width; adjust if needed */
     transition: border-color 0.2s ease;
   }
@@ -219,46 +187,11 @@ h2 {
     right: 8px;
   }
 
-  /* Deliver To Section */
-  .deliver-to {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #000000;
-    margin-top: 8px;
-    padding: 0 5px;
-  }
-
-  .deliver-to svg {
-    width: 16px;
-    height: 16px;
-    fill: #d9534f;
-    flex-shrink: 0;
-  }
-
-  .deliver-to span {
-    white-space: nowrap;
-  }
-
-  .deliver-to input {
-    border: none;
-    outline: none;
-    font-size: 0.85rem;
-    background: transparent;
-    padding: 2px 4px;
-    flex: 1;
-    color: #000000;
-    min-width: 0;
-  }
-
-
 
   .scroll-container {
     width: 100%;
     padding: 5px 0;
-    background-color: #5583c9;
+    background: linear-gradient(to bottom, #f28730, #f4e7cc);
     /* Earthy background */
     margin-top: 20px;
     margin-bottom: 10px;
@@ -289,7 +222,7 @@ h2 {
     align-items: center;
     justify-content: center;
     transition: transform 0.3s ease;
-    border-color: #1f57e3;
+    border-color: #e18317;
     border-width: 3px;
     border-radius: 10px;
     cursor: pointer;
@@ -1755,8 +1688,301 @@ video::-webkit-media-controls-start-play-button {
     margin-bottom: 15px;
   }
 
+
   .main-content>div:first-child svg {
     width: 60px;
     height: 60px;
+  }
+
+  /* =============================================================== */
+  /* =================== SERVICE.HTML PAGE STYLES ================== */
+  /* =============================================================== */
+
+  /* Service Page Body */
+  body.service-page {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #e48435, #e2eaf3);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Service Page Main Content */
+  .service-page .main-content {
+    flex: 1;
+    padding: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: visible;
+  }
+
+  .service-page .main-content h1 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+
+  /* Service Page Form */
+  .service-page form {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 20px;
+    margin-left: -20px;
+  }
+
+  .service-page label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #555;
+    font-size: 0.9rem;
+  }
+
+  .service-page select,
+  .service-page textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+
+  .service-page select:focus,
+  .service-page textarea:focus {
+    outline: none;
+    border-color: #aa0a0a;
+    box-shadow: 0 0 5px rgba(170, 10, 10, 0.3);
+  }
+
+  .service-page button[type="submit"] {
+    background-color: #aa0a0a;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+    transition: background-color 0.3s;
+  }
+
+  .service-page button[type="submit"]:hover {
+    background-color: #880808;
+  }
+
+  .service-page button[onclick="window.history.back()"] {
+    background: #aa0a0a;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+    margin-bottom: 20px;
+  }
+
+  .service-page button[onclick="window.history.back()"]:hover {
+    background: #880808;
+  }
+
+  /* Service Page Bottom Navigation */
+  .service-page .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #fff;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .service-page .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #000000;
+    font-size: 0.8rem;
+    transition: color 0.3s;
+  }
+
+  .service-page .nav-item.active {
+    color: #aa0a0a;
+  }
+
+  .service-page .nav-item svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    fill: currentColor;
+  }
+
+  .service-page .nav-item:hover {
+    color: #aa0a0a;
+  }
+
+  /* Service Page Notification Toast */
+  .service-page #notification-container {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    font-weight: 600;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    font-size: 0.95rem;
+    animation: mobileSlideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes mobileSlideUp {
+    from {
+      transform: translate(-50%, 100px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+  }
+
+  /* =============================================================== */
+  /* ====================== SERVICE PAGE ============================ */
+  /* =============================================================== */
+
+  /* Service Animation Container */
+  .service-animation-container {
+    position: relative;
+    height: 120px;
+    margin-top: 30px;
+    overflow: visible;
+  }
+
+  /* Service Track - Mobile positioning */
+  .service-track-page {
+    position: absolute;
+    bottom: -110px !important;
+    left: -100px;
+    right: -100px;
+    height: 6px;
+    background: #000000;
+  }
+
+  /* Service Vehicle/Gear - Mobile positioning */
+  .service-vehicle-page {
+    width: 50px;
+    height: 50px;
+    fill: #010101;
+    position: absolute;
+    bottom: -110px !important;
+    left: -60px;
+    z-index: 10;
+    transform-origin: center;
+  }
+
+  /* Service Button */
+  .service-button-page {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    padding: 12px 30px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #aa0a0a;
+    border: 1.5px solid rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .service-button-page:hover {
+    background: rgba(255, 255, 255, 0.45);
+    border-color: #aa0a0a;
+    transform: translateX(-50%) scale(1.05);
+  }
+
+  @keyframes arrowSlide {
+
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    50% {
+      transform: translateX(4px);
+    }
+  }
+
+  .service-button-page i {
+    animation: arrowSlide 1.2s ease-in-out infinite;
+  }
+
+  /* Animations for entering and exiting */
+  @keyframes scrollIn {
+    0% {
+      left: -60px;
+      transform: translateX(0) rotate(0deg);
+    }
+
+    100% {
+      left: 50%;
+      transform: translateX(-50%) rotate(720deg);
+    }
+  }
+
+  @keyframes scrollOut {
+    0% {
+      left: 50%;
+      transform: translateX(-50%) rotate(0deg);
+    }
+
+    100% {
+      left: 150%;
+      transform: translateX(0) rotate(720deg);
+    }
+  }
+
+  .animate-enter {
+    animation: scrollIn 2s ease-out forwards;
+  }
+
+  .animate-exit {
+    animation: scrollOut 2s ease-in forwards;
   }
 }
