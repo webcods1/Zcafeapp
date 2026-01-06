@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Cart - ZCafe</title>
   <style>
     .bag-header {
@@ -11,6 +12,7 @@
       justify-content: center;
       margin-top: 20px;
       margin-bottom: 10px;
+      background-color: #f4e7cc;
     }
 
     .bag-header svg {
@@ -23,8 +25,11 @@
       max-width: 900px;
       margin: 20px auto;
       padding: 20px;
-      background: #ffffff;
+      background: #f4e7cc;
       border-radius: 18px;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .bag-items {
@@ -94,7 +99,7 @@
 
     /* Tracking Section */
     #active-tracking {
-      background: #fff;
+      background: transparent;
       padding: 20px;
       border-radius: 18px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -151,10 +156,87 @@
       }
     }
 
+    /* Booking History Styles */
+    .history-order-card {
+      background: transparent;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      margin-bottom: 15px;
+      border-left: 4px solid #aa0a0a;
+    }
+
+    .history-order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .history-order-date {
+      font-size: 0.9rem;
+      color: #666;
+      font-weight: 600;
+    }
+
+    .history-status-badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-transit {
+      background: #cfe2ff;
+      color: #084298;
+    }
+
+    .status-delivered {
+      background: #d1e7dd;
+      color: #0f5132;
+    }
+
+    .history-items-list {
+      margin: 10px 0;
+      padding-left: 20px;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    .history-items-list li {
+      margin: 5px 0;
+    }
+
+    .history-order-total {
+      text-align: right;
+      font-weight: 600;
+      color: #333;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    #history-toggle-header:hover {
+      background: rgba(244, 231, 204, 0.2) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
+    }
+
+    #history-toggle-header:active {
+      transform: scale(0.98);
+    }
+
     @media (max-width: 600px) {
       .container {
-        margin: 0 15px;
-        padding: 10px;
+        margin: 0 5px;
+        padding: 15px;
       }
 
       .actions {
@@ -167,10 +249,9 @@
     }
   </style>
   </style>
-  <script type="module" crossorigin src="/assets/bag-dGQtxigT.js"></script>
+  <script type="module" crossorigin src="/assets/bag-BZ2Pt2kL.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="stylesheet" crossorigin href="/assets/desktop-OWArZ9vK.css">
-  <link rel="stylesheet" crossorigin href="/assets/mobile-DzcQ2Tde.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-BPejxwpJ.css">
 </head>
 
 <body class="no-top-nav">
@@ -231,6 +312,34 @@
           style="background: #aa0a0a; color: white; padding: 12px 30px; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(170, 10, 10, 0.2);">
           Start New Order
         </button>
+      </div>
+
+      <!-- Booking History Section -->
+      <div id="booking-history-section" style="margin-top: 40px; padding-bottom: 80px;">
+        <div id="history-toggle-header"
+          style="background: transparent; padding: 15px 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; margin-bottom: 15px;"
+          onclick="toggleBookingHistory()">
+          <h2 style="margin: 0; color: #333; font-size: 1.2rem; font-family: 'Poppins', sans-serif;">
+            📋 Booking History
+          </h2>
+          <svg id="history-arrow" viewBox="0 0 24 24"
+            style="width: 24px; height: 24px; fill: #666; transition: transform 0.3s ease;">
+            <path d="M7 10l5 5 5-5z" />
+          </svg>
+        </div>
+
+        <div id="booking-history-content"
+          style="display: none; overflow-y: auto; max-height: 400px; transition: all 0.3s ease;">
+          <div id="booking-history-container"></div>
+          <div id="no-history-message" style="display: none; text-align: center; padding: 30px; color: #999;">
+            <svg viewBox="0 0 24 24" style="width: 60px; height: 60px; fill: #ddd; margin-bottom: 15px;">
+              <path
+                d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10z" />
+            </svg>
+            <p style="font-size: 1rem;">No booking history yet</p>
+            <p style="font-size: 0.9rem; margin-top: 5px;">Your past orders will appear here</p>
+          </div>
+        </div>
       </div>
     </div>
   </main>

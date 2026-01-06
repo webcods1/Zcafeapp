@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Purchase - ZCafe</title>
 
   <!-- Bootstrap CSS -->
@@ -45,10 +46,9 @@
       }
     }
   </style>
-  <script type="module" crossorigin src="/assets/purchase-Cdj-iKZw.js"></script>
+  <script type="module" crossorigin src="/assets/purchase-D7l61BmD.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="stylesheet" crossorigin href="/assets/desktop-OWArZ9vK.css">
-  <link rel="stylesheet" crossorigin href="/assets/mobile-DzcQ2Tde.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-BPejxwpJ.css">
 </head>
 
 <body>
@@ -189,7 +189,7 @@
 
   <!-- ===== Product Cards ===== -->
   <section class="products-section">
-    <h2>Shop </h2>
+    <h2>Shop</h2>
     <p>Discover our selection of beverages, crafted to perfection for your enjoyment</p>
     <div class="products-wrapper">
       <div class="products-grid">
@@ -676,6 +676,37 @@
       updateHeart(btn, isInWishlist);
     });
 
+    // Generic notification function (reused structure)
+    function showWishlistNotification(text) {
+      // Create floating notification
+      const notification = document.createElement('div');
+      notification.textContent = text;
+      notification.style.cssText = `
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        z-index: 10000;
+        box-shadow: 0 10px 40px rgba(221, 36, 118, 0.4);
+        animation: slideUpFade 2s ease-out forwards;
+      `;
+      document.body.appendChild(notification);
+
+      // Pulse the wishlist badge/icon if possible
+      // (Optional: can animate wishlist-icon similar to cartPulse)
+
+      // Remove notification after animation
+      setTimeout(() => {
+        notification.remove();
+      }, 2000);
+    }
+
     // wishlist button click event
     document.querySelectorAll(".wishlist-btn").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -688,23 +719,16 @@
           // remove from wishlist
           wishlist.splice(existingIndex, 1);
           updateHeart(btn, false);
-          alert(`${name} removed from wishlist!`);
+          showWishlistNotification(`${name} removed from wishlist!`);
         } else {
           // add to wishlist
           wishlist.push({ name, quantity });
           updateHeart(btn, true);
-          alert(`${quantity} x ${name} added to wishlist!`);
+          showWishlistNotification(`${name} added to wishlist!`);
         }
         localStorage.setItem("wishlistItems", JSON.stringify(wishlist));
         updateWishlistBadge();
-        let totalQty = wishlist.reduce((sum, item) => sum + item.quantity, 0);
-        if (totalQty > 0) {
-          wishlistNotification.textContent = `${totalQty} item(s) in wishlist`;
-          wishlistNotification.style.display = "block";
-          setTimeout(() => {
-            wishlistNotification.style.display = "none";
-          }, 2000);
-        }
+        // Mini notification on icon (optional, keeping as fallback or removing is fine, but keeping for now)
       });
     });
 
@@ -859,6 +883,29 @@
 
       document.getElementById('modal-product-img').src = productImg;
       document.getElementById('modal-product-name').innerText = productName;
+
+      // Handle Tag Display
+      const quickCard = document.querySelector('.quick-card');
+      // Clear previous tag
+      const existingTag = quickCard.querySelector('[class*="-tag"]');
+      if (existingTag) existingTag.remove();
+
+      // Clone tag from clicked element
+      const originalTag = element.querySelector('[class*="-tag"]');
+      if (originalTag) {
+        const clonedTag = originalTag.cloneNode(true);
+        // Position specifically for the modal
+        clonedTag.style.cssText = `
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          bottom: auto;
+          z-index: 100;
+          transform: scale(1.2); /* Make it slightly larger */
+        `;
+        quickCard.appendChild(clonedTag);
+      }
+
       document.getElementById('modal-overlay').classList.add('active');
     }
 

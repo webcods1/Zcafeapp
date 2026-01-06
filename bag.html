@@ -101,7 +101,7 @@
 
     /* Tracking Section */
     #active-tracking {
-      background: #fff;
+      background: transparent;
       padding: 20px;
       border-radius: 18px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -160,7 +160,7 @@
 
     /* Booking History Styles */
     .history-order-card {
-      background: #fff;
+      background: transparent;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       padding: 15px;
@@ -227,7 +227,7 @@
     }
 
     #history-toggle-header:hover {
-      background: #f8f8f8 !important;
+      background: rgba(244, 231, 204, 0.2) !important;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
     }
 
@@ -316,7 +316,7 @@
       <!-- Booking History Section -->
       <div id="booking-history-section" style="margin-top: 40px; padding-bottom: 80px;">
         <div id="history-toggle-header"
-          style="background: #fff; padding: 15px 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; margin-bottom: 15px;"
+          style="background: transparent; padding: 15px 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; margin-bottom: 15px;"
           onclick="toggleBookingHistory()">
           <h2 style="margin: 0; color: #333; font-size: 1.2rem; font-family: 'Poppins', sans-serif;">
             📋 Booking History
@@ -551,11 +551,11 @@
       if (content.style.display === 'none') {
         content.style.display = 'block';
         arrow.style.transform = 'rotate(180deg)';
-        header.style.background = '#f8f8f8';
+        header.style.background = 'rgba(244, 231, 204, 0.3)';
       } else {
         content.style.display = 'none';
         arrow.style.transform = 'rotate(0deg)';
-        header.style.background = '#fff';
+        header.style.background = 'transparent';
       }
     }
 
