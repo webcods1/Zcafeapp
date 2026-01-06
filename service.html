@@ -12,10 +12,33 @@
 
   <link rel="stylesheet" href="desktop.css" media="(min-width: 761px)">
   <link rel="stylesheet" href="mobile.css" media="(max-width: 760px)">
+  <style>
+    @keyframes slideUpFade {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+
+      15% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      85% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+    }
+  </style>
 </head>
 
 <body class="no-top-nav service-page">
-  <div id="notification-container"></div>
+
 
   <script>
     (function () {
@@ -45,7 +68,7 @@
       <label for="complaint-message">Message</label>
       <textarea id="complaint-message" placeholder="Describe your complaint in detail..." required></textarea>
 
-      <div class="service-animation-container">
+      <div class="service-animation-container">v c
         <!-- Vehicle -->
         <svg class="service-vehicle-page" id="service-gear" viewBox="0 0 24 24" fill="#aa0a0a">
           <path
@@ -114,20 +137,60 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // Show Notification Helper
-    function showNotification(msg, duration = 4000) {
-      const container = document.getElementById('notification-container');
-      container.textContent = msg;
-      container.style.display = 'flex';
-      container.style.animation = 'slideUp 0.5s ease forwards';
+    // Cart Badge Logic
+    function updateBadge() {
+      const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+      let cartBadge = document.getElementById("cart-badge");
+      if (!cartBadge) {
+        const bagLink = document.querySelector('a[href="bag.html"]');
+        if (bagLink) {
+          bagLink.style.position = "relative";
+          cartBadge = document.createElement("div");
+          cartBadge.id = "cart-badge";
+          cartBadge.className = "cart-badge";
+          // Ensure styles allow it to show (mobile.css handles class)
+          bagLink.appendChild(cartBadge);
+        }
+      }
+
+      if (cartBadge) {
+        cartBadge.textContent = totalQty;
+        cartBadge.style.display = totalQty > 0 ? "flex" : "none";
+      }
+    }
+    // Initialize badge
+    updateBadge();
+
+    // Show Notification Helper (Styled like index.html)
+    function showNotification(msg) {
+      const notification = document.createElement('div');
+      notification.textContent = msg;
+      notification.style.cssText = `
+        position: fixed;
+        bottom: 55px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        z-index: 10000;
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+        animation: slideUpFade 3s ease-out forwards;
+        margin-bottom: 0;
+        text-align: center;
+        width: max-content;
+        max-width: 90%;
+      `;
+      document.body.appendChild(notification);
 
       setTimeout(() => {
-        container.style.opacity = '0';
-        setTimeout(() => {
-          container.style.display = 'none';
-          container.style.opacity = '1';
-        }, 500);
-      }, duration);
+        notification.remove();
+      }, 3000);
     }
 
     // Initialize Animations

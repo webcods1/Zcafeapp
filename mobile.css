@@ -167,6 +167,7 @@ h2 {
     justify-content: center;
     font-weight: 700;
     padding: 2px;
+    margin-right: 1px;
   }
 
   /* ===== Navbar ===== */
@@ -264,45 +265,74 @@ h2 {
   }
 
 
-  .scroll-container {
+  /* =============================================================== */
+  /* ============= INFINITE AUTO-SCROLLING SLIDER ================== */
+  /* =============================================================== */
+
+  /* Container - hides overflow */
+  .infinite-scroll-container {
     width: 100%;
-    padding: 5px 0;
+    overflow: hidden;
     background: linear-gradient(to bottom, #f28730, #f4e7cc);
-    /* Earthy background */
+    padding: 20px 0 40px;
     margin-top: 20px;
-    margin-bottom: 10px;
-  }
-
-  .image-scroll-row {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    /* Enables horizontal scroll */
-    padding: 10px 20px 30px;
-    /* Increased bottom padding for swinging tags */
-    scroll-behavior: smooth;
-    /* Hide scrollbar for Chrome/Safari/Opera */
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 10px;
-  }
-
-  /* Scroll Item Box */
-  .scroll-item {
     position: relative;
-    /* Anchor for tag */
-    flex: 0 0 100px;
-    height: 80px;
+  }
+
+  /* Track - holds all cards and animates */
+  .infinite-scroll-track {
+    display: flex;
+    gap: 20px;
+    animation: infiniteScroll 40s linear infinite;
+    will-change: transform;
+  }
+
+  /* Infinite scroll animation */
+  @keyframes infiniteScroll {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+      /* Moves exactly half (original set) */
+    }
+  }
+
+  /* Individual card wrapper */
+  .scroll-card {
+    flex-shrink: 0;
+    width: 120px;
+    perspective: 1000px;
+  }
+
+  /* Card inner - creates the hanging effect */
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100px;
     background: #ffffff;
-    border: 1px solid #e0d9d0;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s ease;
-    border-color: #f4e7cc;
-    border-width: 3px;
-    border-radius: 10px;
     cursor: pointer;
-    /* Indicated as clickable */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Hover effect */
+  .card-inner:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Images inside cards */
+  .card-inner img {
+    max-width: 75%;
+    max-height: 75%;
+    object-fit: contain;
+    pointer-events: none;
   }
 
   /* Hanging Tag Base Style */
@@ -313,15 +343,33 @@ h2 {
   .healthy-tag,
   .trending-tag {
     position: absolute;
-    bottom: -15px;
-    left: 10px;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     transform-origin: top center;
-    transition: transform 0.1s ease-out;
     pointer-events: none;
     z-index: 10;
+    animation: tagSwing 2.5s ease-in-out infinite;
+  }
+
+  /* Tag swing animation - only tags swing, not cards */
+  @keyframes tagSwing {
+
+    0%,
+    100% {
+      transform: translateX(-50%) rotate(0deg);
+    }
+
+    25% {
+      transform: translateX(-50%) rotate(-4deg);
+    }
+
+    75% {
+      transform: translateX(-50%) rotate(4deg);
+    }
   }
 
   /* The String */
@@ -333,7 +381,7 @@ h2 {
   .trending-tag::before {
     content: '';
     width: 2px;
-    height: 12px;
+    height: 15px;
     background: #555;
     margin-bottom: -2px;
   }
@@ -352,15 +400,12 @@ h2 {
     color: white;
     text-align: center;
     line-height: 1.2;
-    width: 55px;
-    /* Fixed width */
+    width: 60px;
     height: 35px;
-    /* Fixed height */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   }
 
@@ -416,50 +461,9 @@ h2 {
 
   /* Horlicks Blue */
 
-  /* Swinging Animation */
-  @keyframes swing {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    25% {
-      transform: rotate(-5deg);
-    }
-
-    75% {
-      transform: rotate(5deg);
-    }
-
-    100% {
-      transform: rotate(0deg);
-    }
-  }
-
-  .swinging {
-    animation: swing 0.4s ease-in-out infinite;
-  }
-
-  .scroll-item img {
-    max-width: 80%;
-    max-height: 80%;
-  }
-
-  .scroll-item:hover {
-    border-color: #97d425;
-    transform: scale(1.05);
-  }
-
-  /* Hide scrollbar for a modern look */
-  .image-scroll-row::-webkit-scrollbar {
-    display: none;
-  }
-
-  .image-scroll-row {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-  }
+  /* =============================================================== */
+  /* ================ END INFINITE SCROLLING ======================= */
+  /* =============================================================== */
 
   /* =============================================================== */
   /* ====================== BANNER CAROUSEL ======================== */
