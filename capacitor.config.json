@@ -1,5 +1,14 @@
 {
   "appId": "com.zcafe.app",
   "appName": "Zcafe",
-  "webDir": "dist"
+  "webDir": "dist",
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
+    }
+  }
 }

@@ -1787,9 +1787,6 @@ body.service-page {
   margin-bottom: 20px;
 }
 
-.service-vehicle {
-  background-color: #000;
-}
 
 .service-page button[onclick="window.history.back()"]:hover {
   background: #880808;

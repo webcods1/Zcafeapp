@@ -1200,6 +1200,28 @@
       }
     });
   </script>
+
+  <!-- Background Notification Initialization -->
+  <script type="module">
+    import notificationManager from './src/notificationManager.js';
+
+    // Auto-initialize background notifications
+    async function initBackgroundNotifications() {
+      try {
+        const permissionStatus = await notificationManager.getPermissionStatus();
+
+        if (permissionStatus === 'granted') {
+          await notificationManager.initialize();
+          console.log('Background notifications initialized');
+        }
+      } catch (error) {
+        console.error('Error initializing background notifications:', error);
+      }
+    }
+
+    // Initialize when page loads
+    initBackgroundNotifications();
+  </script>
 </body>
 
 </html>

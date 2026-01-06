@@ -46,9 +46,9 @@
       }
     }
   </style>
-  <script type="module" crossorigin src="/assets/purchase-D7l61BmD.js"></script>
+  <script type="module" crossorigin src="/assets/purchase-WntKjPnS.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="stylesheet" crossorigin href="/assets/mobile-BPejxwpJ.css">
+  <link rel="stylesheet" crossorigin href="/assets/mobile-DkGWX1ik.css">
 </head>
 
 <body>
@@ -104,33 +104,87 @@
   </nav>
 
 
-  <!-- ===== Scroll Container ===== -->
-  <div class="scroll-container">
-    <div class="image-scroll-row">
-      <div class="scroll-item" data-name="Coffee Premium" data-img="/zcoffepre.png"
-        onclick="showProductQuickView(this)">
-        <div class="best-seller-tag">Best Seller</div>
-        <img src="/zcoffepre.png" alt="Coffee">
+  <!-- ===== Infinite Auto-Scrolling Slider ===== -->
+  <div class="infinite-scroll-container">
+    <div class="infinite-scroll-track">
+      <!-- Original set of images -->
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Coffee Premium" data-img="/zcoffepre.png"
+          onclick="showProductQuickView(this)">
+          <div class="best-seller-tag">Best Seller</div>
+          <img src="/zcoffepre.png" alt="Coffee">
+        </div>
       </div>
-      <div class="scroll-item" data-name="Tea Premium" data-img="/ztea.png" onclick="showProductQuickView(this)">
-        <div class="offer-tag">UP TO 10% OFF</div>
-        <img src="/ztea.png" alt="Tea">
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Tea Premium" data-img="/ztea.png" onclick="showProductQuickView(this)">
+          <div class="offer-tag">UP TO 10% OFF</div>
+          <img src="/ztea.png" alt="Tea">
+        </div>
       </div>
-      <div class="scroll-item" data-name="Cappuccino" data-img="/cappuccino.png" onclick="showProductQuickView(this)">
-        <div class="new-tag">NEW ARRIVAL</div>
-        <img src="/cappuccino.png" alt="Cappuccino">
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Cappuccino" data-img="/cappuccino.png" onclick="showProductQuickView(this)">
+          <div class="new-tag">NEW ARRIVAL</div>
+          <img src="/cappuccino.png" alt="Cappuccino">
+        </div>
       </div>
-      <div class="scroll-item" data-name="Milk Boost" data-img="/boost.png" onclick="showProductQuickView(this)">
-        <div class="energy-tag">ENERGY</div>
-        <img src="/boost.png" alt="Boost">
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Milk Boost" data-img="/boost.png" onclick="showProductQuickView(this)">
+          <div class="energy-tag">ENERGY</div>
+          <img src="/boost.png" alt="Boost">
+        </div>
       </div>
-      <div class="scroll-item" data-name="Coffee Non sugar" data-img="/zcoffe.png" onclick="showProductQuickView(this)">
-        <div class="healthy-tag">0% SUGAR</div>
-        <img src="/zcoffe.png" alt="Diet Coffee">
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Coffee Non sugar" data-img="/zcoffe.png"
+          onclick="showProductQuickView(this)">
+          <div class="healthy-tag">0% SUGAR</div>
+          <img src="/zcoffe.png" alt="Diet Coffee">
+        </div>
       </div>
-      <div class="scroll-item" data-name="Milk Horlicks" data-img="/horlicks.png" onclick="showProductQuickView(this)">
-        <div class="trending-tag">TRENDING</div>
-        <img src="/horlicks.png" alt="Horlicks">
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Milk Horlicks" data-img="/horlicks.png" onclick="showProductQuickView(this)">
+          <div class="trending-tag">TRENDING</div>
+          <img src="/horlicks.png" alt="Horlicks">
+        </div>
+      </div>
+
+      <!-- Duplicated set for seamless loop -->
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Coffee Premium" data-img="/zcoffepre.png"
+          onclick="showProductQuickView(this)">
+          <div class="best-seller-tag">Best Seller</div>
+          <img src="/zcoffepre.png" alt="Coffee">
+        </div>
+      </div>
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Tea Premium" data-img="/ztea.png" onclick="showProductQuickView(this)">
+          <div class="offer-tag">UP TO 10% OFF</div>
+          <img src="/ztea.png" alt="Tea">
+        </div>
+      </div>
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Cappuccino" data-img="/cappuccino.png" onclick="showProductQuickView(this)">
+          <div class="new-tag">NEW ARRIVAL</div>
+          <img src="/cappuccino.png" alt="Cappuccino">
+        </div>
+      </div>
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Milk Boost" data-img="/boost.png" onclick="showProductQuickView(this)">
+          <div class="energy-tag">ENERGY</div>
+          <img src="/boost.png" alt="Boost">
+        </div>
+      </div>
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Coffee Non sugar" data-img="/zcoffe.png"
+          onclick="showProductQuickView(this)">
+          <div class="healthy-tag">0% SUGAR</div>
+          <img src="/zcoffe.png" alt="Diet Coffee">
+        </div>
+      </div>
+      <div class="scroll-card">
+        <div class="card-inner" data-name="Milk Horlicks" data-img="/horlicks.png" onclick="showProductQuickView(this)">
+          <div class="trending-tag">TRENDING</div>
+          <img src="/horlicks.png" alt="Horlicks">
+        </div>
       </div>
     </div>
   </div>
@@ -500,23 +554,6 @@
 
     const cartBadge = document.createElement("div");
     cartBadge.className = "cart-badge";
-    cartBadge.style.cssText = `
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #ff0000;
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      font-size: 11px;
-      font-weight: bold;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    `;
 
     const bagLink = document.getElementById("bag-link");
     bagLink.style.position = "relative";
@@ -538,18 +575,19 @@
       notification.textContent = `${productName} added!`;
       notification.style.cssText = `
         position: fixed;
-        bottom: 80px;
+        bottom: 55px;
         left: 50%;
         transform: translateX(-50%);
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 12px 24px;
-        border-radius: 25px;
-        font-size: 14px;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-size: 12px;
         font-weight: 600;
         z-index: 10000;
-        box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
         animation: slideUpFade 2s ease-out forwards;
+        margin-bottom: 0;
       `;
       document.body.appendChild(notification);
 
@@ -683,18 +721,19 @@
       notification.textContent = text;
       notification.style.cssText = `
         position: fixed;
-        bottom: 80px;
+        bottom: 55px;
         left: 50%;
         transform: translateX(-50%);
         background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
         color: white;
-        padding: 12px 24px;
-        border-radius: 25px;
-        font-size: 14px;
+        padding: 8px 18px;
+        border-radius: 20px;
+        font-size: 12px;
         font-weight: 600;
         z-index: 10000;
-        box-shadow: 0 10px 40px rgba(221, 36, 118, 0.4);
+        box-shadow: 0 8px 30px rgba(221, 36, 118, 0.4);
         animation: slideUpFade 2s ease-out forwards;
+        margin-bottom: 0;
       `;
       document.body.appendChild(notification);
 

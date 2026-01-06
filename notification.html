@@ -198,6 +198,57 @@
         });
     </script>
 
+    <!-- Background Notification Manager -->
+    <script type="module">
+        import notificationManager from './src/notificationManager.js';
+
+        // Initialize background notifications
+        async function setupBackgroundNotifications() {
+            try {
+                // Check if notifications are supported
+                if (!notificationManager.isSupported()) {
+                    console.warn('Notifications are not supported on this device');
+                    return;
+                }
+
+                // Get current permission status
+                const permissionStatus = await notificationManager.getPermissionStatus();
+                console.log('Notification permission status:', permissionStatus);
+
+                // If permission not granted, request it
+                if (permissionStatus === 'prompt' || permissionStatus === 'default') {
+                    console.log('Requesting notification permission...');
+                    const granted = await notificationManager.requestPermission();
+
+                    if (granted) {
+                        console.log('Notification permission granted');
+                        await notificationManager.initialize();
+
+                        // Show success message
+                        const successMsg = document.createElement('div');
+                        successMsg.style.cssText = 'position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 15px 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 10000; font-family: Poppins, sans-serif;';
+                        successMsg.textContent = '✓ Background notifications enabled!';
+                        document.body.appendChild(successMsg);
+                        setTimeout(() => successMsg.remove(), 3000);
+                    } else {
+                        console.warn('Notification permission denied');
+                    }
+                } else if (permissionStatus === 'granted') {
+                    // Already granted, just initialize
+                    await notificationManager.initialize();
+                    console.log('Background notifications initialized');
+                } else {
+                    console.warn('Notification permission denied');
+                }
+            } catch (error) {
+                console.error('Error setting up background notifications:', error);
+            }
+        }
+
+        // Auto-request notification permission when page loads
+        setupBackgroundNotifications();
+    </script>
+
     <!-- ===== Footer ===== -->
     <footer class="footer">
         <p>&copy; 2025 ZCafe. All rights reserved by Webcods</p>
