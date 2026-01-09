@@ -1,0 +1,153 @@
+/* Global Styles */
+
+/* Ensure the scroll cards are clickable */
+.scroll-card {
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+/* ================= MODAL STYLES (Global) ================= */
+.modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0, 0, 0, 0.7) !important;
+    z-index: 10000 !important;
+    /* Very high z-index to ensure visibility */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    backdrop-filter: blur(8px) !important;
+    opacity: 1 !important;
+    /* Force visibility - overrides conflicting opacity: 0 */
+    visibility: visible !important;
+    /* Force visibility */
+}
+
+.modal-content {
+    background: white;
+    padding: 30px 20px 20px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 320px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes modalPop {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #555;
+    cursor: pointer;
+    z-index: 5;
+    line-height: 1;
+    padding: 5px;
+}
+
+.modal-content img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.modal-content h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin: 0;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Override Tag Styles for Modal Context */
+.modal-content .best-seller-tag,
+.modal-content .offer-tag,
+.modal-content .new-tag,
+.modal-content .energy-tag,
+.modal-content .healthy-tag,
+.modal-content .trending-tag {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    animation: none !important;
+    margin: 5px 0 15px 0;
+    width: auto;
+    height: auto;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: none;
+    display: inline-block;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Hide extra tag decor */
+.modal-content .best-seller-tag::before,
+.modal-content .offer-tag::before,
+.modal-content .new-tag::before,
+.modal-content .energy-tag::before,
+.modal-content .healthy-tag::before,
+.modal-content .trending-tag::before,
+.modal-content .best-seller-tag::after,
+.modal-content .offer-tag::after,
+.modal-content .new-tag::after,
+.modal-content .energy-tag::after,
+.modal-content .healthy-tag::after,
+.modal-content .trending-tag::after {
+    display: none !important;
+}
+
+.modal-cart-btn {
+    background-color: #aa0a0a;
+    color: white;
+    border: none;
+    padding: 14px 0;
+    width: 100%;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(170, 10, 10, 0.3);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.modal-cart-btn:hover {
+    background-color: #880808;
+}
+
+.modal-cart-btn:active {
+    transform: scale(0.96);
+}
+
+/* ================= SERVICE PAGE STYLES ================= */

@@ -1,0 +1,124 @@
+
+  /* ================= WISHLIST / BAG STYLES ================= */
+  .no-top-nav {
+    min-height: 100vh;
+    background-color: #f4e7cc; /* Matching beige tone */
+    padding-bottom: 80px;
+  }
+
+  .bag-header {
+    text-align: center;
+    padding: 20px 0 10px;
+  }
+
+  .bag-header svg {
+    fill: #aa0a0a;
+    width: 40px;
+    height: 40px;
+  }
+
+  .bag-items {
+    padding: 10px 20px;
+  }
+
+  .bag-item {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    position: relative;
+  }
+
+  .bag-item h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  .bag-item input.qty-input {
+    width: 80%; /* Match image look */
+    max-width: 200px;
+    display: block;
+    margin: 0 auto 20pxbox;
+    padding: 12px;
+    font-size: 1.1rem;
+    text-align: center;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #ffffff;
+  }
+
+  .bag-item input.qty-input:focus {
+    border-color: #aa0a0a;
+    outline: none;
+  }
+
+  .bag-item .remove-btn {
+    width: 100%;
+    background: #f5f5f5;
+    color: #666;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background 0.2s;
+  }
+
+  .bag-item .remove-btn:active {
+    background: #eaeaea;
+  }
+
+  .bag-item .add-cart-btn {
+    width: 100%;
+    background: #901a1a;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 25px; /* Pill shape */
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(144, 26, 26, 0.25);
+    transition: transform 0.2s;
+  }
+
+  .bag-item .add-cart-btn:active {
+    transform: scale(0.98);
+  }
+
+  /* Actions at bottom */
+  .actions {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .actions .book-btn {
+    width: 100%;
+    padding: 15px;
+    background: #333;
+    color: white;
+    border-radius: 15px;
+    border: none;
+    font-weight: 600;
+  }
+
+  .actions .clear-btn {
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    color: #777;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-weight: 600;
+  }

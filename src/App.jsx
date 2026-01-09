@@ -1,15 +1,35 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./context/CartContext";
-import ZCafeApp from "./pages/Index.tsx";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Purchase from './pages/Purchase';
+import Service from './pages/Service';
+import Bag from './pages/Bag';
+import Wishlist from './pages/Wishlist';
+import Profile from './pages/Profile';
+import Notification from './pages/Notification';
+import Admin from './pages/Admin';
+import AdminLogin from './pages/AdminLogin';
 
-export default function App() {
+// Import CSS files
+import '/mobile.css';
+import '/desktop.css';
+
+function App() {
   return (
-    <BrowserRouter>
-      <CartProvider>
-        <Routes>
-          <Route path="/" element={<ZCafeApp />} />
-        </Routes>
-      </CartProvider>
-    </BrowserRouter>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/purchase" element={<Purchase />} />
+        <Route path="/service" element={<Service />} />
+        <Route path="/bag" element={<Bag />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/notification" element={<Notification />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </Router>
   );
 }
+
+export default App;
