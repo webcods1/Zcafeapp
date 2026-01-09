@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import BottomNav from '../components/BottomNav';
-import Footer from '../components/Footer';
 import { useCart } from '../hooks/useCart';
 import { useWishlist } from '../hooks/useWishlist';
 import { showCartNotification } from '../utils/notifications';
@@ -75,13 +74,20 @@ const Home = () => {
             if (video) {
                 if (index === currentSlide) {
                     video.currentTime = 0; // Reset to start
-                    try {
-                        video.play().catch(err => console.log('Video play error:', err));
-                    } catch (e) {
-                        console.log('Video play failed safely');
+                    video.load(); // Reload the video
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(err => {
+                            console.log('Video play prevented:', err);
+                            // Retry after a short delay
+                            setTimeout(() => {
+                                video.play().catch(() => { });
+                            }, 100);
+                        });
                     }
                 } else {
                     video.pause();
+                    video.currentTime = 0;
                 }
             }
         });
@@ -403,7 +409,6 @@ const Home = () => {
                 </div>
             )}
 
-            <Footer />
             <BottomNav currentPage="home" cartCount={getTotalQty()} />
         </>
     );

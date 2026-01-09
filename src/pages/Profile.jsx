@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
-import Footer from '../components/Footer';
 import { useCart } from '../hooks/useCart';
 import { showSuccessNotification } from '../utils/notifications';
 
@@ -244,7 +243,6 @@ const Profile = () => {
                 </div>
             </div>
 
-            <Footer />
             <BottomNav currentPage="profile" cartCount={getTotalQty()} />
         </div>
     );

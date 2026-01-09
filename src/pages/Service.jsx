@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
-import Footer from '../components/Footer';
 import { useCart } from '../hooks/useCart';
 
 const Service = () => {
@@ -157,7 +156,6 @@ const Service = () => {
                     </form>
                 </main>
 
-                <Footer />
                 <BottomNav currentPage="service" cartCount={getTotalQty()} />
             </div>
         </>
