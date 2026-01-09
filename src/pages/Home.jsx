@@ -205,8 +205,10 @@ const Home = () => {
                                 ref={el => videoRefs.current[index] = el}
                                 className="banner-video"
                                 playsInline
+                                autoPlay
                                 muted
                                 loop
+                                preload="metadata"
                                 poster={banner.poster}
                             >
                                 <source src={banner.video} type="video/webm" />
