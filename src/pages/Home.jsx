@@ -20,6 +20,15 @@ const Home = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalProduct, setModalProduct] = useState(null);
     const [isAnimating, setIsAnimating] = useState(false);
+    const videoRefs = useRef([]);
+
+    const banners = [
+        { video: "/DietCoffeeZ.webm", poster: "/bannerDC.png" },
+        { video: "/PremiumTeaZ.webm", poster: "/bannerPT.png" },
+        { video: "/cappuccinoZ.webm", poster: "/bannerCA.png" },
+        { video: "/MilkBoostZ.webm", poster: "/bannerMB.png" },
+        { video: "/MilkhorlicksZ.webm", poster: "/bannerMH.png" }
+    ];
 
     const scrollProducts = [
         { name: 'Coffee Premium', img: '/zcoffepre.png', tag: 'best-seller-tag', tagText: 'Best Seller' },
@@ -55,15 +64,33 @@ const Home = () => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentSlide(prev => (prev + 1) % 5);
-        }, 3000);
+            setCurrentSlide(prev => (prev + 1) % banners.length);
+        }, 5000);
         return () => clearInterval(interval);
     }, []);
+
+    // Control video playback based on active slide
+    useEffect(() => {
+        videoRefs.current.forEach((video, index) => {
+            if (video) {
+                if (index === currentSlide) {
+                    video.currentTime = 0; // Reset to start
+                    try {
+                        video.play().catch(err => console.log('Video play error:', err));
+                    } catch (e) {
+                        console.log('Video play failed safely');
+                    }
+                } else {
+                    video.pause();
+                }
+            }
+        });
+    }, [currentSlide]);
 
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
-                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
+                const { initializeApp, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
                 const { getDatabase, ref, onValue } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
 
                 const firebaseConfig = {
@@ -71,7 +98,16 @@ const Home = () => {
                     databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com"
                 };
 
-                const app = initializeApp(firebaseConfig);
+                let app;
+                try {
+                    app = initializeApp(firebaseConfig);
+                } catch (e) {
+                    if (e.code === 'app/duplicate-app') {
+                        app = getApp();
+                    } else {
+                        throw e;
+                    }
+                }
                 const db = getDatabase(app);
 
                 onValue(ref(db, 'notifications'), (snapshot) => {
@@ -160,25 +196,26 @@ const Home = () => {
 
             <div className="banner-carousel container-fluid px-0">
                 <div className="carousel-slides mx-auto">
-                    {[
-                        { video: "/DietCoffeeZ.webm", poster: "/bannerDC.png" },
-                        { video: "/PremiumTeaZ.webm", poster: "/bannerPT.png" },
-                        { video: "/cappuccinoZ.webm", poster: "/bannerCA.png" },
-                        { video: "/MilkBoostZ.webm", poster: "/bannerMB.png" },
-                        { video: "/MilkhorlicksZ.webm", poster: "/bannerMH.png" }
-                    ].map((banner, index) => (
+                    {banners.map((banner, index) => (
                         <div
                             key={index}
                             className={`banner banner-slide ${currentSlide === index ? 'active' : ''}`}
                         >
-                            <video className="banner-video" playsInline muted loop autoPlay poster={banner.poster}>
+                            <video
+                                ref={el => videoRefs.current[index] = el}
+                                className="banner-video"
+                                playsInline
+                                muted
+                                loop
+                                poster={banner.poster}
+                            >
                                 <source src={banner.video} type="video/webm" />
                             </video>
                         </div>
                     ))}
                 </div>
                 <div className="carousel-dots">
-                    {[0, 1, 2, 3, 4].map(i => (
+                    {banners.map((_, i) => (
                         <span
                             key={i}
                             className={`dot ${currentSlide === i ? 'active' : ''}`}

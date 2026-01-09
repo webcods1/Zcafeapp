@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 import Footer from '../components/Footer';
 import { useCart } from '../hooks/useCart';
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js';
-import { getDatabase, ref, push, set } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js';
 
 const Service = () => {
     const navigate = useNavigate();
@@ -13,21 +11,6 @@ const Service = () => {
     const [complaintMessage, setComplaintMessage] = useState('');
 
     useEffect(() => {
-
-        // Initialize firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBD_s0bu-ei-bsdPDIFaDF6gbuck-85hbM",
-            authDomain: "zcafe-65f97.firebaseapp.com",
-            databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com",
-            projectId: "zcafe-65f97",
-            storageBucket: "zcafe-65f97.firebasestorage.app",
-            messagingSenderId: "480288327990",
-            appId: "1:480288327990:web:9c79040289023919034b97"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
         // Scroll animation
         const serviceGear = document.getElementById('service-gear');
         if (serviceGear) {
@@ -73,6 +56,10 @@ const Service = () => {
             const company = localStorage.getItem('companyName') || 'Unknown Company';
             const location = localStorage.getItem('deliveryAddress') || 'Unknown Location';
 
+            // Import Firebase modules dynamically
+            const { initializeApp, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
+            const { getDatabase, ref, push, set } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
+
             const firebaseConfig = {
                 apiKey: "AIzaSyBD_s0bu-ei-bsdPDIFaDF6gbuck-85hbM",
                 authDomain: "zcafe-65f97.firebaseapp.com",
@@ -83,7 +70,19 @@ const Service = () => {
                 appId: "1:480288327990:web:9c79040289023919034b97"
             };
 
-            const app = initializeApp(firebaseConfig);
+            let app;
+            try {
+                // Try to initialize
+                app = initializeApp(firebaseConfig);
+            } catch (error) {
+                // If already initialized, get existing app
+                if (error.code === 'app/duplicate-app') {
+                    app = getApp();
+                } else {
+                    throw error;
+                }
+            }
+
             const db = getDatabase(app);
             const newRequestRef = push(ref(db, 'service_requests'));
 
@@ -109,7 +108,7 @@ const Service = () => {
                 }, 1000);
             }
         } catch (err) {
-            console.error(err);
+            console.error('Service Request Error:', err);
             showNotification("Error submitting request. Please try again.");
         }
     };

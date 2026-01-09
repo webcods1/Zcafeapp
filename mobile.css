@@ -1235,22 +1235,6 @@
     line-height: 1.5;
   }
 
-  /* Wishlist Page - Add to Cart Button Tweaks */
-  .bag-item .add-cart-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    /* Minimal gap */
-  }
-
-  .bag-item .add-cart-btn svg {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-    display: block;
-  }
-
   .contact-item {
     display: flex;
     align-items: center;
@@ -2674,38 +2658,47 @@ nav {
 /* Actions at bottom */
 .actions {
   position: fixed;
-  bottom: 60px;
-  /* Sits above standard 60px bottom nav */
+  bottom: 70px;
+  /* Increased from 60px to ensure clearance */
   left: 0;
   right: 0;
-  padding: 15px 20px;
+  padding: 10px 15px;
+  /* Reduced padding */
   background: #ffffff;
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 10px;
+  /* Reduced gap */
   z-index: 900;
-  /* High but below modal */
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #f0f0f0;
 }
 
 .actions .book-btn {
   flex: 1;
-  padding: 14px;
+  padding: 10px 0;
+  /* Reduced padding */
   background: #333;
   color: white;
-  border-radius: 15px;
+  border-radius: 12px;
+  /* Slightly smaller radius */
   border: none;
   font-weight: 600;
+  font-size: 0.9rem;
+  /* Smaller font */
 }
 
 .actions .clear-btn {
   flex: 1;
-  padding: 14px;
+  padding: 10px 0;
+  /* Reduced padding */
   background: #fff0f0;
   color: #d32f2f;
   border: 1px solid #ffcdd2;
-  border-radius: 15px;
+  border-radius: 12px;
   font-weight: 600;
+  font-size: 0.9rem;
+  /* Smaller font */
 }
 
 
@@ -2733,3 +2726,38 @@ nav {
 }
 
 /* END OF MOBILE STYLES @media (max-width: 760px) */
+
+/* Wishlist Page - Add to Cart Button Tweaks */
+.bag-item .add-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.bag-item .add-cart-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Force Service page body to orange/white gradient matching content */
+body:has(.service-page) {
+  background: linear-gradient(to bottom, #e48435, #e2eaf3) !important;
+  background-attachment: fixed;
+}
+
+/* Fix spacing between Service Section and About Section to prevent track overlap */
+.services-section {
+  margin-bottom: 60px !important;
+  padding-bottom: 40px !important;
+  position: relative;
+  z-index: 5;
+}
+
+.about-section {
+  margin-top: 40px !important;
+  position: relative;
+  z-index: 10;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import BottomNav from '../components/BottomNav';
@@ -19,6 +19,16 @@ const Purchase = () => {
     const [notificationCount, setNotificationCount] = useState(0);
     const [modalProduct, setModalProduct] = useState(null);
     const [modalQuantity, setModalQuantity] = useState(1);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const videoRefs = useRef([]);
+
+    const banners = [
+        { video: "/DietCoffeeZ.webm", poster: "/bannerDC.png" },
+        { video: "/PremiumTeaZ.webm", poster: "/bannerPT.png" },
+        { video: "/cappuccinoZ.webm", poster: "/bannerCA.png" },
+        { video: "/MilkBoostZ.webm", poster: "/bannerMB.png" },
+        { video: "/MilkhorlicksZ.webm", poster: "/bannerMH.png" }
+    ];
 
     const products = [
         { name: 'Coffee Non sugar', img: '/zcoffe.png' },
@@ -48,7 +58,7 @@ const Purchase = () => {
 
         const fetchNotifications = async () => {
             try {
-                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
+                const { initializeApp, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
                 const { getDatabase, ref, onValue } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
 
                 const firebaseConfig = {
@@ -56,7 +66,16 @@ const Purchase = () => {
                     databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com"
                 };
 
-                const app = initializeApp(firebaseConfig);
+                let app;
+                try {
+                    app = initializeApp(firebaseConfig);
+                } catch (e) {
+                    if (e.code === 'app/duplicate-app') {
+                        app = getApp();
+                    } else {
+                        throw e;
+                    }
+                }
                 const db = getDatabase(app);
 
                 onValue(ref(db, 'notifications'), (snapshot) => {
@@ -84,6 +103,32 @@ const Purchase = () => {
 
         fetchNotifications();
     }, [location]);
+
+    // Banner Carousel Autoslide
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentSlide(prev => (prev + 1) % banners.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    // Control video playback based on active slide
+    useEffect(() => {
+        videoRefs.current.forEach((video, index) => {
+            if (video) {
+                if (index === currentSlide) {
+                    video.currentTime = 0; // Reset to start
+                    try {
+                        video.play().catch(err => console.log('Video play error:', err));
+                    } catch (e) {
+                        console.log('Video play failed safely');
+                    }
+                } else {
+                    video.pause();
+                }
+            }
+        });
+    }, [currentSlide]);
 
     // Handle scroll card clicks to open modal
     useEffect(() => {
@@ -190,14 +235,32 @@ const Purchase = () => {
 
                 <div className="banner-carousel container-fluid px-0">
                     <div className="carousel-slides mx-auto">
-                        <div className="banner banner-slide active d-flex justify-content-center align-items-center">
-                            <video className="banner-video" playsInline muted loop autoPlay poster="/bannerDC.png">
-                                <source src="/DietCoffeeZ.webm" type="video/webm" />
-                            </video>
-                        </div>
+                        {banners.map((banner, index) => (
+                            <div
+                                key={index}
+                                className={`banner banner-slide ${currentSlide === index ? 'active' : ''}`}
+                            >
+                                <video
+                                    ref={el => videoRefs.current[index] = el}
+                                    className="banner-video"
+                                    playsInline
+                                    muted
+                                    loop
+                                    poster={banner.poster}
+                                >
+                                    <source src={banner.video} type="video/webm" />
+                                </video>
+                            </div>
+                        ))}
                     </div>
                     <div className="carousel-dots">
-                        <span className="dot active" />
+                        {banners.map((_, i) => (
+                            <span
+                                key={i}
+                                className={`dot ${currentSlide === i ? 'active' : ''}`}
+                                onClick={() => setCurrentSlide(i)}
+                            />
+                        ))}
                     </div>
                 </div>
 
