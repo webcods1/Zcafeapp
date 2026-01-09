@@ -50,7 +50,7 @@ const Profile = () => {
             localStorage.setItem('deliveryAddress', formData.deliveryAddress);
             localStorage.setItem('branch', formData.branch);
 
-            const { initializeApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
+            const { initializeApp, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
             const { getDatabase, ref, set } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
 
             const firebaseConfig = {
@@ -58,7 +58,16 @@ const Profile = () => {
                 databaseURL: "https://zcafe-65f97-default-rtdb.firebaseio.com"
             };
 
-            const app = initializeApp(firebaseConfig);
+            let app;
+            try {
+                app = initializeApp(firebaseConfig);
+            } catch (e) {
+                if (e.code === 'app/duplicate-app') {
+                    app = getApp();
+                } else {
+                    throw e;
+                }
+            }
             const db = getDatabase(app);
 
             await set(ref(db, `users/${formData.phoneNumber}`), {
@@ -78,19 +87,17 @@ const Profile = () => {
 
     return (
         <div className="no-top-nav" style={{
-            height: '100vh',
-            maxHeight: '100vh',
-            overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
             background: '#f4e7cc',
             position: 'relative',
             width: '100%',
             overflowX: 'hidden',
-            overflowY: 'hidden'
+            paddingBottom: '80px',
+            height: '35vh'
         }}>
             {/* Profile icon section - separate from form */}
-            <div style={{ textAlign: 'center', padding: '15px 0 10px', background: '#f4e7cc', flexShrink: 0 }}>
+            <div style={{ textAlign: 'center', padding: '15px 0', marginBottom: '30px', background: '#f4e7cc', flexShrink: 0 }}>
                 <svg viewBox="0 0 24 24" width="70" height="70" fill="#000">
                     <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5v3h18v-3c0-2.5-4-5-9-5Z" />
                 </svg>
@@ -98,19 +105,18 @@ const Profile = () => {
 
             {/* Centered form container */}
             <div style={{
-                flex: 1,
                 display: 'flex',
-                justifyContent: 'center',
+                flexDirection: 'column',
                 alignItems: 'center',
-                padding: '10px 15px',
-                paddingBottom: '85px', // Space for bottom nav
-                background: '#f4e7cc',
-                overflow: 'hidden',
-                maxHeight: 'calc(100vh - 95px)' // Account for icon section
+                padding: '0 15px 20px',
+                width: '100%',
+                boxSizing: 'border-box'
             }}>
                 <div id="profile-view" style={{
-                    maxWidth: '550px',
                     width: '100%',
+                    maxWidth: '550px',
+                    maxHeight: '450px',
+                    margin: '0 auto',
                     background: '#fff',
                     padding: '25px',
                     borderRadius: '25px',
@@ -131,7 +137,7 @@ const Profile = () => {
                                     required
                                     style={{
                                         width: '100%',
-                                        padding: '12px',
+                                        padding: '8px',
                                         borderRadius: '12px',
                                         border: '1px solid #ddd',
                                         fontSize: '16px',
@@ -152,7 +158,7 @@ const Profile = () => {
                                     rows="3"
                                     style={{
                                         width: '100%',
-                                        padding: '12px',
+                                        padding: '6px',
                                         borderRadius: '12px',
                                         border: '1px solid #ddd',
                                         fontSize: '16px',
@@ -175,7 +181,7 @@ const Profile = () => {
                                     required
                                     style={{
                                         width: '100%',
-                                        padding: '12px',
+                                        padding: '6px',
                                         borderRadius: '12px',
                                         border: '1px solid #ddd',
                                         fontSize: '16px',
@@ -193,7 +199,7 @@ const Profile = () => {
                                     value={formData.branch}
                                     onChange={handleChange}
                                     style={{
-                                        padding: '12px',
+                                        padding: '6px',
                                         borderRadius: '12px',
                                         border: '1px solid #ddd',
                                         fontSize: '16px',

@@ -2166,10 +2166,20 @@ nav {
   font-family: 'Arial', sans-serif;
   background: linear-gradient(to bottom, #e48435, #e2eaf3);
   margin: 0;
-  padding: 20px;
+  padding: 20px 20px 0 20px !important;
+  /* Reduced bottom padding */
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: auto !important;
+  height: auto !important;
+  box-sizing: border-box;
+}
+
+/* Service footer override */
+.service-page .footer {
+  margin-top: 0 !important;
+  padding-bottom: 20px !important;
+  flex-grow: 0 !important;
 }
 
 /* Service Page Main Content */
@@ -2197,8 +2207,7 @@ nav {
   padding: 0;
   border-radius: 0;
   box-shadow: none;
-  margin-bottom: 100px;
-
+  margin-bottom: 40px;
 }
 
 .service-page label {
@@ -2658,17 +2667,16 @@ nav {
 /* Actions at bottom */
 .actions {
   position: fixed;
-  bottom: 70px;
-  /* Increased from 60px to ensure clearance */
+  bottom: 100px;
+  /* Raised significantly to clear navbar icons */
   left: 0;
   right: 0;
-  padding: 10px 15px;
-  /* Reduced padding */
+  padding: 8px 15px;
+  /* Further reduced vertical padding */
   background: #ffffff;
   display: flex;
   flex-direction: row;
   gap: 10px;
-  /* Reduced gap */
   z-index: 900;
   box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.05);
   border-top: 1px solid #f0f0f0;
@@ -2676,29 +2684,28 @@ nav {
 
 .actions .book-btn {
   flex: 1;
-  padding: 10px 0;
-  /* Reduced padding */
+  padding: 8px 0;
+  /* Reduced height */
   background: #333;
   color: white;
   border-radius: 12px;
-  /* Slightly smaller radius */
   border: none;
   font-weight: 600;
-  font-size: 0.9rem;
-  /* Smaller font */
+  font-size: 0.85rem;
+  /* Compact font */
 }
 
 .actions .clear-btn {
   flex: 1;
-  padding: 10px 0;
-  /* Reduced padding */
+  padding: 8px 0;
+  /* Reduced height */
   background: #fff0f0;
   color: #d32f2f;
   border: 1px solid #ffcdd2;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 0.9rem;
-  /* Smaller font */
+  font-size: 0.85rem;
+  /* Compact font */
 }
 
 
@@ -2746,6 +2753,14 @@ nav {
 body:has(.service-page) {
   background: linear-gradient(to bottom, #e48435, #e2eaf3) !important;
   background-attachment: fixed;
+}
+
+/* Reduce footer on Profile Page (Compact) */
+body:has(#profile-view) .footer {
+  margin-top: 0 !important;
+  padding-top: 10px !important;
+  padding-bottom: 90px !important;
+  width: 100%;
 }
 
 /* Fix spacing between Service Section and About Section to prevent track overlap */
