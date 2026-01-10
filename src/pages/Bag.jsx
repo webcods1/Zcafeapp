@@ -59,8 +59,13 @@ const Bag = () => {
         }
 
         const deliveryAddress = localStorage.getItem('deliveryAddress');
-        if (!deliveryAddress) {
-            alert('Please set delivery address in Profile first.');
+        const branch = localStorage.getItem('branch');
+        const phone = localStorage.getItem('phoneNumber');
+        const company = localStorage.getItem('companyName');
+
+        // Validate all required profile fields including branch
+        if (!deliveryAddress || !branch || !phone || !company) {
+            alert('Please complete your profile with all required information including branch selection.');
             navigate('/profile');
             return;
         }
@@ -69,17 +74,22 @@ const Bag = () => {
             const { getDatabase, ref, push, set } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
             const db = getDatabase();
 
-            const phone = localStorage.getItem('phoneNumber') || 'Unknown';
-            const company = localStorage.getItem('companyName') || 'Unknown';
-
             const orderData = {
                 items: cart,
                 customerPhone: phone,
                 customerCompany: company,
                 deliveryAddress: deliveryAddress,
+                branch: branch, // Include branch for proper filtering in Admin panel
                 status: 'Pending',
-                timestamp: new Date().toLocaleString()
+                timestamp: new Date().toLocaleString(),
+                createdAt: new Date().toISOString() // For sorting
             };
+
+            // Debug: Log what's being saved
+            console.log('=== BOOKING ORDER ===');
+            console.log('Order branch being saved:', branch);
+            console.log('Full order data:', orderData);
+            console.log('===================');
 
             const newOrderRef = push(ref(db, 'orders'));
             await set(newOrderRef, orderData);
