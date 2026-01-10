@@ -1,46 +1,74 @@
-// ZCafe Service Worker - Caching Strategy
+// ZCafe Service Worker - React SPA Caching Strategy
 // This works alongside firebase-messaging-sw.js for notifications
 
-const CACHE_NAME = 'zcafe-cache-v1';
+const CACHE_NAME = 'zcafe-cache-v3';
 const ASSETS = [
   '/',
-  '/index.html',
-  '/desktop.css',
-  '/mobile.css',
-  '/logo.png'
+  '/logo.png',
+  '/manifest.webmanifest'
 ];
 
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing service worker...');
+  self.skipWaiting(); // Force activation immediately
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then((cache) => {
+      // Try to cache core assets, but don't fail installation if one fails
+      return cache.addAll(ASSETS).catch((err) => {
+        console.warn('[SW] Cache addAll failed:', err);
+      });
+    })
   );
-  // Activate immediately
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating service worker...');
   event.waitUntil(
     caches.keys().then((keys) => Promise.all(
       keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
     ))
   );
-  // Take control of all clients immediately
-  return self.clients.claim();
+  return self.clients.claim(); // Take control immediately
 });
 
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests and Firebase requests
   if (event.request.method !== 'GET' ||
     event.request.url.includes('firebasestorage') ||
-    event.request.url.includes('googleapis')) {
+    event.request.url.includes('googleapis') ||
+    event.request.url.includes('gstatic')) {
     return;
   }
 
+  // **NETWORK FIRST** for navigation (HTML) requests
+  // This ensures users always get the latest version of the app from the server
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          return response;
+        })
+        .catch(() => {
+          // Only fall back to cache if network fails (offline)
+          return caches.match('/') || caches.match('/index.html');
+        })
+    );
+    return;
+  }
+
+  // **STALE-WHILE-REVALIDATE** for assets (JS, CSS, Images)
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    caches.match(event.request).then((cached) => {
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return networkResponse;
+      });
+      return cached || fetchPromise;
+    })
   );
 });
 
-console.log('[SW] Service worker loaded');
+console.log('[SW] Service worker v3 loaded');
