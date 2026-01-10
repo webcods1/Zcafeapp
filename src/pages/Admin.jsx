@@ -27,6 +27,44 @@ const Admin = () => {
     const [activeSection, setActiveSection] = useState('overview');
     const [sidebarOpen, setSidebarOpen] = useState(true);
 
+    // Notification sound state
+    const [previousOrderCount, setPreviousOrderCount] = useState(0);
+    const [audioReady, setAudioReady] = useState(false);
+    const [audioContext, setAudioContext] = useState(null);
+
+    // Initialize AudioContext immediately and on user interaction
+    useEffect(() => {
+        const initAudio = () => {
+            if (!audioContext) {
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    setAudioContext(ctx);
+                    setAudioReady(true);
+                    console.log('✅ AudioContext initialized successfully, state:', ctx.state);
+                } catch (error) {
+                    console.error('❌ Failed to initialize AudioContext:', error);
+                }
+            }
+        };
+
+        // Try to initialize immediately
+        console.log('Attempting immediate AudioContext initialization...');
+        initAudio();
+
+        // Also initialize audio on first user click anywhere on the page (fallback)
+        const handleFirstClick = () => {
+            console.log('User clicked, ensuring AudioContext is ready...');
+            initAudio();
+            document.removeEventListener('click', handleFirstClick);
+        };
+
+        document.addEventListener('click', handleFirstClick);
+
+        return () => {
+            document.removeEventListener('click', handleFirstClick);
+        };
+    }, [audioContext]);
+
     // Add animations and reset body styles
     useEffect(() => {
         // Reset body and html margins/padding
@@ -37,17 +75,17 @@ const Admin = () => {
 
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes fadeIn {
+@keyframes fadeIn {
                 from { opacity: 0; }
                 to { opacity: 1; }
-            }
-            
-            body, html {
-                margin: 0 !important;
-                padding: 0 !important;
-                overflow-x: hidden;
-            }
-        `;
+}
+
+body, html {
+    margin: 0!important;
+    padding: 0!important;
+    overflow - x: hidden;
+}
+`;
         document.head.appendChild(style);
         return () => {
             document.head.removeChild(style);
@@ -103,7 +141,7 @@ const Admin = () => {
                     // Check for DD/MM/YYYY pattern explicitly FIRST
                     const parts = String(ts).match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
                     if (parts) {
-                        const d = new Date(`${parts[2]}/${parts[1]}/${parts[3]}`); // MM/DD/YYYY
+                        const d = new Date(`${parts[2]} /${parts[1]}/${parts[3]} `); // MM/DD/YYYY
                         if (!isNaN(d.getTime())) dateObj = d;
                     }
 
@@ -121,8 +159,8 @@ const Admin = () => {
                     const m = today.getMonth() + 1;
                     const y = today.getFullYear();
                     const variants = [
-                        `${d}/${m}/${y}`,           // 9/1/2026
-                        `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`, // 09/01/2026
+                        `${d} /${m}/${y} `,           // 9/1/2026
+                        `${String(d).padStart(2, '0')} /${String(m).padStart(2, '0')}/${y} `, // 09/01/2026
                     ];
                     return variants.some(v => (item.timestamp || '').includes(v));
                 }
@@ -174,6 +212,106 @@ const Admin = () => {
             return dateStr;
         }
     };
+
+    // Function to play notification sound
+    const playNotificationSound = async () => {
+        try {
+            console.log('Attempting to play notification sound...');
+
+            // Initialize AudioContext if not already done
+            let ctx = audioContext;
+            if (!ctx) {
+                console.log('AudioContext not initialized, creating new one...');
+                ctx = new (window.AudioContext || window.webkitAudioContext)();
+                setAudioContext(ctx);
+                setAudioReady(true);
+            }
+
+            // Resume AudioContext if it's suspended
+            if (ctx.state === 'suspended') {
+                console.log('AudioContext is suspended, resuming...');
+                await ctx.resume();
+            }
+
+            console.log('AudioContext state:', ctx.state);
+
+            // Create a pleasant two-tone notification chime
+            const playTone = (frequency, startTime, duration) => {
+                const oscillator = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(ctx.destination);
+
+                oscillator.type = 'sine'; // Sine wave for a smooth, pleasant tone
+                oscillator.frequency.setValueAtTime(frequency, startTime);
+
+                // Envelope: quick attack, sustain, quick release
+                gainNode.gain.setValueAtTime(0, startTime);
+                gainNode.gain.linearRampToValueAtTime(0.3, startTime + 0.01); // Quick attack
+                gainNode.gain.linearRampToValueAtTime(0.25, startTime + duration - 0.05); // Sustain
+                gainNode.gain.linearRampToValueAtTime(0, startTime + duration); // Quick release
+
+                oscillator.start(startTime);
+                oscillator.stop(startTime + duration);
+            };
+
+            // Play a pleasant E-G chime (659Hz -> 784Hz)
+            const now = ctx.currentTime;
+            playTone(659.25, now, 0.25);        // E5 note
+            playTone(783.99, now + 0.15, 0.35);  // G5 note (overlaps slightly)
+
+            console.log('Notification sound played successfully');
+        } catch (error) {
+            console.error('Error playing notification sound:', error);
+            // Fallback: try simple beep
+            try {
+                const fallbackCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = fallbackCtx.createOscillator();
+                const gain = fallbackCtx.createGain();
+                osc.connect(gain);
+                gain.connect(fallbackCtx.destination);
+                osc.type = 'sine';
+                osc.frequency.value = 800;
+                gain.gain.setValueAtTime(0.3, fallbackCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, fallbackCtx.currentTime + 0.5);
+                osc.start();
+                osc.stop(fallbackCtx.currentTime + 0.5);
+                console.log('Fallback notification sound played');
+            } catch (fallbackError) {
+                console.error('Fallback sound also failed:', fallbackError);
+            }
+        }
+    };
+
+    // Detect new orders and play sound
+    useEffect(() => {
+        console.log(`Order count changed: ${previousOrderCount} -> ${orders.length}`);
+
+        if (previousOrderCount === 0) {
+            // Initial load, just set the count
+            console.log('Initial load - setting order count to:', orders.length);
+            setPreviousOrderCount(orders.length);
+            return;
+        }
+
+        if (orders.length > previousOrderCount) {
+            // New order detected!
+            console.log('🔔 NEW ORDER DETECTED! Playing notification sound...');
+            console.log('Audio ready:', audioReady);
+            console.log('AudioContext:', audioContext);
+
+            playNotificationSound();
+            setPreviousOrderCount(orders.length);
+
+            // Visual notification as well
+            console.log('%c NEW ORDER ARRIVED! ', 'background: #4CAF50; color: white; font-size: 20px; padding: 10px;');
+        } else if (orders.length < previousOrderCount) {
+            // Order was removed (marked as delivered)
+            console.log('Order removed (marked as delivered)');
+            setPreviousOrderCount(orders.length);
+        }
+    }, [orders, previousOrderCount, audioReady, audioContext]);
 
     const fetchData = async (branch) => {
         try {
@@ -258,7 +396,7 @@ const Admin = () => {
         try {
             const { getDatabase, ref, remove } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
             const db = getDatabase();
-            await remove(ref(db, `orders/${orderId}`));
+            await remove(ref(db, `orders / ${orderId} `));
             alert('Order marked as delivered and removed!');
         } catch (error) {
             console.error('Error marking order:', error);
@@ -272,7 +410,7 @@ const Admin = () => {
         try {
             const { getDatabase, ref, remove } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
             const db = getDatabase();
-            await remove(ref(db, `service_requests/${requestId}`));
+            await remove(ref(db, `service_requests / ${requestId} `));
             alert('Service request marked as done and removed!');
         } catch (error) {
             console.error('Error marking service:', error);
@@ -420,7 +558,7 @@ const Admin = () => {
                             key={item.id}
                             onClick={() => {
                                 setActiveSection(item.id);
-                                document.getElementById(`section-${item.id}`)?.scrollIntoView({ behavior: 'smooth' });
+                                document.getElementById(`section - ${item.id} `)?.scrollIntoView({ behavior: 'smooth' });
                             }}
                             style={{
                                 padding: '12px 20px',
@@ -488,6 +626,35 @@ const Admin = () => {
                             <span style={{ fontWeight: '600', fontSize: '0.875rem', color: '#212121' }}>{filteredServiceRequests.length}</span>
                         </div>
                     </div>
+
+                    {/* Test Sound Button */}
+                    <button
+                        onClick={() => {
+                            console.log('🔊 Test Sound button clicked');
+                            playNotificationSound();
+                        }}
+                        style={{
+                            width: '100%',
+                            marginTop: '12px',
+                            padding: '10px',
+                            background: '#3b82f6',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '6px',
+                            fontSize: '0.75rem',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.target.style.background = '#2563eb';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.target.style.background = '#3b82f6';
+                        }}
+                    >
+                        🔊 Test Sound
+                    </button>
                 </div>
 
                 {/* Logout Button */}
