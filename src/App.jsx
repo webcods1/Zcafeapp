@@ -10,6 +10,10 @@ import Notification from './pages/Notification';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
 
+// Import CSS files
+import './styles/mobile.css';
+import './styles/desktop.css';
+
 function App() {
   return (
     <Router>

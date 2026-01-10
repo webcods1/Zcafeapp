@@ -141,7 +141,7 @@ body, html {
                     // Check for DD/MM/YYYY pattern explicitly FIRST
                     const parts = String(ts).match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
                     if (parts) {
-                        const d = new Date(`${parts[2]} /${parts[1]}/${parts[3]} `); // MM/DD/YYYY
+                        const d = new Date(`${parts[2]}/${parts[1]}/${parts[3]}`); // MM/DD/YYYY
                         if (!isNaN(d.getTime())) dateObj = d;
                     }
 
@@ -159,8 +159,8 @@ body, html {
                     const m = today.getMonth() + 1;
                     const y = today.getFullYear();
                     const variants = [
-                        `${d} /${m}/${y} `,           // 9/1/2026
-                        `${String(d).padStart(2, '0')} /${String(m).padStart(2, '0')}/${y} `, // 09/01/2026
+                        `${d}/${m}/${y}`,           // 9/1/2026
+                        `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`, // 09/01/2026
                     ];
                     return variants.some(v => (item.timestamp || '').includes(v));
                 }
@@ -396,7 +396,7 @@ body, html {
         try {
             const { getDatabase, ref, remove } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
             const db = getDatabase();
-            await remove(ref(db, `orders / ${orderId} `));
+            await remove(ref(db, `orders/${orderId}`));
             alert('Order marked as delivered and removed!');
         } catch (error) {
             console.error('Error marking order:', error);
@@ -410,7 +410,7 @@ body, html {
         try {
             const { getDatabase, ref, remove } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
             const db = getDatabase();
-            await remove(ref(db, `service_requests / ${requestId} `));
+            await remove(ref(db, `service_requests/${requestId}`));
             alert('Service request marked as done and removed!');
         } catch (error) {
             console.error('Error marking service:', error);
@@ -558,7 +558,7 @@ body, html {
                             key={item.id}
                             onClick={() => {
                                 setActiveSection(item.id);
-                                document.getElementById(`section - ${item.id} `)?.scrollIntoView({ behavior: 'smooth' });
+                                document.getElementById(`section-${item.id}`)?.scrollIntoView({ behavior: 'smooth' });
                             }}
                             style={{
                                 padding: '12px 20px',
