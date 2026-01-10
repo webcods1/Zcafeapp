@@ -27,7 +27,12 @@
       "name": "Shop Now",
       "short_name": "Shop",
       "url": "/purchase.html",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
