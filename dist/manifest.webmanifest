@@ -2,7 +2,7 @@
   "name": "ZCafe",
   "short_name": "ZCafe",
   "description": "ZCafe - premium coffee and beverages",
-  "start_url": "/",
+  "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
@@ -26,7 +26,7 @@
     {
       "name": "Shop Now",
       "short_name": "Shop",
-      "url": "/purchase",
+      "url": "/purchase.html",
       "icons": [
         {
           "src": "/icons/icon-192.png",
