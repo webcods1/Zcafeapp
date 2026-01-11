@@ -5,10 +5,11 @@
 /* =============================================================== */
 /* ===== MOBILE PWA STANDALONE MODE FALLBACK (CRITICAL FIX) ===== */
 /* =============================================================== */
-/* These styles apply ALWAYS for mobile PWA, even if media query fails */
+/* These styles apply for mobile PWA - iOS and Android */
+
+/* iOS and some Android browsers */
 @media (display-mode: standalone) {
 
-  /* Force display for mobile PWA */
   html,
   body {
     overflow-x: hidden !important;
@@ -56,11 +57,92 @@
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
   }
 
-  /* Ensure top nav is visible */
   nav {
     display: block !important;
     visibility: visible !important;
   }
+}
+
+/* Android Chrome PWA - additional fallback */
+@media (display-mode: minimal-ui) {
+
+  html,
+  body {
+    overflow-x: hidden !important;
+    font-family: 'Open Sauce One', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f4e7cc, #f2eee6);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #root {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex: 1;
+    width: 100%;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    display: flex !important;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 200;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Android Chrome - class-based fallback (added via JavaScript) */
+body.standalone-mode {
+  overflow-x: hidden !important;
+  font-family: 'Open Sauce One', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #f4e7cc, #f2eee6);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.standalone-mode #root {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex: 1;
+  width: 100%;
+}
+
+body.standalone-mode .main-content {
+  flex: 1;
+  display: block !important;
+  visibility: visible !important;
+}
+
+body.standalone-mode .bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: #ffffff;
+  border-top: 1px solid #e0e0e0;
+  display: flex !important;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  z-index: 200;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* =============================================================== */
