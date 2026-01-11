@@ -3,6 +3,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
 /* =============================================================== */
+/* ===== MOBILE PWA STANDALONE MODE FALLBACK (CRITICAL FIX) ===== */
+/* =============================================================== */
+/* These styles apply ALWAYS for mobile PWA, even if media query fails */
+@media (display-mode: standalone) {
+
+  /* Force display for mobile PWA */
+  html,
+  body {
+    overflow-x: hidden !important;
+    font-family: 'Open Sauce One', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f4e7cc, #f2eee6);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    /* iOS fix */
+    display: flex;
+    flex-direction: column;
+  }
+
+  #root {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex: 1;
+    width: 100%;
+  }
+
+  .main-content {
+    flex: 1;
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Ensure navigation visible */
+  nav,
+  .bottom-nav {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+/* =============================================================== */
 /* ============== MOBILE STYLES (max-width: 760px) ============== */
 /* =============================================================== */
 @media (max-width: 760px) {
