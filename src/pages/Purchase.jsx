@@ -116,16 +116,15 @@ const Purchase = () => {
         videoRefs.current.forEach((video, index) => {
             if (video) {
                 if (index === currentSlide) {
-                    video.currentTime = 0; // Reset to start
-                    video.load(); // Reload the video
+                    video.currentTime = 0;
+                    video.load();
+
+                    // Try to play
                     const playPromise = video.play();
                     if (playPromise !== undefined) {
                         playPromise.catch(err => {
-                            console.log('Video play prevented:', err);
-                            // Retry after a short delay
-                            setTimeout(() => {
-                                video.play().catch(() => { });
-                            }, 100);
+                            console.log('[Video] Autoplay prevented on iOS:', err);
+                            // Video won't autoplay - will show poster
                         });
                     }
                 } else {
@@ -134,6 +133,33 @@ const Purchase = () => {
                 }
             }
         });
+    }, [currentSlide]);
+
+    // iOS Fix: Enable video playback after first user interaction
+    useEffect(() => {
+        let hasInteracted = false;
+
+        const handleInteraction = () => {
+            if (!hasInteracted) {
+                hasInteracted = true;
+                console.log('[Video] User interaction detected, enabling videos');
+
+                // Play the current video
+                const currentVideo = videoRefs.current[currentSlide];
+                if (currentVideo) {
+                    currentVideo.play().catch(() => { });
+                }
+            }
+        };
+
+        // Listen for any user interaction
+        document.addEventListener('touchstart', handleInteraction, { once: true });
+        document.addEventListener('click', handleInteraction, { once: true });
+
+        return () => {
+            document.removeEventListener('touchstart', handleInteraction);
+            document.removeEventListener('click', handleInteraction);
+        };
     }, [currentSlide]);
 
     // Handle scroll card clicks to open modal
