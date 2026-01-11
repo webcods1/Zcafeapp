@@ -1,7 +1,7 @@
 // ZCafe Service Worker - React SPA Caching Strategy
 // This works alongside firebase-messaging-sw.js for notifications
 
-const CACHE_NAME = 'zcafe-cache-v3';
+const CACHE_NAME = 'zcafe-cache-v4';
 const ASSETS = [
   '/',
   '/logo.png',
@@ -71,4 +71,4 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-console.log('[SW] Service worker v3 loaded');
+console.log('[SW] Service worker v4 loaded');
