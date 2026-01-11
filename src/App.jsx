@@ -10,10 +10,8 @@ import Notification from './pages/Notification';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
 
-// Import CSS files - BASE comes first to ensure visibility
-import './styles/base.css';      // Always applied - ensures content is visible
-import './styles/mobile.css';    // Mobile-specific styles
-import './styles/desktop.css';   // Desktop-specific styles
+// CSS files loaded from public/ folder via index.html
+// No imports needed here
 
 function App() {
   return (
