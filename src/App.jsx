@@ -10,8 +10,9 @@ import Notification from './pages/Notification';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
 
-// CSS files loaded from public/ folder via index.html
-// No imports needed here
+// Import CSS files (ORIGINAL WORKING SETUP)
+import './styles/mobile.css';
+import './styles/desktop.css';
 
 function App() {
   return (
