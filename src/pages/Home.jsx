@@ -211,11 +211,14 @@ const Home = () => {
                                 ref={el => videoRefs.current[index] = el}
                                 className="banner-video"
                                 playsInline
+                                webkit-playsinline="true"
+                                x-webkit-airplay="allow"
                                 autoPlay
                                 muted
                                 loop
                                 preload="metadata"
                                 poster={banner.poster}
+                                disablePictureInPicture
                             >
                                 <source src={banner.video} type="video/webm" />
                             </video>
