@@ -349,26 +349,45 @@ body, html {
 
     // Detect new orders and play sound
     useEffect(() => {
-        console.log(`Order count changed: ${previousOrderCount} -> ${orders.length}`);
+        console.log(`📊 Order count changed: ${previousOrderCount} -> ${orders.length}`);
 
         if (previousOrderCount === 0) {
             // Initial load, just set the count
-            console.log('Initial load - setting order count to:', orders.length);
+            console.log('🔄 Initial load - setting order count to:', orders.length);
             setPreviousOrderCount(orders.length);
             return;
         }
 
         if (orders.length > previousOrderCount) {
             // New order detected!
-            console.log('🔔 NEW ORDER DETECTED! Playing notification sound...');
+            console.log('');
+            console.log('═══════════════════════════════════════');
+            console.log('🔔 NEW ORDER DETECTED!');
+            console.log('═══════════════════════════════════════');
+            console.log('Previous count:', previousOrderCount);
+            console.log('New count:', orders.length);
             console.log('Audio ready:', audioReady);
             console.log('AudioContext:', audioContext);
+            console.log('Audio element exists:', !!audioRef.current);
+            console.log('═══════════════════════════════════════');
+            console.log('');
 
+            // Play notification sound
             playNotificationSound();
             setPreviousOrderCount(orders.length);
 
             // Visual notification as well
             console.log('%c NEW ORDER ARRIVED! ', 'background: #4CAF50; color: white; font-size: 20px; padding: 10px;');
+
+            // Show browser notification/alert for testing
+            if (typeof window !== 'undefined') {
+                // Use a visual alert to confirm detection is working
+                const alertMsg = `🔔 NEW ORDER! Total orders: ${orders.length}`;
+                console.log(alertMsg);
+
+                // Optional: uncomment to see browser alert
+                // alert(alertMsg);
+            }
         } else if (orders.length < previousOrderCount) {
             // Order was removed (marked as delivered)
             console.log('Order removed (marked as delivered)');
