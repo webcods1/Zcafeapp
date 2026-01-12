@@ -8,6 +8,7 @@ const Admin = () => {
     const [adminBranch, setAdminBranch] = useState('');
     const [adminUsername, setAdminUsername] = useState('');
     const [loading, setLoading] = useState(true);
+    const audioRef = React.useRef(null); // HTML5 Audio for notifications
 
     const [notificationForm, setNotificationForm] = useState({
         title: '',
@@ -64,6 +65,45 @@ const Admin = () => {
             document.removeEventListener('click', handleFirstClick);
         };
     }, [audioContext]);
+
+    // Initialize audio element on mount
+    useEffect(() => {
+        if (audioRef.current) {
+            // Load the audio file
+            audioRef.current.load();
+            console.log('✅ Audio element initialized and loaded');
+
+            // Try to enable audio on first user interaction
+            const enableAudio = () => {
+                if (audioRef.current) {
+                    // Prime the audio element
+                    audioRef.current.play().then(() => {
+                        audioRef.current.pause();
+                        audioRef.current.currentTime = 0;
+                        console.log('✅ Audio primed and ready');
+                    }).catch(() => {
+                        console.log('Audio not ready yet - will try on next interaction');
+                    });
+                }
+
+                // Also resume AudioContext if suspended
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume().then(() => {
+                        console.log('✅ AudioContext resumed');
+                    });
+                }
+            };
+
+            // Enable audio on first click/touch
+            document.addEventListener('click', enableAudio, { once: true });
+            document.addEventListener('touchstart', enableAudio, { once: true });
+
+            return () => {
+                document.removeEventListener('click', enableAudio);
+                document.removeEventListener('touchstart', enableAudio);
+            };
+        }
+    }, [audioRef, audioContext]);
 
     // Add animations and reset body styles
     useEffect(() => {
@@ -216,7 +256,30 @@ body, html {
     // Function to play notification sound
     const playNotificationSound = async () => {
         try {
-            console.log('Attempting to play notification sound...');
+            console.log('🔔 Attempting to play notification sound...');
+
+            // Method 1: Try HTML5 Audio first (most reliable)
+            if (audioRef.current) {
+                try {
+                    console.log('Trying HTML5 Audio...');
+                    audioRef.current.volume = 0.7; // Set volume
+                    audioRef.current.currentTime = 0;
+                    const playPromise = audioRef.current.play();
+                    if (playPromise !== undefined) {
+                        await playPromise;
+                        console.log('✅ Notification sound played successfully (HTML5 Audio)');
+                        return; // Success, exit
+                    }
+                } catch (audioError) {
+                    console.log('❌ HTML5 Audio failed:', audioError.name, audioError.message);
+                    console.log('Trying Web Audio API...');
+                }
+            } else {
+                console.log('❌ Audio element not found, trying Web Audio API...');
+            }
+
+            // Method 2: Fallback to Web Audio API
+            console.log('Attempting to play notification sound with Web Audio API...');
 
             // Initialize AudioContext if not already done
             let ctx = audioContext;
@@ -264,7 +327,7 @@ body, html {
             console.log('Notification sound played successfully');
         } catch (error) {
             console.error('Error playing notification sound:', error);
-            // Fallback: try simple beep
+            // Final fallback: try simple beep
             try {
                 const fallbackCtx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = fallbackCtx.createOscillator();
@@ -480,503 +543,388 @@ body, html {
     }
 
     return (
-        <div style={{
-            minHeight: '100vh',
-            background: '#f0f4f8', /* Light blue background for main content */
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-            display: 'flex'
-        }}>
-            {/* Left Sidebar */}
+        <>
+            {/* Hidden notification audio */}
+            <audio ref={audioRef} preload="auto">
+                <source src="/notification.mp3" type="audio/mpeg" />
+            </audio>
+
             <div style={{
-                width: sidebarOpen ? '260px' : '0',
                 minHeight: '100vh',
-                background: '#ffffff',
-                borderRight: '1px solid #dbeafe', /* Soft blue border */
-                position: 'sticky',
-                top: 0,
-                left: 0,
-                transition: 'all 0.3s ease',
-                overflow: 'hidden',
-                zIndex: 100,
-                boxShadow: '2px 0 5px rgba(0,0,0,0.02)'
+                background: '#f0f4f8', /* Light blue background for main content */
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                display: 'flex'
             }}>
-                {/* Sidebar Header */}
+                {/* Left Sidebar */}
                 <div style={{
-                    padding: '24px 20px',
-                    borderBottom: '1px solid #dbeafe'
+                    width: sidebarOpen ? '260px' : '0',
+                    minHeight: '100vh',
+                    background: '#ffffff',
+                    borderRight: '1px solid #dbeafe', /* Soft blue border */
+                    position: 'sticky',
+                    top: 0,
+                    left: 0,
+                    transition: 'all 0.3s ease',
+                    overflow: 'hidden',
+                    zIndex: 100,
+                    boxShadow: '2px 0 5px rgba(0,0,0,0.02)'
                 }}>
-                    <h2 style={{
-                        margin: '0 0 4px 0',
-                        fontSize: '1.25rem',
-                        fontWeight: '700',
-                        color: '#1e3a8a', /* Dark blue text */
-                        letterSpacing: '-0.02em'
-                    }}>
-                        ZCafe Admin
-                    </h2>
-                    <p style={{
-                        margin: 0,
-                        fontSize: '0.875rem',
-                        color: '#64748b' /* Slate gray */
-                    }}>
-                        {adminBranch} Branch
-                    </p>
-
+                    {/* Sidebar Header */}
                     <div style={{
-                        marginTop: '16px',
-                        padding: '12px',
-                        background: '#eff6ff', /* Very light blue */
-                        borderRadius: '6px',
-                        border: '1px solid #bfdbfe'
+                        padding: '24px 20px',
+                        borderBottom: '1px solid #dbeafe'
                     }}>
-                        <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>Logged in as</div>
-                        <div style={{ fontWeight: '600', fontSize: '0.875rem', color: '#1e40af' }}>{adminUsername}</div>
-                    </div>
-                </div>
-
-                {/* Navigation Menu */}
-                <div style={{ padding: '16px 0' }}>
-                    <div style={{
-                        padding: '0 20px 8px 20px',
-                        fontSize: '0.75rem',
-                        fontWeight: '600',
-                        letterSpacing: '0.05em',
-                        color: '#94a3b8',
-                        textTransform: 'uppercase'
-                    }}>
-                        Navigation
-                    </div>
-
-                    {[
-                        { id: 'overview', label: 'Overview' },
-                        { id: 'orders', label: 'Orders' },
-                        { id: 'services', label: 'Service Requests' },
-                        { id: 'notifications', label: 'Send Notification' },
-                        { id: 'datefilter', label: 'Date Filter' }
-                    ].map(item => (
-                        <div
-                            key={item.id}
-                            onClick={() => {
-                                setActiveSection(item.id);
-                                document.getElementById(`section-${item.id}`)?.scrollIntoView({ behavior: 'smooth' });
-                            }}
-                            style={{
-                                padding: '12px 20px',
-                                margin: '4px 12px',
-                                borderRadius: '6px',
-                                cursor: 'pointer',
-                                background: activeSection === item.id ? '#eff6ff' : 'transparent', /* Active light blue bg */
-                                transition: 'all 0.2s ease',
-                                fontWeight: activeSection === item.id ? '600' : '400',
-                                fontSize: '0.875rem',
-                                color: activeSection === item.id ? '#1d4ed8' : '#475569', /* Active blue text */
-                                borderLeft: activeSection === item.id ? '3px solid #3b82f6' : '3px solid transparent' /* Active blue border */
-                            }}
-                            onMouseEnter={(e) => {
-                                if (activeSection !== item.id) {
-                                    e.currentTarget.style.background = '#f8fafc';
-                                }
-                            }}
-                            onMouseLeave={(e) => {
-                                if (activeSection !== item.id) {
-                                    e.currentTarget.style.background = 'transparent';
-                                }
-                            }}
-                        >
-                            {item.label}
-                        </div>
-                    ))}
-                </div>
-
-                {/* Quick Stats */}
-                <div style={{
-                    padding: '16px 20px',
-                    borderTop: '1px solid #dbeafe',
-                    marginTop: 'auto'
-                }}>
-                    <div style={{
-                        fontSize: '0.75rem',
-                        fontWeight: '600',
-                        letterSpacing: '0.05em',
-                        color: '#9e9e9e',
-                        marginBottom: '12px',
-                        textTransform: 'uppercase'
-                    }}>
-                        Quick Stats
-                    </div>
-                    <div style={{
-                        background: '#f9f9f9',
-                        borderRadius: '6px',
-                        padding: '12px',
-                        border: '1px solid #e0e0e0'
-                    }}>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            marginBottom: '8px'
+                        <h2 style={{
+                            margin: '0 0 4px 0',
+                            fontSize: '1.25rem',
+                            fontWeight: '700',
+                            color: '#1e3a8a', /* Dark blue text */
+                            letterSpacing: '-0.02em'
                         }}>
-                            <span style={{ fontSize: '0.875rem', color: '#616161' }}>Orders</span>
-                            <span style={{ fontWeight: '600', fontSize: '0.875rem', color: '#212121' }}>{filteredOrders.length}</span>
-                        </div>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between'
+                            ZCafe Admin
+                        </h2>
+                        <p style={{
+                            margin: 0,
+                            fontSize: '0.875rem',
+                            color: '#64748b' /* Slate gray */
                         }}>
-                            <span style={{ fontSize: '0.875rem', color: '#616161' }}>Services</span>
-                            <span style={{ fontWeight: '600', fontSize: '0.875rem', color: '#212121' }}>{filteredServiceRequests.length}</span>
-                        </div>
-                    </div>
+                            {adminBranch} Branch
+                        </p>
 
-                    {/* Test Sound Button */}
-                    <button
-                        onClick={() => {
-                            console.log('🔊 Test Sound button clicked');
-                            playNotificationSound();
-                        }}
-                        style={{
-                            width: '100%',
-                            marginTop: '12px',
-                            padding: '10px',
-                            background: '#3b82f6',
-                            color: '#fff',
-                            border: 'none',
+                        <div style={{
+                            marginTop: '16px',
+                            padding: '12px',
+                            background: '#eff6ff', /* Very light blue */
                             borderRadius: '6px',
+                            border: '1px solid #bfdbfe'
+                        }}>
+                            <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>Logged in as</div>
+                            <div style={{ fontWeight: '600', fontSize: '0.875rem', color: '#1e40af' }}>{adminUsername}</div>
+                        </div>
+                    </div>
+
+                    {/* Navigation Menu */}
+                    <div style={{ padding: '16px 0' }}>
+                        <div style={{
+                            padding: '0 20px 8px 20px',
                             fontSize: '0.75rem',
                             fontWeight: '600',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.target.style.background = '#2563eb';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.target.style.background = '#3b82f6';
-                        }}
-                    >
-                        🔊 Test Sound
-                    </button>
+                            letterSpacing: '0.05em',
+                            color: '#94a3b8',
+                            textTransform: 'uppercase'
+                        }}>
+                            Navigation
+                        </div>
+
+                        {[
+                            { id: 'overview', label: 'Overview' },
+                            { id: 'orders', label: 'Orders' },
+                            { id: 'services', label: 'Service Requests' },
+                            { id: 'notifications', label: 'Send Notification' },
+                            { id: 'datefilter', label: 'Date Filter' }
+                        ].map(item => (
+                            <div
+                                key={item.id}
+                                onClick={() => {
+                                    setActiveSection(item.id);
+                                    document.getElementById(`section-${item.id}`)?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                style={{
+                                    padding: '12px 20px',
+                                    margin: '4px 12px',
+                                    borderRadius: '6px',
+                                    cursor: 'pointer',
+                                    background: activeSection === item.id ? '#eff6ff' : 'transparent', /* Active light blue bg */
+                                    transition: 'all 0.2s ease',
+                                    fontWeight: activeSection === item.id ? '600' : '400',
+                                    fontSize: '0.875rem',
+                                    color: activeSection === item.id ? '#1d4ed8' : '#475569', /* Active blue text */
+                                    borderLeft: activeSection === item.id ? '3px solid #3b82f6' : '3px solid transparent' /* Active blue border */
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (activeSection !== item.id) {
+                                        e.currentTarget.style.background = '#f8fafc';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (activeSection !== item.id) {
+                                        e.currentTarget.style.background = 'transparent';
+                                    }
+                                }}
+                            >
+                                {item.label}
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Quick Stats */}
+                    <div style={{
+                        padding: '16px 20px',
+                        borderTop: '1px solid #dbeafe',
+                        marginTop: 'auto'
+                    }}>
+                        <div style={{
+                            fontSize: '0.75rem',
+                            fontWeight: '600',
+                            letterSpacing: '0.05em',
+                            color: '#9e9e9e',
+                            marginBottom: '12px',
+                            textTransform: 'uppercase'
+                        }}>
+                            Quick Stats
+                        </div>
+                        <div style={{
+                            background: '#f9f9f9',
+                            borderRadius: '6px',
+                            padding: '12px',
+                            border: '1px solid #e0e0e0'
+                        }}>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                marginBottom: '8px'
+                            }}>
+                                <span style={{ fontSize: '0.875rem', color: '#616161' }}>Orders</span>
+                                <span style={{ fontWeight: '600', fontSize: '0.875rem', color: '#212121' }}>{filteredOrders.length}</span>
+                            </div>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between'
+                            }}>
+                                <span style={{ fontSize: '0.875rem', color: '#616161' }}>Services</span>
+                                <span style={{ fontWeight: '600', fontSize: '0.875rem', color: '#212121' }}>{filteredServiceRequests.length}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Logout Button */}
+                    <div style={{ padding: '16px 20px', borderTop: '1px solid #e0e0e0' }}>
+                        <button
+                            onClick={handleLogout}
+                            style={{
+                                width: '100%',
+                                padding: '12px',
+                                background: '#fff',
+                                color: '#616161',
+                                border: '1px solid #e0e0e0',
+                                borderRadius: '6px',
+                                fontSize: '0.875rem',
+                                fontWeight: '500',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.background = '#f5f5f5';
+                                e.target.style.borderColor = '#bdbdbd';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.background = '#fff';
+                                e.target.style.borderColor = '#e0e0e0';
+                            }}
+                        >
+                            Logout
+                        </button>
+                    </div>
                 </div>
 
-                {/* Logout Button */}
-                <div style={{ padding: '16px 20px', borderTop: '1px solid #e0e0e0' }}>
+                {/* Main Content Area */}
+                <div style={{
+                    flex: 1,
+                    padding: '0 24px 32px 24px',
+                    minHeight: '100vh',
+                    overflow: 'auto'
+                }}>
+                    {/* Toggle Sidebar Button */}
                     <button
-                        onClick={handleLogout}
+                        onClick={() => setSidebarOpen(!sidebarOpen)}
                         style={{
-                            width: '100%',
-                            padding: '12px',
+                            position: 'fixed',
+                            top: '16px',
+                            left: sidebarOpen ? '270px' : '20px',
+                            zIndex: 101,
                             background: '#fff',
-                            color: '#616161',
+                            color: '#424242',
                             border: '1px solid #e0e0e0',
                             borderRadius: '6px',
-                            fontSize: '0.875rem',
-                            fontWeight: '500',
+                            width: '40px',
+                            height: '40px',
+                            fontSize: '1.25rem',
                             cursor: 'pointer',
-                            transition: 'all 0.2s ease'
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.08)',
+                            transition: 'all 0.3s ease',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
                         }}
                         onMouseEnter={(e) => {
                             e.target.style.background = '#f5f5f5';
-                            e.target.style.borderColor = '#bdbdbd';
                         }}
                         onMouseLeave={(e) => {
                             e.target.style.background = '#fff';
-                            e.target.style.borderColor = '#e0e0e0';
                         }}
                     >
-                        Logout
+                        {sidebarOpen ? '‹' : '☰'}
                     </button>
-                </div>
-            </div>
 
-            {/* Main Content Area */}
-            <div style={{
-                flex: 1,
-                padding: '0 24px 32px 24px',
-                minHeight: '100vh',
-                overflow: 'auto'
-            }}>
-                {/* Toggle Sidebar Button */}
-                <button
-                    onClick={() => setSidebarOpen(!sidebarOpen)}
-                    style={{
-                        position: 'fixed',
-                        top: '16px',
-                        left: sidebarOpen ? '270px' : '20px',
-                        zIndex: 101,
-                        background: '#fff',
-                        color: '#424242',
-                        border: '1px solid #e0e0e0',
-                        borderRadius: '6px',
-                        width: '40px',
-                        height: '40px',
-                        fontSize: '1.25rem',
-                        cursor: 'pointer',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.08)',
-                        transition: 'all 0.3s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                    onMouseEnter={(e) => {
-                        e.target.style.background = '#f5f5f5';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.target.style.background = '#fff';
-                    }}
-                >
-                    {sidebarOpen ? '‹' : '☰'}
-                </button>
-
-                <div style={{ maxWidth: '1400px', margin: '0 auto', paddingTop: '24px' }}>
-                    {/* Statistics Cards */}
-                    <div id="section-overview" style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                        gap: '20px',
-                        marginBottom: '32px'
-                    }}>
-                        <div style={{
-                            background: '#fff',
-                            padding: '24px',
-                            borderRadius: '8px',
-                            border: '1px solid #e0e0e0',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
+                    <div style={{ maxWidth: '1400px', margin: '0 auto', paddingTop: '24px' }}>
+                        {/* Statistics Cards */}
+                        <div id="section-overview" style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                            gap: '20px',
+                            marginBottom: '32px'
                         }}>
-                            <div style={{ fontSize: '0.875rem', color: '#757575', marginBottom: '8px', fontWeight: '500' }}>
-                                Total Orders
-                            </div>
-                            <div style={{ fontSize: '2rem', fontWeight: '600', color: '#212121' }}>
-                                {orders.length}
-                            </div>
-                        </div>
-
-                        <div style={{
-                            background: '#fff',
-                            padding: '24px',
-                            borderRadius: '8px',
-                            border: '1px solid #e0e0e0',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
-                        }}>
-                            <div style={{ fontSize: '0.875rem', color: '#757575', marginBottom: '8px', fontWeight: '500' }}>
-                                Service Requests
-                            </div>
-                            <div style={{ fontSize: '2rem', fontWeight: '600', color: '#212121' }}>
-                                {serviceRequests.length}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Date Filter Section */}
-                    <section id="section-datefilter" style={{
-                        background: '#fff',
-                        borderRadius: '8px',
-                        padding: '24px',
-                        marginBottom: '24px',
-                        border: '1px solid #e2e8f0',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
-                    }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
-                            <div>
-                                <h2 style={{
-                                    margin: '0 0 16px 0',
-                                    color: '#1e293b',
-                                    fontSize: '1.125rem',
-                                    fontWeight: '600'
-                                }}>
-                                    Filter by Date
-                                </h2>
-
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '12px',
-                                    alignItems: 'center',
-                                    flexWrap: 'wrap'
-                                }}>
-                                    {[
-                                        { value: 'today', label: 'Today' },
-                                        { value: 'yesterday', label: 'Yesterday' }
-                                    ].map((filter) => (
-                                        <button
-                                            key={filter.value}
-                                            onClick={() => {
-                                                setDateFilter(filter.value);
-                                                setCustomDateFrom(''); // Reset custom date when clicking presets
-                                            }}
-                                            style={{
-                                                padding: '8px 20px',
-                                                background: dateFilter === filter.value && !customDateFrom ? '#3b82f6' : '#fff',
-                                                color: dateFilter === filter.value && !customDateFrom ? '#fff' : '#64748b',
-                                                border: dateFilter === filter.value && !customDateFrom ? '1px solid #3b82f6' : '1px solid #e2e8f0',
-                                                borderRadius: '6px',
-                                                fontSize: '0.875rem',
-                                                fontWeight: '600',
-                                                cursor: 'pointer',
-                                                transition: 'all 0.2s ease',
-                                                boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-                                            }}
-                                        >
-                                            {filter.label}
-                                        </button>
-                                    ))}
-
-                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                                        <input
-                                            type="date"
-                                            value={customDateFrom}
-                                            onChange={(e) => {
-                                                setDateFilter('custom');
-                                                setCustomDateFrom(e.target.value);
-                                            }}
-                                            style={{
-                                                padding: '8px 12px',
-                                                paddingLeft: '34px',
-                                                border: dateFilter === 'custom' ? '1px solid #3b82f6' : '1px solid #e2e8f0',
-                                                borderRadius: '6px',
-                                                fontSize: '0.875rem',
-                                                color: '#334155',
-                                                outline: 'none',
-                                                background: '#f8fafc',
-                                                cursor: 'pointer',
-                                                fontWeight: '500'
-                                            }}
-                                        />
-                                        <span style={{
-                                            position: 'absolute',
-                                            left: '10px',
-                                            top: '50%',
-                                            transform: 'translateY(-50%)',
-                                            fontSize: '1.1rem'
-                                        }}>📅</span>
-                                    </div>
+                            <div style={{
+                                background: '#fff',
+                                padding: '24px',
+                                borderRadius: '8px',
+                                border: '1px solid #e0e0e0',
+                                boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
+                            }}>
+                                <div style={{ fontSize: '0.875rem', color: '#757575', marginBottom: '8px', fontWeight: '500' }}>
+                                    Total Orders
+                                </div>
+                                <div style={{ fontSize: '2rem', fontWeight: '600', color: '#212121' }}>
+                                    {orders.length}
                                 </div>
                             </div>
 
                             <div style={{
-                                textAlign: 'right',
-                                fontSize: '0.875rem',
-                                color: '#64748b',
-                                background: '#f1f5f9',
-                                padding: '8px 16px',
-                                borderRadius: '6px'
+                                background: '#fff',
+                                padding: '24px',
+                                borderRadius: '8px',
+                                border: '1px solid #e0e0e0',
+                                boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
                             }}>
-                                Showing: <strong>
-                                    {customDateFrom ? new Date(customDateFrom).toLocaleDateString() :
-                                        dateFilter === 'yesterday' ? 'Yesterday' : 'Today'}
-                                </strong>
+                                <div style={{ fontSize: '0.875rem', color: '#757575', marginBottom: '8px', fontWeight: '500' }}>
+                                    Service Requests
+                                </div>
+                                <div style={{ fontSize: '2rem', fontWeight: '600', color: '#212121' }}>
+                                    {serviceRequests.length}
+                                </div>
                             </div>
                         </div>
-                    </section>
 
-                    {/* Notification Form */}
-                    <section id="section-notifications" style={{
-                        background: '#fff',
-                        borderRadius: '8px',
-                        padding: '24px',
-                        marginBottom: '24px',
-                        border: '1px solid #e0e0e0',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
-                    }}>
-                        <h2 style={{
-                            margin: '0 0 20px 0',
-                            color: '#212121',
-                            fontSize: '1.125rem',
-                            fontWeight: '600'
+                        {/* Date Filter Section */}
+                        <section id="section-datefilter" style={{
+                            background: '#fff',
+                            borderRadius: '8px',
+                            padding: '24px',
+                            marginBottom: '24px',
+                            border: '1px solid #e2e8f0',
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
                         }}>
-                            Send Notification
-                        </h2>
-
-                        <form onSubmit={handleSendNotification} style={{ display: 'grid', gap: '20px' }}>
-                            <div>
-                                <label style={{
-                                    display: 'block',
-                                    marginBottom: '8px',
-                                    fontWeight: '500',
-                                    color: '#424242',
-                                    fontSize: '0.875rem'
-                                }}>
-                                    Title
-                                </label>
-                                <input
-                                    type="text"
-                                    value={notificationForm.title}
-                                    onChange={(e) => setNotificationForm({ ...notificationForm, title: e.target.value })}
-                                    style={{
-                                        width: '100%',
-                                        padding: '10px 12px',
-                                        border: '1px solid #e0e0e0',
-                                        borderRadius: '6px',
-                                        fontSize: '0.875rem',
-                                        outline: 'none',
-                                        background: '#fff'
-                                    }}
-                                    placeholder="Enter notification title"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label style={{
-                                    display: 'block',
-                                    marginBottom: '8px',
-                                    fontWeight: '500',
-                                    color: '#424242',
-                                    fontSize: '0.875rem'
-                                }}>
-                                    Message
-                                </label>
-                                <textarea
-                                    value={notificationForm.message}
-                                    onChange={(e) => setNotificationForm({ ...notificationForm, message: e.target.value })}
-                                    rows="4"
-                                    style={{
-                                        width: '100%',
-                                        padding: '10px 12px',
-                                        border: '1px solid #e0e0e0',
-                                        borderRadius: '6px',
-                                        fontSize: '0.875rem',
-                                        outline: 'none',
-                                        background: '#fff',
-                                        resize: 'vertical',
-                                        fontFamily: 'inherit'
-                                    }}
-                                    placeholder="Enter your message"
-                                    required
-                                />
-                            </div>
-
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
                                 <div>
-                                    <label style={{
-                                        display: 'block',
-                                        marginBottom: '8px',
-                                        fontWeight: '500',
-                                        color: '#424242',
-                                        fontSize: '0.875rem'
+                                    <h2 style={{
+                                        margin: '0 0 16px 0',
+                                        color: '#1e293b',
+                                        fontSize: '1.125rem',
+                                        fontWeight: '600'
                                     }}>
-                                        Target Location
-                                    </label>
-                                    <select
-                                        value={notificationForm.location}
-                                        onChange={(e) => setNotificationForm({ ...notificationForm, location: e.target.value })}
-                                        style={{
-                                            width: '100%',
-                                            padding: '10px 12px',
-                                            border: '1px solid #e0e0e0',
-                                            borderRadius: '6px',
-                                            fontSize: '0.875rem',
-                                            outline: 'none',
-                                            background: '#fff',
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        <option value="all">All Locations</option>
-                                        <option value="Trivandrum">Trivandrum</option>
-                                        <option value="Kollam">Kollam</option>
-                                        <option value="Kochi">Kochi</option>
-                                        <option value="Thrissur">Thrissur</option>
-                                        <option value="Calicut">Calicut</option>
-                                    </select>
+                                        Filter by Date
+                                    </h2>
+
+                                    <div style={{
+                                        display: 'flex',
+                                        gap: '12px',
+                                        alignItems: 'center',
+                                        flexWrap: 'wrap'
+                                    }}>
+                                        {[
+                                            { value: 'today', label: 'Today' },
+                                            { value: 'yesterday', label: 'Yesterday' }
+                                        ].map((filter) => (
+                                            <button
+                                                key={filter.value}
+                                                onClick={() => {
+                                                    setDateFilter(filter.value);
+                                                    setCustomDateFrom(''); // Reset custom date when clicking presets
+                                                }}
+                                                style={{
+                                                    padding: '8px 20px',
+                                                    background: dateFilter === filter.value && !customDateFrom ? '#3b82f6' : '#fff',
+                                                    color: dateFilter === filter.value && !customDateFrom ? '#fff' : '#64748b',
+                                                    border: dateFilter === filter.value && !customDateFrom ? '1px solid #3b82f6' : '1px solid #e2e8f0',
+                                                    borderRadius: '6px',
+                                                    fontSize: '0.875rem',
+                                                    fontWeight: '600',
+                                                    cursor: 'pointer',
+                                                    transition: 'all 0.2s ease',
+                                                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                                                }}
+                                            >
+                                                {filter.label}
+                                            </button>
+                                        ))}
+
+                                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                            <input
+                                                type="date"
+                                                value={customDateFrom}
+                                                onChange={(e) => {
+                                                    setDateFilter('custom');
+                                                    setCustomDateFrom(e.target.value);
+                                                }}
+                                                style={{
+                                                    padding: '8px 12px',
+                                                    paddingLeft: '34px',
+                                                    border: dateFilter === 'custom' ? '1px solid #3b82f6' : '1px solid #e2e8f0',
+                                                    borderRadius: '6px',
+                                                    fontSize: '0.875rem',
+                                                    color: '#334155',
+                                                    outline: 'none',
+                                                    background: '#f8fafc',
+                                                    cursor: 'pointer',
+                                                    fontWeight: '500'
+                                                }}
+                                            />
+                                            <span style={{
+                                                position: 'absolute',
+                                                left: '10px',
+                                                top: '50%',
+                                                transform: 'translateY(-50%)',
+                                                fontSize: '1.1rem'
+                                            }}>📅</span>
+                                        </div>
+                                    </div>
                                 </div>
 
+                                <div style={{
+                                    textAlign: 'right',
+                                    fontSize: '0.875rem',
+                                    color: '#64748b',
+                                    background: '#f1f5f9',
+                                    padding: '8px 16px',
+                                    borderRadius: '6px'
+                                }}>
+                                    Showing: <strong>
+                                        {customDateFrom ? new Date(customDateFrom).toLocaleDateString() :
+                                            dateFilter === 'yesterday' ? 'Yesterday' : 'Today'}
+                                    </strong>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Notification Form */}
+                        <section id="section-notifications" style={{
+                            background: '#fff',
+                            borderRadius: '8px',
+                            padding: '24px',
+                            marginBottom: '24px',
+                            border: '1px solid #e0e0e0',
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
+                        }}>
+                            <h2 style={{
+                                margin: '0 0 20px 0',
+                                color: '#212121',
+                                fontSize: '1.125rem',
+                                fontWeight: '600'
+                            }}>
+                                Send Notification
+                            </h2>
+
+                            <form onSubmit={handleSendNotification} style={{ display: 'grid', gap: '20px' }}>
                                 <div>
                                     <label style={{
                                         display: 'block',
@@ -985,13 +933,12 @@ body, html {
                                         color: '#424242',
                                         fontSize: '0.875rem'
                                     }}>
-                                        Target Company
+                                        Title
                                     </label>
                                     <input
                                         type="text"
-                                        value={notificationForm.company}
-                                        onChange={(e) => setNotificationForm({ ...notificationForm, company: e.target.value })}
-                                        placeholder="Company name or 'all'"
+                                        value={notificationForm.title}
+                                        onChange={(e) => setNotificationForm({ ...notificationForm, title: e.target.value })}
                                         style={{
                                             width: '100%',
                                             padding: '10px 12px',
@@ -1001,284 +948,378 @@ body, html {
                                             outline: 'none',
                                             background: '#fff'
                                         }}
+                                        placeholder="Enter notification title"
+                                        required
                                     />
                                 </div>
-                            </div>
 
-                            <button
-                                type="submit"
-                                style={{
-                                    padding: '12px 24px',
-                                    background: '#424242',
-                                    color: '#fff',
-                                    border: 'none',
-                                    borderRadius: '6px',
-                                    fontSize: '0.875rem',
-                                    fontWeight: '600',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s ease'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.target.style.background = '#212121';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.target.style.background = '#424242';
-                                }}
-                            >
-                                Send Notification
-                            </button>
-                        </form>
-                    </section>
+                                <div>
+                                    <label style={{
+                                        display: 'block',
+                                        marginBottom: '8px',
+                                        fontWeight: '500',
+                                        color: '#424242',
+                                        fontSize: '0.875rem'
+                                    }}>
+                                        Message
+                                    </label>
+                                    <textarea
+                                        value={notificationForm.message}
+                                        onChange={(e) => setNotificationForm({ ...notificationForm, message: e.target.value })}
+                                        rows="4"
+                                        style={{
+                                            width: '100%',
+                                            padding: '10px 12px',
+                                            border: '1px solid #e0e0e0',
+                                            borderRadius: '6px',
+                                            fontSize: '0.875rem',
+                                            outline: 'none',
+                                            background: '#fff',
+                                            resize: 'vertical',
+                                            fontFamily: 'inherit'
+                                        }}
+                                        placeholder="Enter your message"
+                                        required
+                                    />
+                                </div>
 
-                    {/* Orders Section */}
-                    <section id="section-orders" style={{
-                        background: '#fff',
-                        borderRadius: '8px',
-                        padding: '24px',
-                        marginBottom: '24px',
-                        border: '1px solid #e2e8f0',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
-                    }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                            <h2 style={{
-                                margin: 0,
-                                color: '#1e293b',
-                                fontSize: '1.25rem',
-                                fontWeight: '700'
-                            }}>
-                                Orders <span style={{
-                                    background: '#dbeafe',
-                                    color: '#1e40af',
-                                    padding: '2px 8px',
-                                    borderRadius: '12px',
-                                    fontSize: '0.875rem',
-                                    verticalAlign: 'middle',
-                                    marginLeft: '8px'
-                                }}>{filteredOrders.length}</span>
-                            </h2>
-                        </div>
-
-                        {filteredOrders.length === 0 ? (
-                            <div style={{
-                                textAlign: 'center',
-                                padding: '48px 20px',
-                                color: '#94a3b8',
-                                background: '#f8fafc',
-                                borderRadius: '8px',
-                                border: '1px dashed #cbd5e1'
-                            }}>
-                                <p style={{ fontSize: '1rem', fontWeight: '500', margin: 0 }}>No orders found</p>
-                                <p style={{ fontSize: '0.875rem', margin: '8px 0 0 0' }}>New orders will appear here automatically</p>
-                                {orders.length > 0 && (
-                                    <div style={{ marginTop: '16px', fontSize: '0.75rem', color: '#cbd5e1' }}>
-                                        Debug: DB has {orders.length} orders. <br />
-                                        Latest: "{orders[0]?.timestamp}"
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    <div>
+                                        <label style={{
+                                            display: 'block',
+                                            marginBottom: '8px',
+                                            fontWeight: '500',
+                                            color: '#424242',
+                                            fontSize: '0.875rem'
+                                        }}>
+                                            Target Location
+                                        </label>
+                                        <select
+                                            value={notificationForm.location}
+                                            onChange={(e) => setNotificationForm({ ...notificationForm, location: e.target.value })}
+                                            style={{
+                                                width: '100%',
+                                                padding: '10px 12px',
+                                                border: '1px solid #e0e0e0',
+                                                borderRadius: '6px',
+                                                fontSize: '0.875rem',
+                                                outline: 'none',
+                                                background: '#fff',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            <option value="all">All Locations</option>
+                                            <option value="Trivandrum">Trivandrum</option>
+                                            <option value="Kollam">Kollam</option>
+                                            <option value="Kochi">Kochi</option>
+                                            <option value="Thrissur">Thrissur</option>
+                                            <option value="Calicut">Calicut</option>
+                                        </select>
                                     </div>
-                                )}
-                            </div>
-                        ) : (
-                            <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
-                                <table style={{
-                                    width: '100%',
-                                    borderCollapse: 'collapse',
-                                    background: '#fff'
-                                }}>
-                                    <thead style={{ background: '#f1f5f9' }}>
-                                        <tr>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Customer</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Company</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Items</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Address</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Time</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredOrders.map((order) => (
-                                            <tr key={order.id}
-                                                style={{ borderBottom: '1px solid #f1f5f9', transition: 'background 0.2s' }}
-                                                onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
-                                                onMouseLeave={(e) => e.currentTarget.style.background = '#fff'}
-                                            >
-                                                <td style={{ padding: '16px', color: '#334155', fontSize: '0.875rem', fontWeight: '500' }}>
-                                                    {order.customerPhone}
-                                                </td>
-                                                <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
-                                                    {order.customerCompany}
-                                                </td>
-                                                <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
-                                                    {order.items.map((item, i) => (
-                                                        <div key={i} style={{ padding: '4px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                            <span style={{
-                                                                background: '#e0f2fe',
-                                                                color: '#0369a1',
-                                                                fontSize: '0.75rem',
-                                                                padding: '2px 6px',
-                                                                borderRadius: '4px',
-                                                                fontWeight: '600'
-                                                            }}>x{item.quantity}</span>
-                                                            <span style={{ color: '#334155', fontWeight: '500' }}>{item.name}</span>
-                                                        </div>
-                                                    ))}
-                                                </td>
-                                                <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
-                                                    {order.deliveryAddress}
-                                                </td>
-                                                <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem', whiteSpace: 'nowrap', fontWeight: '500' }}>
-                                                    {formatDisplayTime(order.timestamp)}
-                                                </td>
-                                                <td style={{ padding: '16px' }}>
-                                                    <button
-                                                        onClick={() => handleMarkDelivered(order.id)}
-                                                        style={{
-                                                            padding: '8px 16px',
-                                                            background: '#3b82f6',
-                                                            color: '#fff',
-                                                            border: 'none',
-                                                            borderRadius: '6px',
-                                                            fontSize: '0.875rem',
-                                                            fontWeight: '600',
-                                                            cursor: 'pointer',
-                                                            transition: 'all 0.2s ease',
-                                                            boxShadow: '0 2px 4px rgba(59, 130, 246, 0.2)'
-                                                        }}
-                                                        onMouseEnter={(e) => {
-                                                            e.target.style.background = '#2563eb';
-                                                            e.target.style.transform = 'translateY(-1px)';
-                                                        }}
-                                                        onMouseLeave={(e) => {
-                                                            e.target.style.background = '#3b82f6';
-                                                            e.target.style.transform = 'translateY(0)';
-                                                        }}
-                                                    >
-                                                        Mark Delivered
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
-                    </section>
 
-                    {/* Service Requests Section */}
-                    <section id="section-services" style={{
-                        background: '#fff',
-                        borderRadius: '8px',
-                        padding: '24px',
-                        marginBottom: '24px',
-                        border: '1px solid #e0e0e0',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
-                    }}>
-                        <h2 style={{
-                            margin: '0 0 20px 0',
-                            color: '#212121',
-                            fontSize: '1.125rem',
-                            fontWeight: '600'
+                                    <div>
+                                        <label style={{
+                                            display: 'block',
+                                            marginBottom: '8px',
+                                            fontWeight: '500',
+                                            color: '#424242',
+                                            fontSize: '0.875rem'
+                                        }}>
+                                            Target Company
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={notificationForm.company}
+                                            onChange={(e) => setNotificationForm({ ...notificationForm, company: e.target.value })}
+                                            placeholder="Company name or 'all'"
+                                            style={{
+                                                width: '100%',
+                                                padding: '10px 12px',
+                                                border: '1px solid #e0e0e0',
+                                                borderRadius: '6px',
+                                                fontSize: '0.875rem',
+                                                outline: 'none',
+                                                background: '#fff'
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    style={{
+                                        padding: '12px 24px',
+                                        background: '#424242',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: '6px',
+                                        fontSize: '0.875rem',
+                                        fontWeight: '600',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s ease'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.target.style.background = '#212121';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.background = '#424242';
+                                    }}
+                                >
+                                    Send Notification
+                                </button>
+                            </form>
+                        </section>
+
+                        {/* Orders Section */}
+                        <section id="section-orders" style={{
+                            background: '#fff',
+                            borderRadius: '8px',
+                            padding: '24px',
+                            marginBottom: '24px',
+                            border: '1px solid #e2e8f0',
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
                         }}>
-                            Service Requests ({filteredServiceRequests.length})
-                        </h2>
-
-                        {filteredServiceRequests.length === 0 ? (
-                            <div style={{
-                                textAlign: 'center',
-                                padding: '48px 20px',
-                                color: '#9e9e9e'
-                            }}>
-                                <p style={{ fontSize: '1rem', fontWeight: '500', margin: 0 }}>No service requests found</p>
-                                <p style={{ fontSize: '0.875rem', margin: '8px 0 0 0' }}>Requests will appear here</p>
-                            </div>
-                        ) : (
-                            <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
-                                <table style={{
-                                    width: '100%',
-                                    borderCollapse: 'collapse',
-                                    background: '#fff'
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                                <h2 style={{
+                                    margin: 0,
+                                    color: '#1e293b',
+                                    fontSize: '1.25rem',
+                                    fontWeight: '700'
                                 }}>
-                                    <thead style={{ background: '#f1f5f9' }}>
-                                        <tr>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Customer</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Company</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Type</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Message</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Location</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Time</th>
-                                            <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredServiceRequests.map((request) => (
-                                            <tr key={request.id}
-                                                style={{ borderBottom: '1px solid #f1f5f9', transition: 'background 0.2s' }}
-                                                onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
-                                                onMouseLeave={(e) => e.currentTarget.style.background = '#fff'}
-                                            >
-                                                <td style={{ padding: '16px', color: '#334155', fontSize: '0.875rem', fontWeight: '500' }}>
-                                                    {request.customerPhone}
-                                                </td>
-                                                <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
-                                                    {request.customerCompany}
-                                                </td>
-                                                <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
-                                                    <span style={{
-                                                        background: '#f1f5f9',
-                                                        color: '#475569',
-                                                        padding: '4px 8px',
-                                                        borderRadius: '4px',
-                                                        fontSize: '0.75rem',
-                                                        fontWeight: '600',
-                                                        border: '1px solid #e2e8f0'
-                                                    }}>
-                                                        {request.type}
-                                                    </span>
-                                                </td>
-                                                <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
-                                                    {request.message}
-                                                </td>
-                                                <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
-                                                    {request.customerLocation}
-                                                </td>
-                                                <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem', whiteSpace: 'nowrap', fontWeight: '500' }}>
-                                                    {formatDisplayTime(request.timestamp)}
-                                                </td>
-                                                <td style={{ padding: '16px' }}>
-                                                    <button
-                                                        onClick={() => handleMarkServiceDone(request.id)}
-                                                        style={{
-                                                            padding: '8px 16px',
-                                                            background: '#3b82f6',
-                                                            color: '#fff',
-                                                            border: 'none',
-                                                            borderRadius: '6px',
-                                                            fontSize: '0.875rem',
-                                                            fontWeight: '600',
-                                                            cursor: 'pointer',
-                                                            transition: 'all 0.2s ease',
-                                                            boxShadow: '0 2px 4px rgba(59, 130, 246, 0.2)'
-                                                        }}
-                                                        onMouseEnter={(e) => {
-                                                            e.target.style.background = '#2563eb';
-                                                            e.target.style.transform = 'translateY(-1px)';
-                                                        }}
-                                                        onMouseLeave={(e) => {
-                                                            e.target.style.background = '#3b82f6';
-                                                            e.target.style.transform = 'translateY(0)';
-                                                        }}
-                                                    >
-                                                        Mark Done
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                    Orders <span style={{
+                                        background: '#dbeafe',
+                                        color: '#1e40af',
+                                        padding: '2px 8px',
+                                        borderRadius: '12px',
+                                        fontSize: '0.875rem',
+                                        verticalAlign: 'middle',
+                                        marginLeft: '8px'
+                                    }}>{filteredOrders.length}</span>
+                                </h2>
                             </div>
-                        )}
-                    </section>
-                </div>
+
+                            {filteredOrders.length === 0 ? (
+                                <div style={{
+                                    textAlign: 'center',
+                                    padding: '48px 20px',
+                                    color: '#94a3b8',
+                                    background: '#f8fafc',
+                                    borderRadius: '8px',
+                                    border: '1px dashed #cbd5e1'
+                                }}>
+                                    <p style={{ fontSize: '1rem', fontWeight: '500', margin: 0 }}>No orders found</p>
+                                    <p style={{ fontSize: '0.875rem', margin: '8px 0 0 0' }}>New orders will appear here automatically</p>
+                                    {orders.length > 0 && (
+                                        <div style={{ marginTop: '16px', fontSize: '0.75rem', color: '#cbd5e1' }}>
+                                            Debug: DB has {orders.length} orders. <br />
+                                            Latest: "{orders[0]?.timestamp}"
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+                                    <table style={{
+                                        width: '100%',
+                                        borderCollapse: 'collapse',
+                                        background: '#fff'
+                                    }}>
+                                        <thead style={{ background: '#f1f5f9' }}>
+                                            <tr>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Customer</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Company</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Items</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Address</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Time</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredOrders.map((order) => (
+                                                <tr key={order.id}
+                                                    style={{ borderBottom: '1px solid #f1f5f9', transition: 'background 0.2s' }}
+                                                    onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
+                                                    onMouseLeave={(e) => e.currentTarget.style.background = '#fff'}
+                                                >
+                                                    <td style={{ padding: '16px', color: '#334155', fontSize: '0.875rem', fontWeight: '500' }}>
+                                                        {order.customerPhone}
+                                                    </td>
+                                                    <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
+                                                        {order.customerCompany}
+                                                    </td>
+                                                    <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
+                                                        {order.items.map((item, i) => (
+                                                            <div key={i} style={{ padding: '4px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                                <span style={{
+                                                                    background: '#e0f2fe',
+                                                                    color: '#0369a1',
+                                                                    fontSize: '0.75rem',
+                                                                    padding: '2px 6px',
+                                                                    borderRadius: '4px',
+                                                                    fontWeight: '600'
+                                                                }}>x{item.quantity}</span>
+                                                                <span style={{ color: '#334155', fontWeight: '500' }}>{item.name}</span>
+                                                            </div>
+                                                        ))}
+                                                    </td>
+                                                    <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
+                                                        {order.deliveryAddress}
+                                                    </td>
+                                                    <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem', whiteSpace: 'nowrap', fontWeight: '500' }}>
+                                                        {formatDisplayTime(order.timestamp)}
+                                                    </td>
+                                                    <td style={{ padding: '16px' }}>
+                                                        <button
+                                                            onClick={() => handleMarkDelivered(order.id)}
+                                                            style={{
+                                                                padding: '8px 16px',
+                                                                background: '#3b82f6',
+                                                                color: '#fff',
+                                                                border: 'none',
+                                                                borderRadius: '6px',
+                                                                fontSize: '0.875rem',
+                                                                fontWeight: '600',
+                                                                cursor: 'pointer',
+                                                                transition: 'all 0.2s ease',
+                                                                boxShadow: '0 2px 4px rgba(59, 130, 246, 0.2)'
+                                                            }}
+                                                            onMouseEnter={(e) => {
+                                                                e.target.style.background = '#2563eb';
+                                                                e.target.style.transform = 'translateY(-1px)';
+                                                            }}
+                                                            onMouseLeave={(e) => {
+                                                                e.target.style.background = '#3b82f6';
+                                                                e.target.style.transform = 'translateY(0)';
+                                                            }}
+                                                        >
+                                                            Mark Delivered
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </section>
+
+                        {/* Service Requests Section */}
+                        <section id="section-services" style={{
+                            background: '#fff',
+                            borderRadius: '8px',
+                            padding: '24px',
+                            marginBottom: '24px',
+                            border: '1px solid #e0e0e0',
+                            boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
+                        }}>
+                            <h2 style={{
+                                margin: '0 0 20px 0',
+                                color: '#212121',
+                                fontSize: '1.125rem',
+                                fontWeight: '600'
+                            }}>
+                                Service Requests ({filteredServiceRequests.length})
+                            </h2>
+
+                            {filteredServiceRequests.length === 0 ? (
+                                <div style={{
+                                    textAlign: 'center',
+                                    padding: '48px 20px',
+                                    color: '#9e9e9e'
+                                }}>
+                                    <p style={{ fontSize: '1rem', fontWeight: '500', margin: 0 }}>No service requests found</p>
+                                    <p style={{ fontSize: '0.875rem', margin: '8px 0 0 0' }}>Requests will appear here</p>
+                                </div>
+                            ) : (
+                                <div style={{ overflowX: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+                                    <table style={{
+                                        width: '100%',
+                                        borderCollapse: 'collapse',
+                                        background: '#fff'
+                                    }}>
+                                        <thead style={{ background: '#f1f5f9' }}>
+                                            <tr>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Customer</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Company</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Type</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Message</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Location</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Time</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredServiceRequests.map((request) => (
+                                                <tr key={request.id}
+                                                    style={{ borderBottom: '1px solid #f1f5f9', transition: 'background 0.2s' }}
+                                                    onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
+                                                    onMouseLeave={(e) => e.currentTarget.style.background = '#fff'}
+                                                >
+                                                    <td style={{ padding: '16px', color: '#334155', fontSize: '0.875rem', fontWeight: '500' }}>
+                                                        {request.customerPhone}
+                                                    </td>
+                                                    <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
+                                                        {request.customerCompany}
+                                                    </td>
+                                                    <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
+                                                        <span style={{
+                                                            background: '#f1f5f9',
+                                                            color: '#475569',
+                                                            padding: '4px 8px',
+                                                            borderRadius: '4px',
+                                                            fontSize: '0.75rem',
+                                                            fontWeight: '600',
+                                                            border: '1px solid #e2e8f0'
+                                                        }}>
+                                                            {request.type}
+                                                        </span>
+                                                    </td>
+                                                    <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
+                                                        {request.message}
+                                                    </td>
+                                                    <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
+                                                        {request.customerLocation}
+                                                    </td>
+                                                    <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem', whiteSpace: 'nowrap', fontWeight: '500' }}>
+                                                        {formatDisplayTime(request.timestamp)}
+                                                    </td>
+                                                    <td style={{ padding: '16px' }}>
+                                                        <button
+                                                            onClick={() => handleMarkServiceDone(request.id)}
+                                                            style={{
+                                                                padding: '8px 16px',
+                                                                background: '#3b82f6',
+                                                                color: '#fff',
+                                                                border: 'none',
+                                                                borderRadius: '6px',
+                                                                fontSize: '0.875rem',
+                                                                fontWeight: '600',
+                                                                cursor: 'pointer',
+                                                                transition: 'all 0.2s ease',
+                                                                boxShadow: '0 2px 4px rgba(59, 130, 246, 0.2)'
+                                                            }}
+                                                            onMouseEnter={(e) => {
+                                                                e.target.style.background = '#2563eb';
+                                                                e.target.style.transform = 'translateY(-1px)';
+                                                            }}
+                                                            onMouseLeave={(e) => {
+                                                                e.target.style.background = '#3b82f6';
+                                                                e.target.style.transform = 'translateY(0)';
+                                                            }}
+                                                        >
+                                                            Mark Done
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
+                        </section>
+                    </div>
+                </div >
             </div >
-        </div >
+        </>
     );
 };
 

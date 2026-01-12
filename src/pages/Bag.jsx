@@ -222,7 +222,7 @@ const Bag = () => {
                             <div className="delivery-scene">
                                 <div className="moving-bg" />
                                 <div className="road-surface" />
-                                <div className="van-stationary">🚚</div>
+                                <div className="van-stationary">🚐</div>
                             </div>
 
                             <button className="ok-btn" onClick={() => setShowBookingModal(false)}>

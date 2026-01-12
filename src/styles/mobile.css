@@ -1809,25 +1809,41 @@ body.standalone-mode .bottom-nav {
 .van-stationary {
   position: absolute;
   bottom: 5px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0%;
   font-size: 35px;
   color: #aa0a0a;
   z-index: 2;
-  animation: vanVibrate 0.2s infinite;
+  /* Flip is handled in animation keyframes */
+  animation: vanMoveRight 3s ease-in-out infinite;
 }
 
-@keyframes vanVibrate {
+@keyframes vanMoveRight {
   0% {
-    transform: translateX(-50%) translateY(0);
+    left: -10%;
+    transform: scaleX(-1) translateY(0);
+    /* Keep flip + bounce */
+  }
+
+  25% {
+    transform: scaleX(-1) translateY(-2px);
+    /* Keep flip + bounce */
   }
 
   50% {
-    transform: translateX(-50%) translateY(-2px);
+    left: 50%;
+    transform: scaleX(-1) translateY(0);
+    /* Keep flip + bounce */
+  }
+
+  75% {
+    transform: scaleX(-1) translateY(-2px);
+    /* Keep flip + bounce */
   }
 
   100% {
-    transform: translateX(-50%) translateY(0);
+    left: 110%;
+    transform: scaleX(-1) translateY(0);
+    /* Keep flip + bounce */
   }
 }
 
