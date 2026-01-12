@@ -187,14 +187,31 @@
   /* ============= INFINITE AUTO-SCROLLING SLIDER ================== */
   /* =============================================================== */
 
-  /* Container - hides overflow */
+  /* Container - allows horizontal scroll */
   .infinite-scroll-container {
     width: 100%;
-    overflow: hidden;
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    overflow-y: hidden;
     background: linear-gradient(to bottom, #f28730, #f4e7cc);
     padding: 30px 0 50px;
     margin-top: 50px;
     position: relative;
+
+    /* Smooth scrolling */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+
+    /* Hide scrollbar but keep functionality */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+  }
+
+  /* Hide scrollbar for Chrome/Safari/Opera */
+  .infinite-scroll-container::-webkit-scrollbar {
+    display: none;
   }
 
   /* Track - holds all cards and animates */
@@ -203,6 +220,14 @@
     gap: 30px;
     animation: infiniteScroll 50s linear infinite;
     will-change: transform;
+
+    /* Pause animation when user is scrolling manually */
+    animation-play-state: running;
+  }
+
+  /* Pause auto-scroll when user interacting */
+  .infinite-scroll-container:active .infinite-scroll-track {
+    animation-play-state: paused;
   }
 
   /* Infinite scroll animation */

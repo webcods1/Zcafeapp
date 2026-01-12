@@ -24,6 +24,10 @@ const Admin = () => {
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [filteredServiceRequests, setFilteredServiceRequests] = useState([]);
 
+    // Today's counts (always shows today regardless of filter)
+    const [todayOrderCount, setTodayOrderCount] = useState(0);
+    const [todayServiceCount, setTodayServiceCount] = useState(0);
+
     // Sidebar navigation state
     const [activeSection, setActiveSection] = useState('overview');
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -225,8 +229,49 @@ body, html {
             }
         };
 
+        const isToday = (item) => {
+            let dateObj = null;
+
+            if (item.createdAt) {
+                dateObj = new Date(item.createdAt);
+            }
+
+            if (!dateObj || isNaN(dateObj.getTime())) {
+                const ts = item.timestamp;
+                if (ts) {
+                    const parts = String(ts).match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+                    if (parts) {
+                        const d = new Date(`${parts[2]}/${parts[1]}/${parts[3]}`);
+                        if (!isNaN(d.getTime())) dateObj = d;
+                    }
+                    if (!dateObj) {
+                        const d = new Date(ts);
+                        if (!isNaN(d.getTime())) dateObj = d;
+                    }
+                }
+            }
+
+            if (!dateObj || isNaN(dateObj.getTime())) {
+                const d = today.getDate();
+                const m = today.getMonth() + 1;
+                const y = today.getFullYear();
+                const variants = [
+                    `${d}/${m}/${y}`,
+                    `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${y}`,
+                ];
+                return variants.some(v => (item.timestamp || '').includes(v));
+            }
+
+            return isSameDay(dateObj, today);
+        };
+
+        // Set filtered data based on date filter
         setFilteredOrders(orders.filter(filterItem));
         setFilteredServiceRequests(serviceRequests.filter(filterItem));
+
+        // ALWAYS calculate today's counts (independent of date filter)
+        setTodayOrderCount(orders.filter(isToday).length);
+        setTodayServiceCount(serviceRequests.filter(isToday).length);
     };
 
     const formatDisplayTime = (dateStr) => {
@@ -801,10 +846,10 @@ body, html {
                                 boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
                             }}>
                                 <div style={{ fontSize: '0.875rem', color: '#757575', marginBottom: '8px', fontWeight: '500' }}>
-                                    Total Orders
+                                    Today's Orders
                                 </div>
                                 <div style={{ fontSize: '2rem', fontWeight: '600', color: '#212121' }}>
-                                    {orders.length}
+                                    {todayOrderCount}
                                 </div>
                             </div>
 
@@ -816,10 +861,10 @@ body, html {
                                 boxShadow: '0 1px 3px rgba(0,0,0,0.06)'
                             }}>
                                 <div style={{ fontSize: '0.875rem', color: '#757575', marginBottom: '8px', fontWeight: '500' }}>
-                                    Service Requests
+                                    Today's Services
                                 </div>
                                 <div style={{ fontSize: '2rem', fontWeight: '600', color: '#212121' }}>
-                                    {serviceRequests.length}
+                                    {todayServiceCount}
                                 </div>
                             </div>
                         </div>
