@@ -120,16 +120,22 @@ const Bag = () => {
     // 3. Auto-Acknowledge Delivery Logic
     useEffect(() => {
         if (viewOrder && viewOrder.status === 'Delivered') {
+            console.log('✅ Delivery Completed message displayed for order:', viewOrder.id);
+
             // It's displayed now. Set a timer to mark it as seen.
             const timer = setTimeout(() => {
                 const seenKey = `delivery-seen-${viewOrder.id}`;
                 localStorage.setItem(seenKey, 'true');
+                console.log('⏰ Auto-hiding delivery message after 3 seconds');
 
                 // Trigger re-evaluation of which order to show
                 setAckTrigger(prev => prev + 1);
             }, 3000); // 3 Seconds display time
 
-            return () => clearTimeout(timer);
+            return () => {
+                console.log('🧹 Cleaning up timer');
+                clearTimeout(timer);
+            };
         }
     }, [viewOrder]);
 
