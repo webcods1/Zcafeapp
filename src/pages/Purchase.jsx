@@ -276,16 +276,24 @@ const Purchase = () => {
                                     ref={el => videoRefs.current[index] = el}
                                     className="banner-video"
                                     playsInline
-                                    webkit-playsinline="true"
-                                    x-webkit-airplay="allow"
+                                    playsinline="true"
                                     autoPlay
                                     muted
+                                    defaultMuted
                                     loop
-                                    preload="metadata"
+                                    preload="auto"
                                     poster={banner.poster}
                                     disablePictureInPicture
+                                    controls={false}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        backgroundColor: '#000'
+                                    }}
                                 >
                                     <source src={banner.video} type="video/webm" />
+                                    Your browser does not support video playback.
                                 </video>
                             </div>
                         ))}
