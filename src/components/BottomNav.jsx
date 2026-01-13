@@ -1,10 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const BottomNav = ({ cartCount = 0, currentPage = '' }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const [scrolled, setScrolled] = useState(false);
+    const lastNavigationRef = useRef(0);
+    const NAVIGATION_COOLDOWN = 300; // ms between navigations
+
+    // Throttled navigation to prevent rapid clicking crashes
+    const handleNavigate = useCallback((path) => {
+        const now = Date.now();
+
+        // Prevent rapid successive navigations
+        if (now - lastNavigationRef.current < NAVIGATION_COOLDOWN) {
+            console.warn('🚫 Navigation too fast, cooldown active');
+            return;
+        }
+
+        lastNavigationRef.current = now;
+        navigate(path);
+    }, [navigate]);
 
     useEffect(() => {
         let lastScrollTop = 0;
@@ -37,7 +53,7 @@ const BottomNav = ({ cartCount = 0, currentPage = '' }) => {
         <div className="bottom-nav">
             <a
                 className={`nav-item ${isActive('') || isActive('index') ? 'active' : ''}`}
-                onClick={() => navigate('/')}
+                onClick={() => handleNavigate('/')}
                 style={{ cursor: 'pointer' }}
             >
                 <svg viewBox="0 0 24 24">
@@ -48,7 +64,7 @@ const BottomNav = ({ cartCount = 0, currentPage = '' }) => {
 
             <a
                 className={`nav-item ${isActive('purchase') ? 'active' : ''}`}
-                onClick={() => navigate('/purchase')}
+                onClick={() => handleNavigate('/purchase')}
                 style={{ cursor: 'pointer' }}
             >
                 <svg viewBox="0 0 24 24">
@@ -59,7 +75,7 @@ const BottomNav = ({ cartCount = 0, currentPage = '' }) => {
 
             <a
                 className={`nav-item ${isActive('service') ? 'active' : ''}`}
-                onClick={() => navigate('/service')}
+                onClick={() => handleNavigate('/service')}
                 style={{ cursor: 'pointer' }}
             >
                 <svg viewBox="0 0 24 24" fill="#000">
@@ -70,7 +86,7 @@ const BottomNav = ({ cartCount = 0, currentPage = '' }) => {
 
             <a
                 className={`nav-item ${isActive('bag') ? 'active' : ''}`}
-                onClick={() => navigate('/bag')}
+                onClick={() => handleNavigate('/bag')}
                 id="bag-link"
                 style={{ cursor: 'pointer', position: 'relative' }}
             >
