@@ -73,17 +73,23 @@ const Home = () => {
         videoRefs.current.forEach((video, index) => {
             if (video) {
                 if (index === currentSlide) {
+                    // Reset and load video
                     video.currentTime = 0;
                     video.load();
 
-                    // Try to play
-                    const playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(err => {
-                            console.log('[Video] Autoplay prevented on iOS:', err);
-                            // Video won't autoplay - will show poster
-                        });
-                    }
+                    // Try to play with better error handling
+                    setTimeout(() => {
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise
+                                .then(() => {
+                                    console.log('[Video] Playing slide', index);
+                                })
+                                .catch(err => {
+                                    console.log('[Video] Autoplay prevented, will play on interaction:', err.name);
+                                });
+                        }
+                    }, 100); // Small delay helps iOS
                 } else {
                     video.pause();
                     video.currentTime = 0;
@@ -92,30 +98,44 @@ const Home = () => {
         });
     }, [currentSlide]);
 
-    // iOS Fix: Enable video playback after first user interaction
+    // iOS Fix: Enable video playback after ANY user interaction
     useEffect(() => {
-        let hasInteracted = false;
+        let interactionHandled = false;
 
-        const handleInteraction = () => {
-            if (!hasInteracted) {
-                hasInteracted = true;
-                console.log('[Video] User interaction detected, enabling videos');
-
-                // Play the current video
-                const currentVideo = videoRefs.current[currentSlide];
-                if (currentVideo) {
-                    currentVideo.play().catch(() => { });
+        const playCurrentVideo = () => {
+            const currentVideo = videoRefs.current[currentSlide];
+            if (currentVideo && currentVideo.paused) {
+                const playPromise = currentVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            console.log('[Video] Started playing on user interaction');
+                        })
+                        .catch(err => {
+                            console.log('[Video] Play failed:', err);
+                        });
                 }
             }
         };
 
-        // Listen for any user interaction
-        document.addEventListener('touchstart', handleInteraction, { once: true });
-        document.addEventListener('click', handleInteraction, { once: true });
+        const handleInteraction = () => {
+            if (!interactionHandled) {
+                interactionHandled = true;
+                console.log('[Video] User interaction detected - enabling videos');
+                playCurrentVideo();
+            }
+        };
+
+        // Listen for multiple interaction types
+        const events = ['touchstart', 'touchend', 'click', 'scroll'];
+        events.forEach(event => {
+            document.addEventListener(event, handleInteraction, { once: true, passive: true });
+        });
 
         return () => {
-            document.removeEventListener('touchstart', handleInteraction);
-            document.removeEventListener('click', handleInteraction);
+            events.forEach(event => {
+                document.removeEventListener(event, handleInteraction);
+            });
         };
     }, [currentSlide]);
 
