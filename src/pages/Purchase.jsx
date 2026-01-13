@@ -134,11 +134,26 @@ const Purchase = () => {
                         }
                     }, 100); // Small delay helps iOS
                 } else {
+                    // CRITICAL: Properly unload non-active videos to save memory
                     video.pause();
                     video.currentTime = 0;
+                    // Clear source to free memory on mobile
+                    if (video.src) {
+                        video.removeAttribute('src');
+                        video.load(); // Trigger unload
+                    }
                 }
             }
         });
+
+        // Cleanup function
+        return () => {
+            videoRefs.current.forEach(video => {
+                if (video && !video.paused) {
+                    video.pause();
+                }
+            });
+        };
     }, [currentSlide]);
 
     // iOS Fix: Enable video playback after ANY user interaction

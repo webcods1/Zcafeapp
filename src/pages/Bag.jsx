@@ -48,7 +48,7 @@ const Bag = () => {
                 }
 
                 // Listen to orders
-                onValue(ref(db, 'orders'), (snapshot) => {
+                const unsubscribe = onValue(ref(db, 'orders'), (snapshot) => {
                     if (snapshot.exists()) {
                         const data = snapshot.val();
                         // Get all orders for this user, sorted by date (newest first)
@@ -66,13 +66,24 @@ const Bag = () => {
                     }
                     setLoading(false);
                 });
+
+                // CRITICAL: Return cleanup function
+                return unsubscribe;
             } catch (error) {
                 console.error('Error fetching orders:', error);
                 setLoading(false);
             }
         };
 
-        fetchOrders();
+        const cleanup = fetchOrders();
+
+        // Cleanup Firebase listener on unmount
+        return () => {
+            if (cleanup) {
+                cleanup();
+                console.log('🧹 Firebase listener cleaned up');
+            }
+        };
     }, []);
 
     // 2. Logic to determine WHICH order to show (The View Logic)
