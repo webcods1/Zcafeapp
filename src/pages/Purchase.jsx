@@ -5,6 +5,7 @@ import BottomNav from '../components/BottomNav';
 import { useCart } from '../hooks/useCart';
 import { useWishlist } from '../hooks/useWishlist';
 import { showCartNotification, showWishlistNotification } from '../utils/notifications';
+import { useNavigationGuard } from '../hooks/useNavigationGuard';
 import './Purchase.css'; // Purchase page specific styles
 
 const Purchase = () => {
@@ -12,6 +13,7 @@ const Purchase = () => {
     const location = useLocation();
     const { addToCart, getTotalQty } = useCart();
     const { toggleWishlist, isInWishlist, getTotalQty: getWishlistQty } = useWishlist();
+    const { isMounted } = useNavigationGuard();
 
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -22,11 +24,11 @@ const Purchase = () => {
     const videoRefs = useRef([]);
 
     const banners = [
-        { video: "/DietCoffeeZ.webm", poster: "/bannerDC.png" },
-        { video: "/PremiumTeaZ.webm", poster: "/bannerPT.png" },
-        { video: "/cappuccinoZ.webm", poster: "/bannerCA.png" },
-        { video: "/MilkBoostZ.webm", poster: "/bannerMB.png" },
-        { video: "/MilkhorlicksZ.webm", poster: "/bannerMH.png" }
+        { video: "/DietCoffeeZ.webm" },
+        { video: "/PremiumTeaZ.webm" },
+        { video: "/cappuccinoZ.webm" },
+        { video: "/MilkBoostZ.webm" },
+        { video: "/MilkhorlicksZ.webm" }
     ];
 
     const products = [
@@ -317,7 +319,6 @@ const Purchase = () => {
                                     defaultMuted
                                     loop
                                     preload="auto"
-                                    poster={banner.poster}
                                     disablePictureInPicture
                                     controls={false}
                                     style={{

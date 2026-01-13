@@ -5,11 +5,13 @@ import BottomNav from '../components/BottomNav';
 import { useCart } from '../hooks/useCart';
 import { useWishlist } from '../hooks/useWishlist';
 import { showCartNotification } from '../utils/notifications';
+import { useNavigationGuard } from '../hooks/useNavigationGuard';
 
 const Home = () => {
     const navigate = useNavigate();
     const { addToCart, getTotalQty } = useCart();
     const { getTotalQty: getWishlistQty } = useWishlist();
+    const { isMounted } = useNavigationGuard();
 
     const [currentSlide, setCurrentSlide] = useState(0);
     const [notificationCount, setNotificationCount] = useState(0);
@@ -22,11 +24,11 @@ const Home = () => {
     const videoRefs = useRef([]);
 
     const banners = [
-        { video: "/DietCoffeeZ.webm", poster: "/bannerDC.png" },
-        { video: "/PremiumTeaZ.webm", poster: "/bannerPT.png" },
-        { video: "/cappuccinoZ.webm", poster: "/bannerCA.png" },
-        { video: "/MilkBoostZ.webm", poster: "/bannerMB.png" },
-        { video: "/MilkhorlicksZ.webm", poster: "/bannerMH.png" }
+        { video: "/DietCoffeeZ.webm" },
+        { video: "/PremiumTeaZ.webm" },
+        { video: "/cappuccinoZ.webm" },
+        { video: "/MilkBoostZ.webm" },
+        { video: "/MilkhorlicksZ.webm" }
     ];
 
     const scrollProducts = [
@@ -70,46 +72,74 @@ const Home = () => {
 
     // Control video playback based on active slide
     useEffect(() => {
-        videoRefs.current.forEach((video, index) => {
-            if (video) {
-                if (index === currentSlide) {
-                    // Reset and load video
-                    video.currentTime = 0;
-                    video.load();
+        // Check if component is still mounted
+        if (!isMounted()) return;
 
-                    // Try to play with better error handling
-                    setTimeout(() => {
-                        const playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise
-                                .then(() => {
-                                    console.log('[Video] Playing slide', index);
-                                })
-                                .catch(err => {
-                                    console.log('[Video] Autoplay prevented, will play on interaction:', err.name);
-                                });
-                        }
-                    }, 100); // Small delay helps iOS
-                } else {
-                    // CRITICAL: Properly unload non-active videos to save memory
-                    video.pause();
-                    video.currentTime = 0;
-                    // Clear source to free memory on mobile
-                    if (video.src) {
-                        video.removeAttribute('src');
-                        video.load(); // Trigger unload
-                    }
-                }
+        try {
+            if (!videoRefs.current || videoRefs.current.length === 0) {
+                console.warn('[Video] No video refs available');
+                return;
             }
-        });
+
+            videoRefs.current.forEach((video, index) => {
+                if (!video) return; // Skip if ref is null
+
+                try {
+                    if (index === currentSlide) {
+                        // Reset and load video
+                        video.currentTime = 0;
+                        video.load();
+
+                        // Try to play with better error handling
+                        setTimeout(() => {
+                            if (!isMounted() || !video) return; // Double check
+
+                            const playPromise = video.play();
+                            if (playPromise !== undefined) {
+                                playPromise
+                                    .then(() => {
+                                        if (isMounted()) {
+                                            console.log('[Video] Playing slide', index);
+                                        }
+                                    })
+                                    .catch(err => {
+                                        if (isMounted()) {
+                                            console.log('[Video] Autoplay prevented:', err.name);
+                                        }
+                                    });
+                            }
+                        }, 100); // Small delay helps iOS
+                    } else {
+                        // CRITICAL: Properly unload non-active videos to save memory
+                        video.pause();
+                        video.currentTime = 0;
+                        // Clear source to free memory on mobile
+                        if (video.src) {
+                            video.removeAttribute('src');
+                            video.load(); // Trigger unload
+                        }
+                    }
+                } catch (error) {
+                    console.warn('[Video] Error handling video', index, error);
+                }
+            });
+        } catch (error) {
+            console.error('[Video] Critical error in video control:', error);
+        }
 
         // Cleanup function
         return () => {
-            videoRefs.current.forEach(video => {
-                if (video && !video.paused) {
-                    video.pause();
+            try {
+                if (videoRefs.current) {
+                    videoRefs.current.forEach(video => {
+                        if (video && !video.paused) {
+                            video.pause();
+                        }
+                    });
                 }
-            });
+            } catch (error) {
+                console.warn('[Video] Cleanup error:', error);
+            }
         };
     }, [currentSlide]);
 
@@ -154,8 +184,13 @@ const Home = () => {
         };
     }, [currentSlide]);
 
+
     useEffect(() => {
+        let unsubscribe = null;
+
         const fetchNotifications = async () => {
+            if (!isMounted()) return;
+
             try {
                 const { initializeApp, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
                 const { getDatabase, ref, onValue } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
@@ -177,7 +212,9 @@ const Home = () => {
                 }
                 const db = getDatabase(app);
 
-                onValue(ref(db, 'notifications'), (snapshot) => {
+                unsubscribe = onValue(ref(db, 'notifications'), (snapshot) => {
+                    if (!isMounted()) return; // Don't update if unmounted
+
                     if (snapshot.exists()) {
                         const data = snapshot.val();
                         const userLoc = localStorage.getItem('deliveryAddress') || '';
@@ -201,6 +238,14 @@ const Home = () => {
         };
 
         fetchNotifications();
+
+        // Cleanup Firebase listener on unmount
+        return () => {
+            if (unsubscribe) {
+                unsubscribe();
+                console.log('🧹 Notifications listener cleaned up');
+            }
+        };
     }, []);
 
     useEffect(() => {
@@ -278,7 +323,6 @@ const Home = () => {
                                 defaultMuted
                                 loop
                                 preload="auto"
-                                poster={banner.poster}
                                 disablePictureInPicture
                                 controls={false}
                                 style={{
