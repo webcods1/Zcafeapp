@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Notification from './pages/Notification';
 import Admin from './pages/Admin';
 import AdminLogin from './pages/AdminLogin';
+import OrderTracking from './pages/OrderTracking';
 
 // Import CSS files (ORIGINAL WORKING SETUP)
 import './styles/mobile.css';
@@ -25,6 +26,7 @@ function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/notification" element={<Notification />} />
+        <Route path="/orders" element={<OrderTracking />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>

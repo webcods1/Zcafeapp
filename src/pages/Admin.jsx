@@ -517,17 +517,62 @@ body, html {
         }
     };
 
-    const handleMarkDelivered = async (orderId) => {
-        if (!confirm('Mark this order as delivered?')) return;
+    const handleMarkOutForDelivery = async (orderId) => {
+        if (!confirm('Mark this order as Out for Delivery?')) return;
 
         try {
-            const { getDatabase, ref, remove } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
+            const { getDatabase, ref, update } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
             const db = getDatabase();
-            await remove(ref(db, `orders/${orderId}`));
-            alert('Order marked as delivered and removed!');
+            await update(ref(db, `orders/${orderId}`), {
+                status: 'Out for Delivery',
+                outForDeliveryAt: new Date().toISOString()
+            });
+            alert('Order marked as Out for Delivery!');
+        } catch (error) {
+            console.error('Error updating order:', error);
+            alert('Error updating order. Please try again.');
+        }
+    };
+
+    const handleMarkDelivered = async (orderId) => {
+        if (!confirm('Mark this order as Delivered?')) return;
+
+        try {
+            const { getDatabase, ref, update } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
+            const db = getDatabase();
+            await update(ref(db, `orders/${orderId}`), {
+                status: 'Delivered',
+                deliveredAt: new Date().toISOString(),
+                deliveredByBranch: adminBranch // Attach admin branch ID
+            });
+            alert('Order marked as Delivered!');
         } catch (error) {
             console.error('Error marking order:', error);
             alert('Error updating order. Please try again.');
+        }
+    };
+
+    const handleMarkAllDelivered = async () => {
+        if (!confirm(`Mark ALL ${filteredOrders.length} orders as Delivered? This cannot be undone.`)) return;
+
+        try {
+            const { getDatabase, ref, update } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
+            const db = getDatabase();
+
+            // Update all filtered orders
+            const updatePromises = filteredOrders.map(order =>
+                update(ref(db, `orders/${order.id}`), {
+                    status: 'Delivered',
+                    deliveredAt: new Date().toISOString(),
+                    deliveredByBranch: adminBranch // Attach admin branch ID
+                })
+            );
+
+            await Promise.all(updatePromises);
+            alert(`Successfully marked ${filteredOrders.length} orders as Delivered!`);
+        } catch (error) {
+            console.error('Error marking all orders as delivered:', error);
+            alert('Error updating orders. Please try again.');
         }
     };
 
@@ -1143,7 +1188,7 @@ body, html {
                             border: '1px solid #e2e8f0',
                             boxShadow: '0 1px 3px rgba(0,0,0,0.04)'
                         }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
                                 <h2 style={{
                                     margin: 0,
                                     color: '#1e293b',
@@ -1160,6 +1205,39 @@ body, html {
                                         marginLeft: '8px'
                                     }}>{filteredOrders.length}</span>
                                 </h2>
+
+                                {/* Mark All as Delivered Button */}
+                                {filteredOrders.length > 0 && (
+                                    <button
+                                        onClick={handleMarkAllDelivered}
+                                        style={{
+                                            padding: '10px 20px',
+                                            background: '#2e7d32',
+                                            color: '#fff',
+                                            border: 'none',
+                                            borderRadius: '6px',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '600',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s ease',
+                                            boxShadow: '0 2px 4px rgba(46, 125, 50, 0.2)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '8px'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.target.style.background = '#1b5e20';
+                                            e.target.style.transform = 'translateY(-1px)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.target.style.background = '#2e7d32';
+                                            e.target.style.transform = 'translateY(0)';
+                                        }}
+                                    >
+                                        <span>✓</span>
+                                        Mark All as Delivered
+                                    </button>
+                                )}
                             </div>
 
                             {filteredOrders.length === 0 ? (
@@ -1193,6 +1271,7 @@ body, html {
                                                 <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Company</th>
                                                 <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Items</th>
                                                 <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Address</th>
+                                                <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Status</th>
                                                 <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Time</th>
                                                 <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', color: '#475569', fontSize: '0.875rem', borderBottom: '1px solid #e2e8f0' }}>Action</th>
                                             </tr>
@@ -1228,35 +1307,88 @@ body, html {
                                                     <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem' }}>
                                                         {order.deliveryAddress}
                                                     </td>
+                                                    <td style={{ padding: '16px' }}>
+                                                        <span style={{
+                                                            padding: '6px 12px',
+                                                            borderRadius: '12px',
+                                                            fontSize: '0.75rem',
+                                                            fontWeight: '600',
+                                                            background: order.status === 'Delivered' ? '#e8f5e9' :
+                                                                order.status === 'Out for Delivery' ? '#fff3e0' : '#e3f2fd',
+                                                            color: order.status === 'Delivered' ? '#2e7d32' :
+                                                                order.status === 'Out for Delivery' ? '#e65100' : '#1565c0',
+                                                            border: order.status === 'Delivered' ? '1px solid #a5d6a7' :
+                                                                order.status === 'Out for Delivery' ? '1px solid #ffcc80' : '1px solid #90caf9'
+                                                        }}>
+                                                            {order.status === 'Delivered' ? '✓ Delivered' :
+                                                                order.status === 'Out for Delivery' ? '🚚 Out for Delivery' : '📦 Pending'}
+                                                        </span>
+                                                    </td>
                                                     <td style={{ padding: '16px', color: '#64748b', fontSize: '0.875rem', whiteSpace: 'nowrap', fontWeight: '500' }}>
                                                         {formatDisplayTime(order.timestamp)}
                                                     </td>
                                                     <td style={{ padding: '16px' }}>
-                                                        <button
-                                                            onClick={() => handleMarkDelivered(order.id)}
-                                                            style={{
-                                                                padding: '8px 16px',
-                                                                background: '#3b82f6',
-                                                                color: '#fff',
-                                                                border: 'none',
-                                                                borderRadius: '6px',
+                                                        {order.status === 'Delivered' ? (
+                                                            <span style={{
+                                                                color: '#2e7d32',
                                                                 fontSize: '0.875rem',
-                                                                fontWeight: '600',
-                                                                cursor: 'pointer',
-                                                                transition: 'all 0.2s ease',
-                                                                boxShadow: '0 2px 4px rgba(59, 130, 246, 0.2)'
-                                                            }}
-                                                            onMouseEnter={(e) => {
-                                                                e.target.style.background = '#2563eb';
-                                                                e.target.style.transform = 'translateY(-1px)';
-                                                            }}
-                                                            onMouseLeave={(e) => {
-                                                                e.target.style.background = '#3b82f6';
-                                                                e.target.style.transform = 'translateY(0)';
-                                                            }}
-                                                        >
-                                                            Mark Delivered
-                                                        </button>
+                                                                fontWeight: '600'
+                                                            }}>
+                                                                Completed ✓
+                                                            </span>
+                                                        ) : order.status === 'Out for Delivery' ? (
+                                                            <button
+                                                                onClick={() => handleMarkDelivered(order.id)}
+                                                                style={{
+                                                                    padding: '8px 16px',
+                                                                    background: '#2e7d32',
+                                                                    color: '#fff',
+                                                                    border: 'none',
+                                                                    borderRadius: '6px',
+                                                                    fontSize: '0.875rem',
+                                                                    fontWeight: '600',
+                                                                    cursor: 'pointer',
+                                                                    transition: 'all 0.2s ease',
+                                                                    boxShadow: '0 2px 4px rgba(46, 125, 50, 0.2)'
+                                                                }}
+                                                                onMouseEnter={(e) => {
+                                                                    e.target.style.background = '#1b5e20';
+                                                                    e.target.style.transform = 'translateY(-1px)';
+                                                                }}
+                                                                onMouseLeave={(e) => {
+                                                                    e.target.style.background = '#2e7d32';
+                                                                    e.target.style.transform = 'translateY(0)';
+                                                                }}
+                                                            >
+                                                                Mark as Delivered
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                onClick={() => handleMarkOutForDelivery(order.id)}
+                                                                style={{
+                                                                    padding: '8px 16px',
+                                                                    background: '#f57c00',
+                                                                    color: '#fff',
+                                                                    border: 'none',
+                                                                    borderRadius: '6px',
+                                                                    fontSize: '0.875rem',
+                                                                    fontWeight: '600',
+                                                                    cursor: 'pointer',
+                                                                    transition: 'all 0.2s ease',
+                                                                    boxShadow: '0 2px 4px rgba(245, 124, 0, 0.2)'
+                                                                }}
+                                                                onMouseEnter={(e) => {
+                                                                    e.target.style.background = '#e65100';
+                                                                    e.target.style.transform = 'translateY(-1px)';
+                                                                }}
+                                                                onMouseLeave={(e) => {
+                                                                    e.target.style.background = '#f57c00';
+                                                                    e.target.style.transform = 'translateY(0)';
+                                                                }}
+                                                            >
+                                                                Mark Out for Delivery
+                                                            </button>
+                                                        )}
                                                     </td>
                                                 </tr>
                                             ))}
