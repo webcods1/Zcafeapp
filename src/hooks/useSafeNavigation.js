@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -43,7 +43,7 @@ export const useSafeNavigate = () => {
  * Safe state setter that prevents updates on unmounted components
  */
 export const useSafeState = (initialState) => {
-    const [state, setState] = React.useState(initialState);
+    const [state, setState] = useState(initialState);
     const isMountedRef = useRef(true);
 
     useEffect(() => {
