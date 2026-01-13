@@ -9,6 +9,7 @@ const Admin = () => {
     const [adminUsername, setAdminUsername] = useState('');
     const [loading, setLoading] = useState(true);
     const audioRef = React.useRef(null); // HTML5 Audio for notifications
+    const [soundEnabled, setSoundEnabled] = useState(false); // Track if sound is enabled
 
     const [notificationForm, setNotificationForm] = useState({
         title: '',
@@ -18,7 +19,7 @@ const Admin = () => {
     });
 
     // Date filtering state
-    const [dateFilter, setDateFilter] = useState('all'); // Default to ALL to show everything
+    const [dateFilter, setDateFilter] = useState('today'); // Default to TODAY to show today's orders first
     const [customDateFrom, setCustomDateFrom] = useState('');
     const [customDateTo, setCustomDateTo] = useState('');
     const [filteredOrders, setFilteredOrders] = useState([]);
@@ -298,97 +299,105 @@ body, html {
         }
     };
 
-    // Function to play notification sound
-    const playNotificationSound = async () => {
+    // Function to enable and test sound
+    const enableSound = async () => {
         try {
-            console.log('🔔 Attempting to play notification sound...');
-
-            // Method 1: Try HTML5 Audio first (most reliable)
-            if (audioRef.current) {
-                try {
-                    console.log('Trying HTML5 Audio...');
-                    audioRef.current.volume = 0.7; // Set volume
-                    audioRef.current.currentTime = 0;
-                    const playPromise = audioRef.current.play();
-                    if (playPromise !== undefined) {
-                        await playPromise;
-                        console.log('✅ Notification sound played successfully (HTML5 Audio)');
-                        return; // Success, exit
-                    }
-                } catch (audioError) {
-                    console.log('❌ HTML5 Audio failed:', audioError.name, audioError.message);
-                    console.log('Trying Web Audio API...');
-                }
-            } else {
-                console.log('❌ Audio element not found, trying Web Audio API...');
-            }
-
-            // Method 2: Fallback to Web Audio API
-            console.log('Attempting to play notification sound with Web Audio API...');
-
-            // Initialize AudioContext if not already done
+            // Create AudioContext
             let ctx = audioContext;
             if (!ctx) {
-                console.log('AudioContext not initialized, creating new one...');
                 ctx = new (window.AudioContext || window.webkitAudioContext)();
                 setAudioContext(ctx);
-                setAudioReady(true);
             }
 
-            // Resume AudioContext if it's suspended
+            // Resume if needed
             if (ctx.state === 'suspended') {
-                console.log('AudioContext is suspended, resuming...');
                 await ctx.resume();
             }
 
-            console.log('AudioContext state:', ctx.state);
-
-            // Create a pleasant two-tone notification chime
-            const playTone = (frequency, startTime, duration) => {
-                const oscillator = ctx.createOscillator();
-                const gainNode = ctx.createGain();
-
-                oscillator.connect(gainNode);
-                gainNode.connect(ctx.destination);
-
-                oscillator.type = 'sine'; // Sine wave for a smooth, pleasant tone
-                oscillator.frequency.setValueAtTime(frequency, startTime);
-
-                // Envelope: quick attack, sustain, quick release
-                gainNode.gain.setValueAtTime(0, startTime);
-                gainNode.gain.linearRampToValueAtTime(0.3, startTime + 0.01); // Quick attack
-                gainNode.gain.linearRampToValueAtTime(0.25, startTime + duration - 0.05); // Sustain
-                gainNode.gain.linearRampToValueAtTime(0, startTime + duration); // Quick release
-
-                oscillator.start(startTime);
-                oscillator.stop(startTime + duration);
-            };
-
-            // Play a pleasant E-G chime (659Hz -> 784Hz)
+            // Play a test sound to unlock audio
             const now = ctx.currentTime;
-            playTone(659.25, now, 0.25);        // E5 note
-            playTone(783.99, now + 0.15, 0.35);  // G5 note (overlaps slightly)
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'sine';
+            osc.frequency.value = 800;
+            gain.gain.setValueAtTime(0, now);
+            gain.gain.linearRampToValueAtTime(0.4, now + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+            osc.start(now);
+            osc.stop(now + 0.2);
 
-            console.log('Notification sound played successfully');
+            setSoundEnabled(true);
+            setAudioReady(true);
+            console.log('✅ Sound enabled successfully!');
         } catch (error) {
-            console.error('Error playing notification sound:', error);
-            // Final fallback: try simple beep
-            try {
-                const fallbackCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = fallbackCtx.createOscillator();
-                const gain = fallbackCtx.createGain();
-                osc.connect(gain);
-                gain.connect(fallbackCtx.destination);
-                osc.type = 'sine';
-                osc.frequency.value = 800;
-                gain.gain.setValueAtTime(0.3, fallbackCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, fallbackCtx.currentTime + 0.5);
-                osc.start();
-                osc.stop(fallbackCtx.currentTime + 0.5);
-                console.log('Fallback notification sound played');
-            } catch (fallbackError) {
-                console.error('Fallback sound also failed:', fallbackError);
+            console.error('❌ Error enabling sound:', error);
+        }
+    };
+
+    // Function to play notification sound
+    const playNotificationSound = async () => {
+        console.log('🔔 Playing notification sound...');
+
+        try {
+            // Create or get AudioContext
+            let ctx = audioContext;
+            if (!ctx) {
+                ctx = new (window.AudioContext || window.webkitAudioContext)();
+                setAudioContext(ctx);
             }
+
+            // Resume if suspended
+            if (ctx.state === 'suspended') {
+                await ctx.resume();
+            }
+
+            const now = ctx.currentTime;
+
+            // Create a louder, more attention-grabbing triple-chime notification
+            // First chime (high pitch)
+            const osc1 = ctx.createOscillator();
+            const gain1 = ctx.createGain();
+            osc1.connect(gain1);
+            gain1.connect(ctx.destination);
+            osc1.type = 'sine';
+            osc1.frequency.value = 1000; // Higher frequency
+            gain1.gain.setValueAtTime(0, now);
+            gain1.gain.linearRampToValueAtTime(0.6, now + 0.02); // Louder
+            gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+            osc1.start(now);
+            osc1.stop(now + 0.25);
+
+            // Second chime (medium pitch)
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.type = 'sine';
+            osc2.frequency.value = 800;
+            gain2.gain.setValueAtTime(0, now + 0.15);
+            gain2.gain.linearRampToValueAtTime(0.6, now + 0.17); // Louder
+            gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+            osc2.start(now + 0.15);
+            osc2.stop(now + 0.4);
+
+            // Third chime (high pitch again, for emphasis)
+            const osc3 = ctx.createOscillator();
+            const gain3 = ctx.createGain();
+            osc3.connect(gain3);
+            gain3.connect(ctx.destination);
+            osc3.type = 'sine';
+            osc3.frequency.value = 1000;
+            gain3.gain.setValueAtTime(0, now + 0.3);
+            gain3.gain.linearRampToValueAtTime(0.7, now + 0.32); // Even louder for final chime
+            gain3.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+            osc3.start(now + 0.3);
+            osc3.stop(now + 0.6);
+
+            console.log('✅ Notification sound played successfully!');
+        } catch (error) {
+            console.error('❌ Error playing notification sound:', error);
         }
     };
 
@@ -439,6 +448,33 @@ body, html {
             setPreviousOrderCount(orders.length);
         }
     }, [orders, previousOrderCount, audioReady, audioContext]);
+
+    // Repeating reminder sound for pending orders
+    useEffect(() => {
+        // Count pending and out-for-delivery orders
+        const pendingOrders = orders.filter(order =>
+            order.status === 'Pending' || order.status === 'Out for Delivery'
+        );
+
+        if (pendingOrders.length > 0) {
+            console.log(`🔄 Setting up repeating reminder for ${pendingOrders.length} pending orders`);
+
+            // Play reminder sound every 30 seconds
+            const reminderInterval = setInterval(() => {
+                console.log(`🔔 Reminder: ${pendingOrders.length} orders still pending`);
+                playNotificationSound();
+            }, 30000); // 30 seconds
+
+            // Cleanup interval when orders change or component unmounts
+            return () => {
+                console.log('🔕 Stopping reminder sound');
+                clearInterval(reminderInterval);
+            };
+        } else {
+            console.log('✅ No pending orders - reminder sound disabled');
+        }
+    }, [orders]); // Re-run when orders change
+
 
     const fetchData = async (branch) => {
         try {
@@ -657,6 +693,58 @@ body, html {
             <audio ref={audioRef} preload="auto">
                 <source src="/notification.mp3" type="audio/mpeg" />
             </audio>
+
+            {/* Sound Enable Banner */}
+            {!soundEnabled && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 9999,
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                    padding: '16px',
+                    textAlign: 'center',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    animation: 'pulse 2s ease-in-out infinite'
+                }}>
+                    <div style={{
+                        fontSize: '1.1rem',
+                        fontWeight: '600',
+                        marginBottom: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '10px'
+                    }}>
+                        <span style={{ fontSize: '1.5rem' }}>🔔</span>
+                        Enable Sound Notifications
+                    </div>
+                    <div style={{ fontSize: '0.9rem', marginBottom: '12px', opacity: 0.95 }}>
+                        Click below to hear alerts when new orders arrive
+                    </div>
+                    <button
+                        onClick={enableSound}
+                        style={{
+                            background: 'white',
+                            color: '#667eea',
+                            border: 'none',
+                            padding: '12px 32px',
+                            borderRadius: '8px',
+                            fontSize: '1rem',
+                            fontWeight: '700',
+                            cursor: 'pointer',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                            transition: 'all 0.2s'
+                        }}
+                        onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+                        onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                    >
+                        🔊 Enable Sound Now
+                    </button>
+                </div>
+            )}
 
             <div style={{
                 minHeight: '100vh',
