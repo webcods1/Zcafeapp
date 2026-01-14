@@ -536,10 +536,22 @@
       height: 100%;
       object-fit: contain;
       /* Live site match */
-      background: #000;
+      background: transparent;
       display: block;
       border-radius: inherit;
       margin: 0;
+    }
+
+    .banner-video::-webkit-media-controls {
+      display: none !important;
+    }
+
+    .banner-video::-webkit-media-controls-start-playback-button {
+      display: none !important;
+    }
+
+    .banner-video::-webkit-media-controls-play-button {
+      display: none !important;
     }
 
     /* ================= DOT NAVIGATION ================= */

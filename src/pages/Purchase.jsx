@@ -325,7 +325,7 @@ const Purchase = () => {
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'cover',
-                                        backgroundColor: '#000'
+                                        // backgroundColor: '#000' // Removed to prevent black box on iOS
                                     }}
                                 >
                                     <source src={banner.video} type="video/webm" />
