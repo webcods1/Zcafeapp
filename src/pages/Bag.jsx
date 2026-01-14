@@ -14,6 +14,8 @@ const Bag = () => {
 
     // 1. Fetch all user orders in real-time
     useEffect(() => {
+        let unsubscribe = null;
+
         const fetchOrders = async () => {
             try {
                 const { initializeApp, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
@@ -47,8 +49,8 @@ const Bag = () => {
                     return;
                 }
 
-                // Listen to orders
-                const unsubscribe = onValue(ref(db, 'orders'), (snapshot) => {
+                // Listen to orders and store the unsubscribe function
+                unsubscribe = onValue(ref(db, 'orders'), (snapshot) => {
                     if (snapshot.exists()) {
                         const data = snapshot.val();
                         // Get all orders for this user, sorted by date (newest first)
@@ -66,21 +68,18 @@ const Bag = () => {
                     }
                     setLoading(false);
                 });
-
-                // CRITICAL: Return cleanup function
-                return unsubscribe;
             } catch (error) {
                 console.error('Error fetching orders:', error);
                 setLoading(false);
             }
         };
 
-        const cleanup = fetchOrders();
+        fetchOrders();
 
         // Cleanup Firebase listener on unmount
         return () => {
-            if (cleanup) {
-                cleanup();
+            if (unsubscribe && typeof unsubscribe === 'function') {
+                unsubscribe();
                 console.log('🧹 Firebase listener cleaned up');
             }
         };

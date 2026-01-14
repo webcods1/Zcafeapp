@@ -57,6 +57,8 @@ const Purchase = () => {
             setFilteredProducts(products);
         }
 
+        let unsubscribe = null;
+
         const fetchNotifications = async () => {
             try {
                 const { initializeApp, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
@@ -79,7 +81,7 @@ const Purchase = () => {
                 }
                 const db = getDatabase(app);
 
-                onValue(ref(db, 'notifications'), (snapshot) => {
+                unsubscribe = onValue(ref(db, 'notifications'), (snapshot) => {
                     if (snapshot.exists()) {
                         const data = snapshot.val();
                         const userLoc = localStorage.getItem('deliveryAddress') || '';
@@ -103,6 +105,14 @@ const Purchase = () => {
         };
 
         fetchNotifications();
+
+        // Cleanup Firebase listener on unmount or location change
+        return () => {
+            if (unsubscribe && typeof unsubscribe === 'function') {
+                unsubscribe();
+                console.log('🧹 Purchase notifications listener cleaned up');
+            }
+        };
     }, [location]);
 
     // Banner Carousel Autoslide

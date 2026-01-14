@@ -10,6 +10,8 @@ const Notification = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let unsubscribe = null;
+
         const fetchNotifications = async () => {
             try {
                 const { initializeApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
@@ -23,7 +25,7 @@ const Notification = () => {
                 const app = initializeApp(firebaseConfig);
                 const db = getDatabase(app);
 
-                onValue(ref(db, 'notifications'), (snapshot) => {
+                unsubscribe = onValue(ref(db, 'notifications'), (snapshot) => {
                     if (snapshot.exists()) {
                         const data = snapshot.val();
                         const userLoc = localStorage.getItem('deliveryAddress') || '';
@@ -54,6 +56,14 @@ const Notification = () => {
         };
 
         fetchNotifications();
+
+        // Cleanup Firebase listener on unmount
+        return () => {
+            if (unsubscribe && typeof unsubscribe === 'function') {
+                unsubscribe();
+                console.log('🧹 Notification listener cleaned up');
+            }
+        };
     }, []);
 
     const formatTime = (timestamp) => {

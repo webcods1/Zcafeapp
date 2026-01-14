@@ -10,6 +10,8 @@ const OrderTracking = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let unsubscribe = null;
+
         const fetchMyOrders = async () => {
             try {
                 const { initializeApp, getApp } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js');
@@ -41,7 +43,7 @@ const OrderTracking = () => {
                 }
 
                 // Listen to orders in real-time
-                onValue(ref(db, 'orders'), (snapshot) => {
+                unsubscribe = onValue(ref(db, 'orders'), (snapshot) => {
                     if (snapshot.exists()) {
                         const data = snapshot.val();
                         const ordersArray = Object.entries(data)
@@ -66,6 +68,14 @@ const OrderTracking = () => {
         };
 
         fetchMyOrders();
+
+        // Cleanup Firebase listener on unmount
+        return () => {
+            if (unsubscribe && typeof unsubscribe === 'function') {
+                unsubscribe();
+                console.log('🧹 OrderTracking listener cleaned up');
+            }
+        };
     }, []);
 
     const formatDate = (timestamp) => {
