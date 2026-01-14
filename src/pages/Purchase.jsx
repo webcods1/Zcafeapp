@@ -24,11 +24,11 @@ const Purchase = () => {
     const videoRefs = useRef([]);
 
     const banners = [
-        { video: "/DietCoffeeZ.webm" },
-        { video: "/PremiumTeaZ.webm" },
-        { video: "/cappuccinoZ.webm" },
-        { video: "/MilkBoostZ.webm" },
-        { video: "/MilkhorlicksZ.webm" }
+        { video: "/DietCoffeeZ.webm", mp4: "/DietCoffeeZ.mp4", poster: "/bannerDC.png" },
+        { video: "/PremiumTeaZ.webm", mp4: "/PremiumTeaZ.mp4", poster: "/bannerPT.png" },
+        { video: "/cappuccinoZ.webm", mp4: "/cappuccinoZ.mp4", poster: "/bannerCA.png" },
+        { video: "/MilkBoostZ.webm", mp4: "/MilkBoostZ.mp4", poster: "/bannerMB.png" },
+        { video: "/MilkhorlicksZ.webm", mp4: "/MilkhorlicksZ.mp4", poster: "/bannerMH.png" }
     ];
 
     const products = [
@@ -320,6 +320,7 @@ const Purchase = () => {
                                     preload="auto"
                                     disablePictureInPicture
                                     controls={false}
+                                    poster={banner.poster}
                                     style={{
                                         width: '100%',
                                         height: '100%',
@@ -328,6 +329,7 @@ const Purchase = () => {
                                     }}
                                 >
                                     <source src={banner.video} type="video/webm" />
+                                    <source src={banner.mp4} type="video/mp4" />
                                     Your browser does not support video playback.
                                 </video>
                             </div>
