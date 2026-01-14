@@ -71,6 +71,7 @@ const Home = () => {
     }, []);
 
     // Control video playback based on active slide
+    // Control video playback based on active slide
     useEffect(() => {
         // Check if component is still mounted
         if (!isMounted()) return;
@@ -87,13 +88,8 @@ const Home = () => {
                 try {
                     if (index === currentSlide) {
                         // Reset and load video
-                        video.currentTime = 0;
-                        video.load();
-
-                        // Try to play with better error handling
-                        setTimeout(() => {
-                            if (!isMounted() || !video) return; // Double check
-
+                        if (video.paused) {
+                            video.currentTime = 0;
                             const playPromise = video.play();
                             if (playPromise !== undefined) {
                                 playPromise
@@ -108,16 +104,11 @@ const Home = () => {
                                         }
                                     });
                             }
-                        }, 100); // Small delay helps iOS
+                        }
                     } else {
-                        // CRITICAL: Properly unload non-active videos to save memory
+                        // Just pause the video, do NOT unload src causing black screen
                         video.pause();
                         video.currentTime = 0;
-                        // Clear source to free memory on mobile
-                        if (video.src) {
-                            video.removeAttribute('src');
-                            video.load(); // Trigger unload
-                        }
                     }
                 } catch (error) {
                     console.warn('[Video] Error handling video', index, error);
@@ -129,17 +120,7 @@ const Home = () => {
 
         // Cleanup function
         return () => {
-            try {
-                if (videoRefs.current) {
-                    videoRefs.current.forEach(video => {
-                        if (video && !video.paused) {
-                            video.pause();
-                        }
-                    });
-                }
-            } catch (error) {
-                console.warn('[Video] Cleanup error:', error);
-            }
+            // No aggressive cleanup needed between slides to prevent black flashes
         };
     }, [currentSlide]);
 

@@ -124,16 +124,14 @@ const Purchase = () => {
     }, []);
 
     // Control video playback based on active slide
+    // Control video playback based on active slide
     useEffect(() => {
         videoRefs.current.forEach((video, index) => {
             if (video) {
                 if (index === currentSlide) {
-                    // Reset and load video
-                    video.currentTime = 0;
-                    video.load();
-
-                    // Try to play with better error handling
-                    setTimeout(() => {
+                    // Play video if not already playing
+                    if (video.paused) {
+                        video.currentTime = 0;
                         const playPromise = video.play();
                         if (playPromise !== undefined) {
                             playPromise
@@ -144,27 +142,18 @@ const Purchase = () => {
                                     console.log('[Video] Autoplay prevented, will play on interaction:', err.name);
                                 });
                         }
-                    }, 100); // Small delay helps iOS
+                    }
                 } else {
-                    // CRITICAL: Properly unload non-active videos to save memory
+                    // Just pause the video, do NOT unload src causing black screen
                     video.pause();
                     video.currentTime = 0;
-                    // Clear source to free memory on mobile
-                    if (video.src) {
-                        video.removeAttribute('src');
-                        video.load(); // Trigger unload
-                    }
                 }
             }
         });
 
         // Cleanup function
         return () => {
-            videoRefs.current.forEach(video => {
-                if (video && !video.paused) {
-                    video.pause();
-                }
-            });
+            // No aggressive cleanup needed between slides to prevent black flashes
         };
     }, [currentSlide]);
 

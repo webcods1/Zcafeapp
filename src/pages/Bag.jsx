@@ -128,13 +128,24 @@ const Bag = () => {
     }, [userOrders, ackTrigger]);
 
     // 3. Auto-Acknowledge Delivery Logic
+    // 3. Auto-Acknowledge Delivery Logic
     useEffect(() => {
         if (viewOrder && viewOrder.status === 'Delivered') {
+            const seenKey = `delivery-seen-${viewOrder.id}`;
+
+            // Check if already marked seen to prevent duplicate timers/logic
+            if (localStorage.getItem(seenKey) === 'true') {
+                // Tricky case: If it's already marked seen but we are here, 
+                // it means the View Logic picked it up (maybe race condition).
+                // We should force an ackTrigger to refresh.
+                setAckTrigger(prev => prev + 1);
+                return;
+            }
+
             console.log('✅ Delivery Completed message displayed for order:', viewOrder.id);
 
             // It's displayed now. Set a timer to mark it as seen.
             const timer = setTimeout(() => {
-                const seenKey = `delivery-seen-${viewOrder.id}`;
                 localStorage.setItem(seenKey, 'true');
                 console.log('⏰ Auto-hiding delivery message after 3 seconds');
 
@@ -143,11 +154,14 @@ const Bag = () => {
             }, 3000); // 3 Seconds display time
 
             return () => {
-                console.log('🧹 Cleaning up timer');
+                console.log('🧹 Cleaning up timer - marking seen on unmount/status change');
                 clearTimeout(timer);
+                // CRITICAL FIX: Mark as seen even if user navigates away before 3s
+                // This prevents "Always showing" loop if user leaves quickly.
+                localStorage.setItem(seenKey, 'true');
             };
         }
-    }, [viewOrder]);
+    }, [viewOrder?.id, viewOrder?.status]); // Stable dependencies
 
     const handleQuantityChange = (name, value) => {
         const qty = parseInt(value);
