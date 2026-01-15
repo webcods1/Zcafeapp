@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 import { useCart } from '../hooks/useCart';
 
+import { getBranchForLocation } from '../utils/branchMapping';
+
 const Notification = () => {
     const navigate = useNavigate();
     const { getTotalQty } = useCart();
@@ -31,12 +33,32 @@ const Notification = () => {
                         const userLoc = localStorage.getItem('deliveryAddress') || '';
                         const userComp = localStorage.getItem('companyName') || '';
 
+                        // Strict Branch Logic
+                        const userBranch = getBranchForLocation(userLoc);
+
                         const notifArray = Object.entries(data).map(([id, notif]) => ({
                             id,
                             ...notif
                         })).filter(notif => {
-                            const matchLoc = notif.targetLocation === 'all' || notif.targetLocation === userLoc;
-                            const matchComp = notif.targetCompany === 'all' || notif.targetCompany === userComp;
+                            // 1. Branch Check: User must belong to the sender's branch jurisdiction
+                            // If user has no branch (invalid address), they shouldn't get secured notifs ideally, 
+                            // or maybe only global ones (but we don't have global admin here).
+                            if (!userBranch) return false;
+
+                            // If notification has a sender branch, STRICTLY check if user belongs to it
+                            if (notif.sentBy && notif.sentBy !== userBranch) {
+                                return false;
+                            }
+
+                            // 2. Specific Logic
+                            const matchLoc = notif.targetLocation === 'all' ||
+                                notif.targetLocation?.toLowerCase() === userLoc.toLowerCase() ||
+                                userLoc.toLowerCase().includes(notif.targetLocation?.toLowerCase());
+
+                            const matchComp = notif.targetCompany === 'all' ||
+                                notif.targetCompany?.toLowerCase() === userComp.toLowerCase() ||
+                                userComp.toLowerCase().includes(notif.targetCompany?.toLowerCase());
+
                             return matchLoc && matchComp;
                         }).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 

@@ -6,6 +6,7 @@ import { useCart } from '../hooks/useCart';
 import { useWishlist } from '../hooks/useWishlist';
 import { showCartNotification, showWishlistNotification } from '../utils/notifications';
 import { useNavigationGuard } from '../hooks/useNavigationGuard';
+import { getBranchForLocation } from '../utils/branchMapping';
 import './Purchase.css'; // Purchase page specific styles
 
 const Purchase = () => {
@@ -88,11 +89,22 @@ const Purchase = () => {
                         const userComp = localStorage.getItem('companyName') || '';
                         const lastSeen = parseInt(localStorage.getItem('lastNotifSeen') || '0');
 
+                        const userBranch = getBranchForLocation(userLoc);
+
                         let count = 0;
                         Object.values(data).forEach(n => {
-                            const matchLoc = n.targetLocation === 'all' || n.targetLocation === userLoc;
-                            const matchComp = n.targetCompany === 'all' || n.targetCompany === userComp;
+                            // Strict Branch Check
+                            if (!userBranch) return; // Unknown branch users get nothing (secure default)
+                            if (n.sentBy && n.sentBy !== userBranch) return;
+
+                            const matchLoc = n.targetLocation === 'all' ||
+                                n.targetLocation?.toLowerCase() === userLoc.toLowerCase() ||
+                                userLoc.toLowerCase().includes(n.targetLocation?.toLowerCase());
+                            const matchComp = n.targetCompany === 'all' ||
+                                n.targetCompany?.toLowerCase() === userComp.toLowerCase() ||
+                                userComp.toLowerCase().includes(n.targetCompany?.toLowerCase());
                             const notifTime = new Date(n.timestamp).getTime();
+
                             if (matchLoc && matchComp && notifTime > lastSeen) count++;
                         });
 

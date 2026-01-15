@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BRANCH_SCOPE, getBranchForLocation } from '../utils/branchMapping';
 
 const Admin = () => {
     const navigate = useNavigate();
@@ -634,6 +635,13 @@ body, html {
             return;
         }
 
+        // Security Check: Ensure admin is not sending to unauthorized location
+        const allowedLocations = BRANCH_SCOPE[adminBranch] || [];
+        if (notificationForm.location !== 'all' && !allowedLocations.includes(notificationForm.location)) {
+            alert("⚠️ Security Alert: You are restricted from sending notifications to this location.");
+            return;
+        }
+
         try {
             const { getDatabase, ref, push, set } = await import('https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js');
             const db = getDatabase();
@@ -645,7 +653,9 @@ body, html {
                 targetLocation: notificationForm.location,
                 targetCompany: notificationForm.company,
                 timestamp: new Date().toISOString(),
-                sentBy: adminBranch
+                sentBy: adminBranch,
+                // Add extended metadata for stricter client-side filtering
+                branchScope: allowedLocations
             });
 
             alert('Notification sent successfully!');
@@ -1122,6 +1132,58 @@ body, html {
                             </h2>
 
                             <form onSubmit={handleSendNotification} style={{ display: 'grid', gap: '20px' }}>
+                                {/* Quick Presets */}
+                                <div>
+                                    <label style={{
+                                        display: 'block',
+                                        marginBottom: '8px',
+                                        fontWeight: '500',
+                                        color: '#424242',
+                                        fontSize: '0.875rem'
+                                    }}>
+                                        Quick Select
+                                    </label>
+                                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                                        {[
+                                            { title: "Special Offer 🏷️", message: "Get 50% off on your next order! Limited time only." },
+                                            { title: "Maintenance 🛠️", message: "We will be undergoing scheduled maintenance shortly." },
+                                            { title: "Missed Orders? 📅", message: "Did you miss your tomorrow orders? Place them now for timely delivery!" },
+                                            { title: "New Arrival ✨", message: "Check out our latest collection of products in the app!" },
+                                            { title: "Happy Holidays 🎄", message: "Wishing you a happy holiday season! Enjoy special deals." },
+                                            { title: "Order Delay ☔", message: "Deliveries might be slightly delayed due to weather. Thanks for your patience." }
+                                        ].map((preset, i) => (
+                                            <button
+                                                key={i}
+                                                type="button"
+                                                onClick={() => setNotificationForm(prev => ({ ...prev, title: preset.title, message: preset.message }))}
+                                                style={{
+                                                    padding: '6px 14px',
+                                                    fontSize: '0.8rem',
+                                                    background: '#f8fafc',
+                                                    border: '1px solid #cbd5e1',
+                                                    borderRadius: '20px',
+                                                    color: '#475569',
+                                                    cursor: 'pointer',
+                                                    fontWeight: '600',
+                                                    transition: 'all 0.2s ease'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.currentTarget.style.background = '#e2e8f0';
+                                                    e.currentTarget.style.color = '#1e293b';
+                                                    e.currentTarget.style.transform = 'translateY(-1px)';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.background = '#f8fafc';
+                                                    e.currentTarget.style.color = '#475569';
+                                                    e.currentTarget.style.transform = 'translateY(0)';
+                                                }}
+                                            >
+                                                {preset.title}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
                                 <div>
                                     <label style={{
                                         display: 'block',
@@ -1189,7 +1251,7 @@ body, html {
                                             color: '#424242',
                                             fontSize: '0.875rem'
                                         }}>
-                                            Target Location
+                                            Target Location (Restricted)
                                         </label>
                                         <select
                                             value={notificationForm.location}
@@ -1205,13 +1267,15 @@ body, html {
                                                 cursor: 'pointer'
                                             }}
                                         >
-                                            <option value="all">All Locations</option>
-                                            <option value="Trivandrum">Trivandrum</option>
-                                            <option value="Kollam">Kollam</option>
-                                            <option value="Kochi">Kochi</option>
-                                            <option value="Thrissur">Thrissur</option>
-                                            <option value="Calicut">Calicut</option>
+                                            <option value="all">All {adminBranch} Customers</option>
+                                            {/* Dynamically load permissions based on admin branch */}
+                                            {BRANCH_SCOPE[adminBranch]?.map(loc => (
+                                                <option key={loc} value={loc}>{loc}</option>
+                                            ))}
                                         </select>
+                                        <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '4px' }}>
+                                            * You can only target locations within your branch jurisdiction.
+                                        </div>
                                     </div>
 
                                     <div>
@@ -1242,6 +1306,48 @@ body, html {
                                     </div>
                                 </div>
 
+                                {/* Audience Reach Estimate */}
+                                <div style={{
+                                    background: '#f0f9ff',
+                                    padding: '12px',
+                                    borderRadius: '6px',
+                                    border: '1px dashed #3b82f6',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '12px'
+                                }}>
+                                    <span style={{ fontSize: '1.2rem' }}>👥</span>
+                                    <div>
+                                        <div style={{ fontSize: '0.8rem', color: '#64748b' }}>Estimated Audience Reach</div>
+                                        <div style={{ fontWeight: '700', color: '#0f172a' }}>
+                                            {(() => {
+                                                const uniqueRecipients = new Set();
+                                                orders.forEach(o => {
+                                                    if (!o.deliveryAddress) return;
+                                                    // Check strict branch compliance
+                                                    const userBranch = getBranchForLocation(o.deliveryAddress);
+                                                    if (userBranch !== adminBranch) return; // Not in my branch
+
+                                                    // Check specific location filter
+                                                    if (notificationForm.location !== 'all' &&
+                                                        !o.deliveryAddress.toLowerCase().includes(notificationForm.location.toLowerCase())) {
+                                                        return;
+                                                    }
+
+                                                    // Check company filter
+                                                    if (notificationForm.company !== 'all' && notificationForm.company &&
+                                                        !o.customerCompany?.toLowerCase().includes(notificationForm.company.toLowerCase())) {
+                                                        return;
+                                                    }
+
+                                                    uniqueRecipients.add(o.customerPhone); // Use phone as unique ID
+                                                });
+                                                return uniqueRecipients.size;
+                                            })()} Users
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <button
                                     type="submit"
                                     style={{
@@ -1262,7 +1368,7 @@ body, html {
                                         e.target.style.background = '#424242';
                                     }}
                                 >
-                                    Send Notification
+                                    Send Secured Notification
                                 </button>
                             </form>
                         </section>
