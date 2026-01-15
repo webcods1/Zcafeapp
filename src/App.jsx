@@ -16,10 +16,20 @@ import OrderTracking from './pages/OrderTracking';
 import './styles/mobile.css';
 import './styles/desktop.css';
 
+import { useNotificationSystem, NotificationPopup } from './hooks/useNotificationSystem';
+
 function App() {
+  const { popupNotification, dismissNotification } = useNotificationSystem();
+
   return (
     <ErrorBoundary>
       <Router>
+        {/* Global Notification Popup */}
+        <NotificationPopup
+          notification={popupNotification}
+          onClose={dismissNotification}
+        />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/purchase" element={<Purchase />} />

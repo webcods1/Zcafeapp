@@ -18,11 +18,18 @@ const Purchase = () => {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
+
+    // Restored States
     const [notificationCount, setNotificationCount] = useState(0);
     const [modalProduct, setModalProduct] = useState(null);
     const [modalQuantity, setModalQuantity] = useState(1);
     const [currentSlide, setCurrentSlide] = useState(0);
     const videoRefs = useRef([]);
+
+    // Banner Carousel Autoslide (existing code triggers here...)
+    // ...
+
+
 
     const banners = [
         { video: "/DietCoffeeZ.webm", mp4: "/DietCoffeeZ.mp4", poster: "/bannerDC.png" },
