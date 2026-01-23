@@ -150,6 +150,30 @@ body.standalone-mode .bottom-nav {
 /* =============================================================== */
 @media (max-width: 760px) {
 
+  /* ===== MOBILE PERFORMANCE OPTIMIZATIONS ===== */
+  * {
+    /* Prevent 300ms tap delay */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    /* Better font rendering on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Optimize images for mobile */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+
+  /* Better scrolling performance */
+  html {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
   html,
   body {
     overflow-x: hidden !important;
