@@ -150,30 +150,6 @@ body.standalone-mode .bottom-nav {
 /* =============================================================== */
 @media (max-width: 760px) {
 
-  /* ===== MOBILE PERFORMANCE OPTIMIZATIONS ===== */
-  * {
-    /* Prevent 300ms tap delay */
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-
-    /* Better font rendering on mobile */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
-
-  /* Optimize images for mobile */
-  img {
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-  }
-
-  /* Better scrolling performance */
-  html {
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-  }
-
   html,
   body {
     overflow-x: hidden !important;
@@ -470,14 +446,7 @@ body.standalone-mode .bottom-nav {
       display: flex;
       gap: 20px;
       animation: infiniteScroll 40s linear infinite;
-
-      /* GPU Acceleration for better mobile performance */
-      transform: translate3d(0, 0, 0);
-      -webkit-transform: translate3d(0, 0, 0);
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      perspective: 1000px;
-      -webkit-perspective: 1000px;
+      will-change: transform;
 
       /* Pause animation when user is scrolling manually */
       animation-play-state: running;
@@ -488,16 +457,14 @@ body.standalone-mode .bottom-nav {
       animation-play-state: paused;
     }
 
-    /* Infinite scroll animation - optimized for mobile */
+    /* Infinite scroll animation */
     @keyframes infiniteScroll {
       0% {
-        transform: translate3d(0, 0, 0);
-        -webkit-transform: translate3d(0, 0, 0);
+        transform: translateX(0);
       }
 
       100% {
-        transform: translate3d(-50%, 0, 0);
-        -webkit-transform: translate3d(-50%, 0, 0);
+        transform: translateX(-50%);
       }
     }
 

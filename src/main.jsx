@@ -2,20 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import './index.css';
-import { initPerformanceOptimizations } from './utils/performance';
-import { initMobileOptimizations } from './utils/mobileOptimizations';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
-
-// Initialize performance optimizations
-initPerformanceOptimizations();
-
-// Initialize mobile-specific optimizations
-initMobileOptimizations();
 
 // Detect standalone mode (PWA installed) - iOS and Android
 const isStandalone =
@@ -49,4 +41,3 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.warn('Service worker registration failed:', err));
   });
 }
-
