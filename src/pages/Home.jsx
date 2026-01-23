@@ -280,7 +280,7 @@ const Home = () => {
                         <div key={index} className="scroll-card" onClick={() => handleCardClick(product)}>
                             <div className="card-inner">
                                 <div className={product.tag}>{product.tagText}</div>
-                                <img src={product.img} alt={product.name} />
+                                <img src={product.img} alt={product.name} loading="lazy" />
                             </div>
                         </div>
                     ))}
@@ -339,7 +339,7 @@ const Home = () => {
                 <div className="collage-container">
                     <div className="main-feature-area">
                         <div className="feature-slide">
-                            <img src={teaProducts[teaIndex].img} alt={teaProducts[teaIndex].name} />
+                            <img src={teaProducts[teaIndex].img} alt={teaProducts[teaIndex].name} loading="eager" />
                         </div>
                         <div className="feature-details">
                             <h3>{teaProducts[teaIndex].name}</h3>
@@ -358,7 +358,7 @@ const Home = () => {
                                 className={`thumb-item ${index === teaIndex ? 'active' : ''}`}
                                 onClick={() => setTeaIndex(index)}
                             >
-                                <img src={product.img} alt={product.name} />
+                                <img src={product.img} alt={product.name} loading="lazy" />
                             </div>
                         ))}
                     </div>
@@ -372,7 +372,7 @@ const Home = () => {
                 <div className="collage-container">
                     <div className="main-feature-area">
                         <div className="feature-slide">
-                            <img src={coffeeProducts[coffeeIndex].img} alt={coffeeProducts[coffeeIndex].name} />
+                            <img src={coffeeProducts[coffeeIndex].img} alt={coffeeProducts[coffeeIndex].name} loading="eager" />
                         </div>
                         <div className="feature-details">
                             <h3>{coffeeProducts[coffeeIndex].name}</h3>
@@ -391,7 +391,7 @@ const Home = () => {
                                 className={`thumb-item ${index === coffeeIndex ? 'active' : ''}`}
                                 onClick={() => setCoffeeIndex(index)}
                             >
-                                <img src={product.img} alt={product.name} />
+                                <img src={product.img} alt={product.name} loading="lazy" />
                             </div>
                         ))}
                     </div>
@@ -405,7 +405,7 @@ const Home = () => {
                 <div className="collage-container">
                     <div className="main-feature-area">
                         <div className="feature-slide">
-                            <img src={specialProducts[specialIndex].img} alt={specialProducts[specialIndex].name} />
+                            <img src={specialProducts[specialIndex].img} alt={specialProducts[specialIndex].name} loading="eager" />
                         </div>
                         <div className="feature-details">
                             <h3>{specialProducts[specialIndex].name}</h3>
@@ -424,7 +424,7 @@ const Home = () => {
                                 className={`thumb-item ${index === specialIndex ? 'active' : ''}`}
                                 onClick={() => setSpecialIndex(index)}
                             >
-                                <img src={product.img} alt={product.name} />
+                                <img src={product.img} alt={product.name} loading="lazy" />
                             </div>
                         ))}
                     </div>
@@ -495,7 +495,7 @@ const Home = () => {
                 <div className="modal-overlay" onClick={() => setShowModal(false)}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="modal-close" onClick={() => setShowModal(false)}>×</button>
-                        <img src={modalProduct.img} alt={modalProduct.name} />
+                        <img src={modalProduct.img} alt={modalProduct.name} loading="eager" />
                         <h3>{modalProduct.name}</h3>
                         <div className={modalProduct.tag}>{modalProduct.tagText}</div>
                         <button className="modal-cart-btn" onClick={() => {

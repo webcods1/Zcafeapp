@@ -446,7 +446,14 @@ body.standalone-mode .bottom-nav {
       display: flex;
       gap: 20px;
       animation: infiniteScroll 40s linear infinite;
-      will-change: transform;
+
+      /* GPU Acceleration for better mobile performance */
+      transform: translate3d(0, 0, 0);
+      -webkit-transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      perspective: 1000px;
+      -webkit-perspective: 1000px;
 
       /* Pause animation when user is scrolling manually */
       animation-play-state: running;
@@ -457,14 +464,16 @@ body.standalone-mode .bottom-nav {
       animation-play-state: paused;
     }
 
-    /* Infinite scroll animation */
+    /* Infinite scroll animation - optimized for mobile */
     @keyframes infiniteScroll {
       0% {
-        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
       }
 
       100% {
-        transform: translateX(-50%);
+        transform: translate3d(-50%, 0, 0);
+        -webkit-transform: translate3d(-50%, 0, 0);
       }
     }
 
