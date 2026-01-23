@@ -404,7 +404,7 @@
   /* ===== Banner Carousel ===== */
   /* ===== Banner Carousel ===== */
   @media (min-width: 992px) {
-    .banner-carousel {
+    .banner-section {
       position: relative;
       width: 90%;
       max-width: 1400px;
@@ -2032,7 +2032,7 @@
 
   /* ===== BANNER STYLES (Desktop - Appended) ===== */
   @media (min-width: 768px) {
-    .banner-carousel {
+    .banner-section {
       width: 95%;
       max-width: 1400px;
       margin: 30px auto;

@@ -638,7 +638,7 @@ body.standalone-mode .bottom-nav {
     /* ====================== BANNER CAROUSEL ======================== */
     /* =============================================================== */
 
-    .banner-carousel {
+    .banner-section {
       position: relative;
       width: 90%;
       background: #ffffff;
@@ -756,7 +756,7 @@ body.standalone-mode .bottom-nav {
 
     /* Tablet */
     @media (min-width: 768px) {
-      .banner-carousel {
+      .banner-section {
         height: 340px;
       }
 
@@ -767,14 +767,14 @@ body.standalone-mode .bottom-nav {
 
     /* Laptop */
     @media (min-width: 992px) {
-      .banner-carousel {
+      .banner-section {
         height: 400px;
       }
     }
 
     /* Desktop */
     @media (min-width: 1200px) {
-      .banner-carousel {
+      .banner-section {
         height: 600px;
         /* Match Desktop Height */
       }
@@ -2142,7 +2142,7 @@ nav {
 }
 
 /* ===== BANNER CAROUSEL STYLES (Mobile) ===== */
-.banner-carousel {
+.banner-section {
   position: relative;
   width: 100%;
   /* Full width */

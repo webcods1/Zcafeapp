@@ -13,7 +13,6 @@ const Home = () => {
     const { getTotalQty: getWishlistQty } = useWishlist();
     const { isMounted } = useNavigationGuard();
 
-    const [currentSlide, setCurrentSlide] = useState(0);
     const [notificationCount, setNotificationCount] = useState(0);
     const [teaIndex, setTeaIndex] = useState(0);
     const [coffeeIndex, setCoffeeIndex] = useState(0);
@@ -21,15 +20,8 @@ const Home = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalProduct, setModalProduct] = useState(null);
     const [isAnimating, setIsAnimating] = useState(false);
-    const videoRefs = useRef([]);
 
-    const banners = [
-        { video: "/DietCoffeeZ.webm", mp4: "/DietCoffeeZ.mp4", poster: "/bannerDC.png" },
-        { video: "/PremiumTeaZ.webm", mp4: "/PremiumTeaZ.mp4", poster: "/bannerPT.png" },
-        { video: "/cappuccinoZ.webm", mp4: "/cappuccinoZ.mp4", poster: "/bannerCA.png" },
-        { video: "/MilkBoostZ.webm", mp4: "/MilkBoostZ.mp4", poster: "/bannerMB.png" },
-        { video: "/MilkhorlicksZ.webm", mp4: "/MilkhorlicksZ.mp4", poster: "/bannerMH.png" }
-    ];
+
 
     const scrollProducts = [
         { name: 'Coffee Premium', img: '/zcoffepre.png', tag: 'best-seller-tag', tagText: 'Best Seller' },
@@ -63,107 +55,7 @@ const Home = () => {
         { name: 'Milk Boost', img: '/boost.png' }
     ];
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentSlide(prev => (prev + 1) % banners.length);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, []);
 
-    // Control video playback based on active slide
-    // Control video playback based on active slide
-    useEffect(() => {
-        // Check if component is still mounted
-        if (!isMounted()) return;
-
-        try {
-            if (!videoRefs.current || videoRefs.current.length === 0) {
-                console.warn('[Video] No video refs available');
-                return;
-            }
-
-            videoRefs.current.forEach((video, index) => {
-                if (!video) return; // Skip if ref is null
-
-                try {
-                    if (index === currentSlide) {
-                        // Reset and load video
-                        if (video.paused) {
-                            video.currentTime = 0;
-                            const playPromise = video.play();
-                            if (playPromise !== undefined) {
-                                playPromise
-                                    .then(() => {
-                                        if (isMounted()) {
-                                            console.log('[Video] Playing slide', index);
-                                        }
-                                    })
-                                    .catch(err => {
-                                        if (isMounted()) {
-                                            console.log('[Video] Autoplay prevented:', err.name);
-                                        }
-                                    });
-                            }
-                        }
-                    } else {
-                        // Just pause the video, do NOT unload src causing black screen
-                        video.pause();
-                        video.currentTime = 0;
-                    }
-                } catch (error) {
-                    console.warn('[Video] Error handling video', index, error);
-                }
-            });
-        } catch (error) {
-            console.error('[Video] Critical error in video control:', error);
-        }
-
-        // Cleanup function
-        return () => {
-            // No aggressive cleanup needed between slides to prevent black flashes
-        };
-    }, [currentSlide]);
-
-    // iOS Fix: Enable video playback after ANY user interaction
-    useEffect(() => {
-        let interactionHandled = false;
-
-        const playCurrentVideo = () => {
-            const currentVideo = videoRefs.current[currentSlide];
-            if (currentVideo && currentVideo.paused) {
-                const playPromise = currentVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise
-                        .then(() => {
-                            console.log('[Video] Started playing on user interaction');
-                        })
-                        .catch(err => {
-                            console.log('[Video] Play failed:', err);
-                        });
-                }
-            }
-        };
-
-        const handleInteraction = () => {
-            if (!interactionHandled) {
-                interactionHandled = true;
-                console.log('[Video] User interaction detected - enabling videos');
-                playCurrentVideo();
-            }
-        };
-
-        // Listen for multiple interaction types
-        const events = ['touchstart', 'touchend', 'click', 'scroll'];
-        events.forEach(event => {
-            document.addEventListener(event, handleInteraction, { once: true, passive: true });
-        });
-
-        return () => {
-            events.forEach(event => {
-                document.removeEventListener(event, handleInteraction);
-            });
-        };
-    }, [currentSlide]);
 
 
     useEffect(() => {
@@ -287,49 +179,25 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="banner-carousel container-fluid px-0">
-                <div className="carousel-slides mx-auto">
-                    {banners.map((banner, index) => (
-                        <div
-                            key={index}
-                            className={`banner banner-slide ${currentSlide === index ? 'active' : ''}`}
-                        >
-                            <video
-                                ref={el => videoRefs.current[index] = el}
-                                className="banner-video"
-                                playsInline
-                                playsinline="true"
-                                autoPlay
-                                muted
-                                defaultMuted
-                                loop
-                                preload="auto"
-                                disablePictureInPicture
-                                controls={false}
-                                poster={banner.poster}
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    // backgroundColor: '#000' // Removed to prevent black box on iOS
-                                }}
-                            >
-                                <source src={banner.video} type="video/webm" />
-                                <source src={banner.mp4} type="video/mp4" />
-                                Your browser does not support video playback.
-                            </video>
-                        </div>
-                    ))}
-                </div>
-                <div className="carousel-dots">
-                    {banners.map((_, i) => (
-                        <span
-                            key={i}
-                            className={`dot ${currentSlide === i ? 'active' : ''}`}
-                            onClick={() => setCurrentSlide(i)}
-                        />
-                    ))}
-                </div>
+            <div className="banner-section container-fluid px-0">
+                <video
+                    className="banner-video"
+                    playsInline
+                    autoPlay
+                    muted
+                    loop
+                    preload="auto"
+                    disablePictureInPicture
+                    controls={false}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                    }}
+                >
+                    <source src="/zcafebanner.mp4" type="video/mp4" />
+                    Your browser does not support video playback.
+                </video>
             </div>
 
             <section className="products-collage">
