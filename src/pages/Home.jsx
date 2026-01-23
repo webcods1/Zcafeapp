@@ -183,16 +183,20 @@ const Home = () => {
                 <video
                     className="banner-video"
                     playsInline
+                    webkit-playsinline="true"
                     autoPlay
                     muted
+                    defaultMuted
                     loop
                     preload="auto"
                     disablePictureInPicture
                     controls={false}
+                    poster="/bannerDC.png"
                     style={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover'
+                        objectFit: 'cover',
+                        backgroundColor: '#f4e7cc'
                     }}
                 >
                     <source src="/zcafebanner.mp4" type="video/mp4" />

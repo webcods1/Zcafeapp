@@ -2184,14 +2184,8 @@ nav {
   z-index: 1;
 }
 
-.banner-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Ensures video fills container */
-  border-radius: 0;
-  display: block;
-}
+
+
 
 .carousel-dots {
   position: absolute;
