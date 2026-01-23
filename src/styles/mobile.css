@@ -1890,10 +1890,51 @@ body.standalone-mode .bottom-nav {
   box-shadow: 0 5px 15px rgba(170, 10, 10, 0.3);
 }
 
-/* ===== iOS Video Fix ===== */
+/* ===== iOS Video Fix & Control Hiding ===== */
 video::-webkit-media-controls-start-play-button {
   display: none !important;
-  -webkit-appearance: none;
+  -webkit-appearance: none !important;
+  opacity: 0 !important;
+}
+
+video::-webkit-media-controls {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+  opacity: 0 !important;
+}
+
+video::-webkit-media-controls-play-button {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+video::-webkit-media-controls-panel {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Banner video specific styles */
+.banner-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  display: block;
+  background-color: #f4e7cc;
+  pointer-events: none;
+}
+
+.banner-video::-webkit-media-controls {
+  display: none !important;
+}
+
+.banner-video::-webkit-media-controls-start-playback-button {
+  display: none !important;
 }
 
 /* ===== Footer ===== */

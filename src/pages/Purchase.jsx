@@ -242,7 +242,6 @@ const Purchase = () => {
                         preload="auto"
                         disablePictureInPicture
                         controls={false}
-                        poster="/bannerDC.png"
                         style={{
                             width: '100%',
                             height: '100%',

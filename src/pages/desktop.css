@@ -442,10 +442,19 @@
       object-fit: cover !important;
       /* Changed from contain to cover to fill space */
       object-position: center;
-      background: #000;
+      background: #f4e7cc;
       display: block;
       border-radius: 60px !important;
       margin: 0 auto;
+      pointer-events: none;
+    }
+
+    .banner-video::-webkit-media-controls {
+      display: none !important;
+    }
+
+    .banner-video::-webkit-media-controls-start-playback-button {
+      display: none !important;
     }
 
     /* ================= DOT NAVIGATION ================= */
