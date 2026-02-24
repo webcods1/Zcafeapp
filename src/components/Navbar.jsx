@@ -6,6 +6,7 @@ const Navbar = ({ wishlistCount = 0, notificationCount = 0, onSearch }) => {
     const [address, setAddress] = useState('');
     const [companyName, setCompanyName] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isScrolled, setIsScrolled] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
 
     const recommendations = ['Coffee Non sugar', 'Tea Premium', 'Milk Boost', 'Cappuccino', 'Milk Horlicks', 'Coffee Premium'];
@@ -16,24 +17,16 @@ const Navbar = ({ wishlistCount = 0, notificationCount = 0, onSearch }) => {
         setAddress(addr);
         setCompanyName(company);
 
-        // Navbar stays visible - scroll behavior disabled
-        /* 
-        let lastScrollTop = 0;
         const handleScroll = () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const nav = document.querySelector('nav');
-
-            if (scrollTop > lastScrollTop) {
-                if (nav) nav.classList.add('hidden');
+            if (window.scrollY > 50) {
+                setIsScrolled(true);
             } else {
-                if (nav) nav.classList.remove('hidden');
+                setIsScrolled(false);
             }
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
         };
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-        */
     }, []);
 
     const handleSearchChange = (e) => {
@@ -57,7 +50,7 @@ const Navbar = ({ wishlistCount = 0, notificationCount = 0, onSearch }) => {
     );
 
     return (
-        <nav>
+        <nav className={isScrolled ? 'scrolled' : ''}>
             <div className="nav-top">
                 <div className="search-container" style={{ position: 'relative' }}>
                     <img src="/logo.png" alt="ZCafe Logo" />

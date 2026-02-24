@@ -55,11 +55,33 @@
     right: 0;
     z-index: 1000;
     /* Increased to stay above all content including scroll images */
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
     background-color: rgb(255, 255, 255);
-    padding: 10px;
+    padding: 12px 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     /* Added shadow for depth */
+  }
+
+  nav.scrolled {
+    padding: 5px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  nav.scrolled .search-container {
+    height: 38px;
+  }
+
+  nav.scrolled .search-container img {
+    height: 35px;
+    width: 45px;
+  }
+
+  nav.scrolled .deliver-to {
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    overflow: hidden;
+    pointer-events: none;
   }
 
   nav.hidden {
@@ -75,6 +97,7 @@
     font-weight: 500;
     color: #000000;
     margin-top: 10px;
+    transition: all 0.3s ease;
   }
 
   .deliver-to svg {
