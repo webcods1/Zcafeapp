@@ -1114,12 +1114,32 @@
   /* ===== Footer ===== */
   .footer {
     text-align: center;
-    padding: 40px 20px;
-    color: #666;
-    font-size: 0.95rem;
+    padding: 30px 20px;
     background: transparent;
-    border-top: none;
-    margin-top: 0;
+    border-top: 1px solid rgba(74, 55, 40, 0.1);
+    margin-top: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .footer p {
+    margin: 0;
+    color: #4a3728;
+    font-size: 0.85rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+  }
+
+  .footer .footer-dev {
+    margin-top: 5px !important;
+    color: #6b5547;
+    font-size: 0.8rem;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .footer .footer-dev-brand {
+    color: #aa0a0a;
+    font-weight: 600;
   }
 
   /* ===== Bag Header ===== */

@@ -2956,6 +2956,18 @@ nav {
   font-weight: 400;
 }
 
+.footer-dev {
+  margin-top: 4px !important;
+  color: #6b5547;
+  font-size: 0.7rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-dev-brand {
+  color: #aa0a0a;
+  font-weight: 600;
+}
+
 /* END OF MOBILE STYLES @media (max-width: 760px) */
 
 /* Wishlist Page - Add to Cart Button Tweaks */

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Purchase from './pages/Purchase';
 import Service from './pages/Service';
@@ -42,6 +43,7 @@ function App() {
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
+        <Footer />
       </Router>
     </ErrorBoundary>
   );
